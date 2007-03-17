@@ -18,7 +18,6 @@ from zope.component.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from z3c.sqlalchemy.model import Model
-from z3c.sqlalchemy.odict import OrderedDict
 from z3c.sqlalchemy.mapper import MapperFactory, LazyMapperCollection
 
 import transaction
