@@ -5,7 +5,7 @@ setup(name='z3c.sqlalchemy',
       author='Andreas Jung',
       author_email='info@zopyx..com',
       url='https://svn.zope.org.repos/main',
-      description="""SQLAlchemy integration into Zope 2 and Zope 3""",
+      description=open('src/z3c/sqlalchemy/README.txt').read(),
       license='ZPL 2.1',
 
       packages=find_packages('src'),
