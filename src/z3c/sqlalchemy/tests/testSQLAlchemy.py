@@ -26,9 +26,6 @@ from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
 from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
 
-if __name__ == '__main__':
-    execfile(os.path.join(sys.path[0], 'framework.py'))
-
 
 class WrapperTests(unittest.TestCase):
 
@@ -118,5 +115,3 @@ def test_suite():
     suite.addTest(makeSuite(WrapperTests))
     return suite
 
-if __name__ == '__main__':
-    framework()
