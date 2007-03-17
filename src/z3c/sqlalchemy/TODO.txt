@@ -1,0 +1,7 @@
+- move ZopeWrapper into base.py
+
+- refactor Zope wrapper as mixin-class
+
+- ZopePostgresWrapper get two base classes (PythonPostgresWrapper, ZopeWrapperMixin)
+
+
