@@ -19,6 +19,9 @@ from z3c.sqlalchemy.base import BaseWrapper
 
 from zope_mixin import ZopeMixin
 
+_cache = threading.local() # module-level cache 
+
+
 class PythonPostgresWrapper(BaseWrapper):
 
     implements(ISQLAlchemyWrapper)
