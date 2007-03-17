@@ -77,7 +77,7 @@ class LazyMapperCollection(dict):
             # introspect table dependencies once
 
             if hasattr(self._wrapper, 'findDependentTables'):
-                self._dependent_tables = self._wrapper.findDependentTables()
+                self._dependent_tables = self._wrapper.findDependentTables(ignoreErrors=True)
             else:
                 self._dependent_tables = {}
 
