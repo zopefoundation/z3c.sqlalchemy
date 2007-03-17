@@ -73,17 +73,7 @@ class LazyMapperCollection(dict):
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
-        if self._dependent_tables is None:
-            # introspect table dependencies once
-
-            if hasattr(self._wrapper, 'findDependentTables'):
-                self._dependent_tables = self._wrapper.findDependentTables(ignoreErrors=True)
-            else:
-                self._dependent_tables = {}
-
-
         if not self.has_key(name):
-
 
             # no-cached data, let's lookup the table ourselfs
             table = None
@@ -112,6 +102,16 @@ class LazyMapperCollection(dict):
                 if self._model[name].get('relations') != None:
                     dependent_table_names = self._model[name].get('relations', []) or []
                 elif self._model[name].get('autodetect_relations', False) == True:
+
+                    if self._dependent_tables is None:
+                        # Introspect table dependencies once. The introspection
+                        # is deferred until the moment where we really need to 
+                        # introspect them
+                        if hasattr(self._wrapper, 'findDependentTables'):
+                            self._dependent_tables = self._wrapper.findDependentTables(ignoreErrors=True)
+                        else:
+                            self._dependent_tables = {}
+
                     dependent_table_names = self._dependent_tables.get(name, []) or []
                 
             # build additional property dict for mapper
