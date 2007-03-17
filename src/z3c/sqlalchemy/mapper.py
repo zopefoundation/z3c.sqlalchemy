@@ -12,7 +12,6 @@ Utility methods for SqlAlchemy
 """
 
 import new
-import odict
 import threading
 
 from sqlalchemy import Table, mapper, BoundMetaData, relation
@@ -57,7 +56,7 @@ class MapperFactory(object):
 
 
 
-class LazyMapperCollection(odict.OrderedDict):
+class LazyMapperCollection(dict):
     """ Implements a cache for table mappers """
 
     def __init__(self, wrapper):

@@ -13,12 +13,11 @@ Optional Model support
 
 
 import sqlalchemy
-from odict import OrderedDict
 
 __all__ = ('Model',)
 
 
-class Model(OrderedDict):
+class Model(dict):
     """ The Model is an optional helper class that can be passed to the
         constructor of a SQLAlchemy wrapper in order to provide hints for the mapper
         generation.
