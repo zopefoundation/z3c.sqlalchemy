@@ -1,11 +1,11 @@
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
-# (C) 2007, Haufe-Mediengruppe, Freiburg, Germany
-# (C) 2007, ZOPYX Ltd. & Co. KG, Tuebingen, Germany
-# 
-# Published under the Zope Public License V 2.1 
+# (C) Zope Corporation and Contributor
+# Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
+# and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
+
 
 import threading
 
