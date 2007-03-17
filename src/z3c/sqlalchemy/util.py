@@ -61,13 +61,11 @@ def allRegisteredSQLAlchemyWrappers():
         registered wrappers.
     """
 
-    d = list()
     for name, wrapper in getUtilitiesFor(ISQLAlchemyWrapper):
-        d.append({'name' : name,
-                  'dsn' : wrapper.dsn,
-                  'echo' : wrapper.echo,
-                })
-    return d
+        yield {'name' : name,
+               'dsn' : wrapper.dsn,
+               'echo' : wrapper.echo,
+              }
 
 
 if __name__ == '__main__':
