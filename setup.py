@@ -4,7 +4,7 @@ setup(name='z3c.sqlalchemy',
       version='trunk',
       author='Andreas Jung',
       author_email='info@zopyx..com',
-      url='https://svn.zope.org.repos/main',
+      url='svn://svn.zope.org.repos/main/z3c.sqlalchemy',
       description=open('src/z3c/sqlalchemy/README.txt').read(),
       license='ZPL 2.1',
 
