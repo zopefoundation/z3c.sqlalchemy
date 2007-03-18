@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(name='z3c.sqlalchemy',
-      version='trunk',
+      version='0.1',
       author='Andreas Jung',
       author_email='info@zopyx..com',
-      url='svn://svn.zope.org.repos/main/z3c.sqlalchemy',
+      url='svn://svn.zope.org.repos/main/z3c.sqlalchemy/tags/0.1',
       description=open('src/z3c/sqlalchemy/README.txt').read(),
       license='ZPL 2.1',
 
