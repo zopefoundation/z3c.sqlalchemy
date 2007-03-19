@@ -15,14 +15,15 @@ import sqlalchemy
 from zope.interface import implements
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
-from z3c.sqlalchemy.base import BaseWrapper
+from z3c.sqlalchemy.base import BaseWrapper, ZopeBaseWrapper
 
 from zope_mixin import ZopeMixin
 
 _cache = threading.local() # module-level cache 
 
 
-class PythonPostgresWrapper(BaseWrapper):
+class PostgresMixin(object):
+    """ Mixin class for Postgres aspects """
 
     implements(ISQLAlchemyWrapper)
 
@@ -68,7 +69,12 @@ class PythonPostgresWrapper(BaseWrapper):
         return _cache.ref_mapping
 
 
-class ZopePostgresWrapper(PythonPostgresWrapper, ZopeMixin):
+class PythonPostgresWrapper(BaseWrapper, PostgresMixin):
+    """ Wrapper to be used with Python with extended
+        Postgres functionality.
+    """
+
+class ZopePostgresWrapper(ZopeBaseWrapper, PostgresMixin):
     """ A wrapper to be used from within Zope. It connects
         the session with the transaction management of Zope.
     """
