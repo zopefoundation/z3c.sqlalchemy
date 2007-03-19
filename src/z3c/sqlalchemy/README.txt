@@ -86,7 +86,7 @@ documentation on mappers, properties and relation()). In this example you
 define the relationship between A and B explictly through the 'relations'
 parameter (as a sequence of related table names).
 
-z3c.sqlalchemy also supports the auto-detection of relationships between table.
+z3c.sqlalchemy also supports the auto-detection of relationships between tables.
 Unfortunately SQLAlchemy does not support this feature out-of-the-box and in a portable
 way. Therefore this feature of z3c.sqlalchemy is highly experimental and currently
 only available for Postgres (tested with Postgres 8.X).
