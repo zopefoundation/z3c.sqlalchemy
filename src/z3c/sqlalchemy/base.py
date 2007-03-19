@@ -6,7 +6,6 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
-import sys
 import threading
 
 import sqlalchemy
@@ -18,7 +17,7 @@ from zope.component.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from z3c.sqlalchemy.model import Model
-from z3c.sqlalchemy.mapper import MapperFactory, LazyMapperCollection
+from z3c.sqlalchemy.mapper import LazyMapperCollection
 
 import transaction
 from transaction.interfaces import IDataManager
@@ -29,7 +28,7 @@ class BaseWrapper(object):
     implements(ISQLAlchemyWrapper)
 
     def __init__(self, dsn, model=None, echo=False):
-        """ 'dsn' - an RFC-1738-style connection string
+        """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
 
@@ -48,7 +47,6 @@ class BaseWrapper(object):
         self._engine = self._createEngine()
         self._engine.echo = echo
         self._model = None
-
 
         if model:
             if isinstance(model, Model):
@@ -71,7 +69,6 @@ class BaseWrapper(object):
         # mappers must be initialized at last since we need to acces
         # the 'model' from within the constructor of LazyMapperCollection
         self._mappers = LazyMapperCollection(self)
-
 
     @property
     def metadata(self):
@@ -99,7 +96,6 @@ class BaseWrapper(object):
 
 
 _cache = threading.local() # module-level cache 
-
 
 class DataManager(object):
     """ Wraps session into transaction context of Zope """

@@ -13,11 +13,7 @@
 Tests, tests, tests.........
 """
 
-
-import os
-import sys
 import unittest
-
 import sqlalchemy
 
 from zope.interface.verify import verifyClass
