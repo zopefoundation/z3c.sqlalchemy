@@ -1,3 +1,12 @@
+0.1.2 (unreleased)
+
+   - fixed class hierarchy issues with Postgres wrapper classes
+
+
+0.1.1 (unreleased)
+
+   - fixed setup.py
+
 0.1 (18.03.2007)
 
    - initial version
