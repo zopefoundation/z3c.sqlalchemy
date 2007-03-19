@@ -142,7 +142,7 @@ Web: http://www.zopyx.com
 
 Credits
 =======
-Parts of the code are influenced by z3c.zalchemy (Michael Bernstein & others) and
-Alchemist (Kapil Thangavelu)
+Parts of the code are influenced by z3c.zalchemy (Juergen Kartnaller, Michael
+Bernstein & others) and Alchemist (Kapil Thangavelu)
 
 
