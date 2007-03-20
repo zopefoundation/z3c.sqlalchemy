@@ -47,6 +47,10 @@ class ISQLAlchemyWrapper(Interface):
             'tablename' and an optional 'schema' name
         """                
 
+    def getMappers(*tablenames, schema='public'):
+        """ return a sequence of mapper classes for a given list
+            of table names and an optional 'schema' name
+        """                
 
 class IModelProvider(Interface):
     """ A model providers provides information about the tables to be used
