@@ -107,6 +107,7 @@ class DataManager(object):
 
     def __init__(self, session):
         self.session = session
+        self.transaction = session.create_transaction()
 
     def abort(self, trans):
         pass
@@ -114,8 +115,12 @@ class DataManager(object):
     def tpc_begin(self, trans):
         pass
 
+    def abort(self):
+        self.transaction.rollback()
+
     def commit(self, trans):
         self.session.flush()
+        self.transaction.commit()
 
     def tpc_vote(self, trans):
         pass
