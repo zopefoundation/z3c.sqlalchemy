@@ -81,6 +81,9 @@ class BaseWrapper(object):
     def getMapper(self, tablename, schema='public'):
         return self._mappers.getMapper(tablename, schema)
 
+    def getMappers(self, *names):
+        return tuple([self.getMapper(name) for name in names])
+
     @property
     def engine(self):
         """ only for private purposes! """

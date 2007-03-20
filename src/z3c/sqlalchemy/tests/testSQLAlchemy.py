@@ -47,8 +47,7 @@ class WrapperTests(unittest.TestCase):
             pass
         cur.execute("""CREATE TABLE skills(id int4 primary key,"""
                     """                    user_id int4, """
-                    """                    name varchar(255),"""
-                    """                    FOREIGN KEY (user_id) REFERENCES xxxx"""
+                    """                    name varchar(255)"""
                     """)""")
         db.close()
 
@@ -89,6 +88,13 @@ class WrapperTests(unittest.TestCase):
         db = createSQLAlchemyWrapper('sqlite:///test', model=M)
         User = db.getMapper('user')
         self.assertEqual(User, myUser)
+
+    def testGetMappers(self):
+
+        db = createSQLAlchemyWrapper('sqlite:///test')
+        Users = db.getMapper('user')
+        Skills = db.getMapper('skills')
+        User, Skills = db.getMappers('user', 'skills')
 
 
     def testModelWeirdParameters(self):
