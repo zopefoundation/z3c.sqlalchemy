@@ -74,11 +74,11 @@ class Model(dict):
                      }
 
 
-        def items(self):
-            """ return items in insertion order """
+    def items(self):
+        """ return items in insertion order """
 
-            for name in names:
-                yield name, self[name]
+        for name in names:
+            yield name, self[name]
             
 
                         
