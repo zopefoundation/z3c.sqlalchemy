@@ -29,6 +29,7 @@ class Model(dict):
         """
 
         super(Model, self).__init__()
+        self.names = []
 
         for d in args:
             self.add(**d)
@@ -63,12 +64,22 @@ class Model(dict):
         if relations is not None and autodetect_relations == True:
             raise ValueError("'relations' and 'autodetect_relations' can't be specified at the same time")
 
+        self.names.append(name)
+
         self[name] = {'name' : name,
                       'table' : table,
                       'relations' : relations,
                       'mapper_class' : mapper_class,
                       'autodetect_relations' : autodetect_relations
                      }
+
+
+        def items(self):
+            """ return items in insertion order """
+
+            for name in names:
+                yield name, self[name]
+            
 
                         
 
