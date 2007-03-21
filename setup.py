@@ -11,7 +11,7 @@ CLASSIFIERS = [
 ]
 
 setup(name='z3c.sqlalchemy',
-      version='0.1.3',
+      version='0.1.4',
       license='ZPL (see LICENSE.txt)',
       author='Andreas Jung',
       author_email='info@zopyx.com',

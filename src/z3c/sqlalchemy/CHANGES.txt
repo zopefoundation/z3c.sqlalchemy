@@ -1,3 +1,9 @@
+0.1.4 (21.03.2007)
+
+   - the Model class now behave (where needed) as a sorted
+     dictionary. Its items() method must returned all items
+     in insertion order.
+
 0.1.3 (20.03.2007)
 
    - added getMappers() convenience method
