@@ -77,7 +77,7 @@ class Model(dict):
     def items(self):
         """ return items in insertion order """
 
-        for name in names:
+        for name in self.names:
             yield name, self[name]
             
 
