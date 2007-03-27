@@ -112,7 +112,7 @@ class DataManager(object):
     def tpc_begin(self, trans):
         pass
 
-    def abort(self):
+    def abort(self, trans):
         self.transaction.rollback()
 
     def commit(self, trans):
