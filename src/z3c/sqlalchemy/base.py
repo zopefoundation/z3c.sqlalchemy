@@ -56,7 +56,7 @@ class BaseWrapper(object):
                 try:
                     util = getUtility(IModelProvider, model)
                 except ComponentLookupError:
-                    raise ComponentLookupError("No named utility '%s' implementing IModelProvider found" % model)
+                    raise ComponentLookupError("No named utility '%s' providing IModelProvider found" % model)
 
 
                 self._model = util.getModel()
@@ -160,7 +160,7 @@ class ZopeBaseWrapper(BaseWrapper):
         session = sqlalchemy.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
-        DM = DataManager(session)
+        DM = DataManager(session)  # no, 'DM' does not mean Dieter Maurer
         txn.join(DM)
 
         # update thread-local cache
