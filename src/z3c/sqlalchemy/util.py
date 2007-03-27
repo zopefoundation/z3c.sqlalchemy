@@ -14,7 +14,7 @@ Some helper methods
 
 from sqlalchemy.engine.url import make_url
 
-from zope.component import getService, getGlobalServices, getUtilitiesFor, provideUtility 
+from zope.component import getService, getGlobalServices, getUtilitiesFor
 from zope.component.utility import GlobalUtilityService
 from zope.component.interfaces import IUtilityService
 from zope.component.servicenames import Utilities 
@@ -59,6 +59,7 @@ def registerSQLAlchemyWrapper(wrapper, name):
 
     except NotImplementedError:
         # Zope 2.9+
+        from zope.component import provideUtility
         provideUtility(wrapper, name=name)
 
 def allRegisteredSQLAlchemyWrappers():
