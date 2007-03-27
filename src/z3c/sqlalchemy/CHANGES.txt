@@ -1,3 +1,9 @@
+0.1.5 (unreleased)
+  
+   - registerSQLAlchemyWrapper() should now work with Zope 2.8-2.10
+
+   - abort() was defined twice inside the DataManager class
+ 
 0.1.4 (21.03.2007)
 
    - the Model class now behave (where needed) as a sorted
