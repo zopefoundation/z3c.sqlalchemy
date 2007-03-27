@@ -14,7 +14,7 @@ Some helper methods
 
 from sqlalchemy.engine.url import make_url
 
-from zope.component import getService, getGlobalServices, getUtilitiesFor 
+from zope.component import getService, getGlobalServices, getUtilitiesFor, provideUtility 
 from zope.component.utility import GlobalUtilityService
 from zope.component.interfaces import IUtilityService
 from zope.component.servicenames import Utilities 
@@ -47,14 +47,19 @@ def registerSQLAlchemyWrapper(wrapper, name):
     """ register a SQLAlchemyWrapper as named utility """
 
     # Bootstrap utility service
-    sm = getGlobalServices()
-    sm.defineService(Utilities, IUtilityService)
-    sm.provideService(Utilities, GlobalUtilityService())
+    try:
+        # Zope 2.8
+        sm = getGlobalServices()
+        sm.defineService(Utilities, IUtilityService)
+        sm.provideService(Utilities, GlobalUtilityService())
 
-    # register wrapper 
-    utilityService = getService(Utilities)
-    utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
+        # register wrapper 
+        utilityService = getService(Utilities)
+        utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
 
+    except NotImplementedError:
+        # Zope 2.9+
+        provideUtility(wrapper, name=name)
 
 def allRegisteredSQLAlchemyWrappers():
     """ return a dict containing information for all
