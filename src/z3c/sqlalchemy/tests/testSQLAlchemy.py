@@ -17,10 +17,12 @@ import unittest
 import sqlalchemy
 
 from zope.interface.verify import verifyClass
+from zope.component import getUtility
+
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
-from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
+from z3c.sqlalchemy import createSQLAlchemyWrapper, Model, registerSQLAlchemyWrapper
 
 
 class WrapperTests(unittest.TestCase):
@@ -51,14 +53,18 @@ class WrapperTests(unittest.TestCase):
                     """)""")
         db.close()
 
+
     def testIFaceBaseWrapper (self):
         verifyClass(ISQLAlchemyWrapper , BaseWrapper)
+
 
     def testIFacePythonPostgres(self):
         verifyClass(ISQLAlchemyWrapper , PythonPostgresWrapper)
 
+
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
+
 
     def testSimplePopulation(self):
         db = createSQLAlchemyWrapper('sqlite:///test')
@@ -77,6 +83,7 @@ class WrapperTests(unittest.TestCase):
         rows = session.query(User).select()
         self.assertEqual(len(rows), 2)
 
+
     def testMapperWithCustomModel(self):
 
         class myUser(object): 
@@ -88,6 +95,7 @@ class WrapperTests(unittest.TestCase):
         db = createSQLAlchemyWrapper('sqlite:///test', model=M)
         User = db.getMapper('user')
         self.assertEqual(User, myUser)
+
 
     def testGetMappers(self):
 
@@ -101,6 +109,7 @@ class WrapperTests(unittest.TestCase):
         M = Model()
         self.assertRaises(ValueError, M.add, 'user', relations=('foo', 'bar'), autodetect_relations=True)
 
+
     def testModelNonExistingTables(self):
         M = Model()
         M.add('non_existing_table')
@@ -109,6 +118,13 @@ class WrapperTests(unittest.TestCase):
             foo = db.getMapper('nonn_existing_table')
         except sqlalchemy.exceptions.NoSuchTableError:
             pass
+
+
+    def testWrapperRegistration(self):
+        wrapper = createSQLAlchemyWrapper('sqlite:///test')
+        registerSQLAlchemyWrapper(wrapper, 'test.wrapper')
+        wrapper2 = getUtility(ISQLAlchemyWrapper, 'test.wrapper')
+        self.assertEqual(wrapper, wrapper2)
 
 
 def test_suite():
