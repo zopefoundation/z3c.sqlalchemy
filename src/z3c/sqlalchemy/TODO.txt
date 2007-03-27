@@ -1,7 +1,2 @@
-- move ZopeWrapper into base.py
-
-- refactor Zope wrapper as mixin-class
-
-- ZopePostgresWrapper get two base classes (PythonPostgresWrapper, ZopeWrapperMixin)
-
-
+- pass metadata to the getModel() call in order to construct a table
+  using autoload=True
