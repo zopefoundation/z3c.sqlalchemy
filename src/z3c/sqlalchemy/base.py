@@ -109,9 +109,6 @@ class DataManager(object):
         self.session = session
         self.transaction = session.create_transaction()
 
-    def abort(self, trans):
-        pass
-
     def tpc_begin(self, trans):
         pass
 
