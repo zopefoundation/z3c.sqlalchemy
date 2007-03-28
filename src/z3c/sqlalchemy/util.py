@@ -16,7 +16,7 @@ from sqlalchemy.engine.url import make_url
 
 from zope.component import getService, getGlobalServices, getUtilitiesFor
 from zope.component.utility import GlobalUtilityService
-from zope.component.interfaces import IUtilityService
+from zope.component.interfaces import IUtilityService, ComponentLookupError
 from zope.component.servicenames import Utilities 
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
@@ -46,21 +46,24 @@ def createSQLAlchemyWrapper(dsn, model=None, echo=False, forZope=False):
 def registerSQLAlchemyWrapper(wrapper, name):
     """ register a SQLAlchemyWrapper as named utility """
 
-    # Bootstrap utility service
     try:
-        # Zope 2.8
-        sm = getGlobalServices()
-        sm.defineService(Utilities, IUtilityService)
-        sm.provideService(Utilities, GlobalUtilityService())
-
-        # register wrapper 
-        utilityService = getService(Utilities)
-        utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
-
-    except NotImplementedError:
-        # Zope 2.9+
+        # Zope 2.9
         from zope.component import provideUtility
-        provideUtility(wrapper, name=name)
+        provideUtility(wrapper, name=name)           
+    except ImportError:
+        # Zope 2.8
+        from zope.component import getService, getGlobalServices, getUtilitiesFor
+        from zope.component.utility import GlobalUtilityService
+        from zope.component.interfaces import IUtilityService
+        from zope.component.servicenames import Utilities
+        sm = getGlobalServices()
+        try:
+            utilityService = getService(Utilities)
+        except ComponentLookupError:
+            sm.defineService(Utilities, IUtilityService)
+            sm.provideService(Utilities, GlobalUtilityService())
+            utilityService = getService(Utilities)
+            utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
 
 def allRegisteredSQLAlchemyWrappers():
     """ return a dict containing information for all
