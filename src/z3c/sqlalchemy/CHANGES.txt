@@ -1,3 +1,7 @@
+0.1.6 (28.03.2007)
+
+   - fixed a bug in registerSQLAlchemyWrapper
+
 0.1.5 (28.03.2007)
   
    - registerSQLAlchemyWrapper() should now work with Zope 2.8-2.10
