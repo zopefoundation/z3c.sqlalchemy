@@ -63,7 +63,8 @@ def registerSQLAlchemyWrapper(wrapper, name):
             sm.defineService(Utilities, IUtilityService)
             sm.provideService(Utilities, GlobalUtilityService())
             utilityService = getService(Utilities)
-            utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
+
+        utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
 
 def allRegisteredSQLAlchemyWrappers():
     """ return a dict containing information for all
