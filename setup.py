@@ -10,15 +10,17 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
+version=open('src/z3c/sqlalchemy/version.txt').read()
+
 setup(name='z3c.sqlalchemy',
-      version=open('src/z3c/sqlalchemy/version.txt').read(),
+      version=version,
       license='ZPL (see LICENSE.txt)',
       author='Andreas Jung',
       author_email='info@zopyx.com',
       maintainer='Andreas Jung',
       maintainer_email='info@zopyx.com',
       classifiers=CLASSIFIERS,
-      url='http://svn.zope.org/z3c.sqlalchemy/tags/0.1.3',
+      url='http://svn.zope.org/z3c.sqlalchemy/tags/%s' % version,
       description='A SQLAlchemy wrapper for Zope 2 and Zope 3',
       long_description=open('src/z3c/sqlalchemy/README.txt').read(),
       packages=find_packages('src'),
