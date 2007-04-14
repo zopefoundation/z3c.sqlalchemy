@@ -1,3 +1,10 @@
+0.1.7 (unreleased)
+
+   - replace 'echo' parameter of the constructor with a generic **kw
+     parameter in order to provide full parameter support for
+     create_engine. Optional arguments passed to the constructur are
+     passed directly to create_engine()
+ 
 0.1.6 (28.03.2007)
 
    - fixed a bug in registerSQLAlchemyWrapper
