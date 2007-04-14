@@ -24,11 +24,26 @@ gives you flexibe control over the mapper creation. Mapper classes can be
     - configured by the developer 
 
 
+
+What z3c.sqlalchemy does not do and won't do:
+=============================================
+
+    - no support for Zope 3 schemas 
+
+    - no support for Archetypes schemas
+
+
+z3c.sqlachemy just tries you to provide with the basic functionalities you need
+to write SQLAlchemy-based applications with Zope 2/3. Higher-level
+functionalities like integration with Archetypes/Zope 3 schemas are subject to
+higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
+
+
 Requirements:
 
     - Zope 2.8+, Zope 3.X
 
-    - SQLAlchemy    
+    - SQLAlchemy 0.3.6 or higher   
 
 
 Usage
@@ -143,6 +158,6 @@ Web: http://www.zopyx.com
 Credits
 =======
 Parts of the code are influenced by z3c.zalchemy (Juergen Kartnaller, Michael
-Bernstein & others) and Alchemist (Kapil Thangavelu)
+Bernstein & others) and Alchemist/ore.alchemist (Kapil Thangavelu)
 
 
