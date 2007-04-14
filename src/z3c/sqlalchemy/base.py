@@ -27,12 +27,12 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, echo=False):
+    def __init__(self, dsn, model=None, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
 
-            'echo' - output generated SQL commands
+            'kw' - optional keyword arguments passed to create_engine()
         """
 
         self.dsn = dsn
@@ -43,9 +43,10 @@ class BaseWrapper(object):
         self.password = self.url.password
         self.dbname = self.url.database 
         self.drivername = self.url.drivername
-        self.echo = echo
+        self.kw = kw
+        self.echo = kw.get('echo', False)
         self._engine = self._createEngine()
-        self._engine.echo = echo
+        self._engine.echo = self.echo
         self._model = None
 
         if model:
@@ -95,7 +96,7 @@ class BaseWrapper(object):
         return self._model
 
     def _createEngine(self):
-        return sqlalchemy.create_engine(self.dsn)
+        return sqlalchemy.create_engine(self.dsn, **self.kw)
 
 
 _cache = threading.local() # module-level cache 

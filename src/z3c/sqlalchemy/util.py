@@ -26,7 +26,7 @@ from z3c.sqlalchemy.base import BaseWrapper
 __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers')
 
 
-def createSQLAlchemyWrapper(dsn, model=None, echo=False, forZope=False):
+def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
         Set 'forZope' to True for a Zope related wrapper.
@@ -40,7 +40,7 @@ def createSQLAlchemyWrapper(dsn, model=None, echo=False, forZope=False):
     if driver == 'postgres':
         klass = forZope and ZopePostgresWrapper or PythonPostgresWrapper
 
-    return klass(dsn, echo=echo, model=model)
+    return klass(dsn, model, **kw)
 
 
 def registerSQLAlchemyWrapper(wrapper, name):
