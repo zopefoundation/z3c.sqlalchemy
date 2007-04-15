@@ -24,7 +24,6 @@ gives you flexibe control over the mapper creation. Mapper classes can be
     - configured by the developer 
 
 
-
 What z3c.sqlalchemy does not do and won't do:
 =============================================
 
@@ -33,13 +32,14 @@ What z3c.sqlalchemy does not do and won't do:
     - no support for Archetypes schemas
 
 
-z3c.sqlachemy just tries you to provide with the basic functionalities you need
+z3c.sqlachemy just tries to provide you with the basic functionalities you need
 to write SQLAlchemy-based applications with Zope 2/3. Higher-level
 functionalities like integration with Archetypes/Zope 3 schemas are subject to
 higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
 
 
 Requirements:
+=============
 
     - Zope 2.8+, Zope 3.X
 
@@ -51,7 +51,7 @@ Usage
 
 Basic usage from within a pure Python application:
 
-   > from haufe.sqlalchemy import createSQLAlchemyWrapper
+   > from z3c.sqlalchemy import createSQLAlchemyWrapper
    > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB')
    > session = wrapper.session
    > FormatMapper = wrapper.getMapper('format') # auto-generated mapper for table 'format'
@@ -62,7 +62,7 @@ When using Zope 2/3 you can use the same code but you want a wrapper that
 participates in Zope transactions. For this purpose you must use the additional
 parameter 'forZope':
 
-   > from haufe.sqlalchemy import createSQLAlchemyWrapper
+   > from z3c.sqlalchemy import createSQLAlchemyWrapper
    > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
    > session = wrapper.session
 
@@ -89,7 +89,7 @@ z3c.sqlalchemy how mappers a generated.
 
 Example:
 
-   > from haufe.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
    > model = Model()
    > model.add(name='A', relations=('B',))
    > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', model=model)
@@ -106,7 +106,7 @@ Unfortunately SQLAlchemy does not support this feature out-of-the-box and in a p
 way. Therefore this feature of z3c.sqlalchemy is highly experimental and currently
 only available for Postgres (tested with Postgres 8.X).
 
-   > from haufe.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
    > model = Model()
    > model.add(name='A', autodetect_relations=True)
    > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', model=model)
@@ -122,7 +122,7 @@ In same cases you might be interested to use your own base classes for a
 generated mapper.  Also this usecase is supported by passing the base class to
 the model using the 'mapper_class' parameter:
 
-   > from haufe.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
    > class MyAMapper(object): pass
    > model = Model()
    > model.add(name='A', relations=('B',) mapper_class = MyAMapper)
