@@ -1,4 +1,15 @@
+##########################################################################
+# z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
+#
+# (C) Zope Corporation and Contributor
+# Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
+# and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
+##########################################################################
+
+
+import os
 from setuptools import setup, find_packages
+
 
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
@@ -10,7 +21,11 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-version=open('src/z3c/sqlalchemy/version.txt').read()
+version_file = os.path.join('src', 'z3c', 'sqlalchemy', 'version.txt')
+version = open(version_file).read()
+
+readme_file = os.path.join('src', 'z3c', 'sqlalchemy', 'README.txt')
+long_description = open(readme_file).read()
 
 setup(name='z3c.sqlalchemy',
       version=version,
@@ -22,7 +37,7 @@ setup(name='z3c.sqlalchemy',
       classifiers=CLASSIFIERS,
       url='http://svn.zope.org/z3c.sqlalchemy/tags/%s' % version,
       description='A SQLAlchemy wrapper for Zope 2 and Zope 3',
-      long_description=open('src/z3c/sqlalchemy/README.txt').read(),
+      long_description=long_description,
       packages=find_packages('src'),
       package_dir = {'': 'src'},
       include_package_data = True,
