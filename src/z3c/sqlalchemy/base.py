@@ -79,6 +79,9 @@ class BaseWrapper(object):
     def session(self):
         return sqlalchemy.create_session(self._engine)
 
+    def registerMapper(self, mapper, name):
+        self._mappers.registerMapper(mapper, name)
+
     def getMapper(self, tablename, schema='public'):
         return self._mappers.getMapper(tablename, schema)
 

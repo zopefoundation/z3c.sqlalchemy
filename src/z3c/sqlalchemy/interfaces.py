@@ -41,6 +41,8 @@ class ISQLAlchemyWrapper(Interface):
 
 #    session = Object(title=u'Computed attributed (creates a new sqlalchemy.Session')
 
+    def registerMapper(mapper, name):
+        """ register your own mapper under a custom name """
 
     def getMapper(tablename, schema='public'):
         """ return a mapper class for a table given by its

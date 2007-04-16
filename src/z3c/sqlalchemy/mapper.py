@@ -127,12 +127,17 @@ class LazyMapperCollection(dict):
                 properties[table_refname] = relation(table_ref_mapper)
        
             # create a mapper and cache it 
-            self._lock.acquire()
-            self[name] = self._mapper_factory(table, 
-                                              properties=properties, 
-                                              cls=mapper_class)
-
-            self._lock.release()
+            mapper =  self._mapper_factory(table, 
+                                           properties=properties, 
+                                           cls=mapper_class)
+            self.registerMapper(mapper, name)
 
         return self[name]
-        
+
+
+    def registerMapper(self, mapper, name):
+        """ register a mapper under a given name """
+    
+        self._lock.acquire()
+        self[name] = mapper
+        self._lock.release()
