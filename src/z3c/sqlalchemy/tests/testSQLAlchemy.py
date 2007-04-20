@@ -115,7 +115,7 @@ class WrapperTests(unittest.TestCase):
         M.add('non_existing_table')
         db = createSQLAlchemyWrapper('sqlite:///test', model=M)
         try:
-            foo = db.getMapper('nonn_existing_table')
+            foo = db.getMapper('non_existing_table')
         except sqlalchemy.exceptions.NoSuchTableError:
             pass
 
