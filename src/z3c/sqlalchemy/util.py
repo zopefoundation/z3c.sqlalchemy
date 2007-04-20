@@ -14,7 +14,7 @@ Some helper methods
 
 from sqlalchemy.engine.url import make_url
 
-from zope.component import getService, getGlobalServices, getUtilitiesFor
+from zope.component import getService, getGlobalServices, getUtilitiesFor, getUtility
 from zope.component.utility import GlobalUtilityService
 from zope.component.interfaces import IUtilityService, ComponentLookupError
 from zope.component.servicenames import Utilities 
@@ -23,8 +23,9 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper, PythonPostgresWrapper 
 from z3c.sqlalchemy.base import BaseWrapper
 
-__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers')
+__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper')
 
+registeredWrappers = {}
 
 def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
@@ -44,6 +45,12 @@ def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
 
 
 def registerSQLAlchemyWrapper(wrapper, name):
+    """ deferred registration of the wrapper as named utility """
+
+    if not registeredWrappers.has_key(name):
+        registeredWrappers[name] = wrapper    
+    
+def _registerSQLAlchemyWrapper(wrapper, name):
     """ register a SQLAlchemyWrapper as named utility """
 
     try:
@@ -65,6 +72,20 @@ def registerSQLAlchemyWrapper(wrapper, name):
             utilityService = getService(Utilities)
 
         utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
+
+
+def getSQLAlchemyWrapper(name):
+
+    if not registeredWrappers.has_key(name):    
+        raise ValueError('No registered SQLAlchemyWrapper with name %s found' % name)
+
+    try: 
+        return getUtility(ISQLAlchemyWrapper, name)
+    except ComponentLookupError:
+        wrapper =  registeredWrappers[name]
+        _registerSQLAlchemyWrapper(wrapper, name)
+        return wrapper
+
 
 def allRegisteredSQLAlchemyWrappers():
     """ return a dict containing information for all

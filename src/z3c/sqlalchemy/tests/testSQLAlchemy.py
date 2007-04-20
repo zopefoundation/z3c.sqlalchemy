@@ -22,7 +22,7 @@ from zope.component import getUtility
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
-from z3c.sqlalchemy import createSQLAlchemyWrapper, Model, registerSQLAlchemyWrapper
+from z3c.sqlalchemy import createSQLAlchemyWrapper, Model, registerSQLAlchemyWrapper, getSQLAlchemyWrapper
 
 
 class WrapperTests(unittest.TestCase):
@@ -119,12 +119,16 @@ class WrapperTests(unittest.TestCase):
         except sqlalchemy.exceptions.NoSuchTableError:
             pass
 
-
     def testWrapperRegistration(self):
         wrapper = createSQLAlchemyWrapper('sqlite:///test')
         registerSQLAlchemyWrapper(wrapper, 'test.wrapper')
-        wrapper2 = getUtility(ISQLAlchemyWrapper, 'test.wrapper')
+        wrapper2 = getSQLAlchemyWrapper('test.wrapper')
         self.assertEqual(wrapper, wrapper2)
+    
+    def testWrapperRegistrationFailing(self):
+        wrapper = createSQLAlchemyWrapper('sqlite:///test')
+        registerSQLAlchemyWrapper(wrapper, 'test.wrapper')
+        self.assertRaises(ValueError, getSQLAlchemyWrapper, 'test.wrapperNonExistant')
 
 
 def test_suite():

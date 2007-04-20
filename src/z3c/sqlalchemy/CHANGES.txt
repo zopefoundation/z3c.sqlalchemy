@@ -8,6 +8,9 @@
    - fixed the documentation a bit
 
    - added registerMapper() to BaseWrapper class
+
+   - registerSQLAlchemyWrapper() now defers the registration until
+     the Wrapper is used first when calling getSQLAlchemyWrapper() 
  
 0.1.6 (28.03.2007)
 
