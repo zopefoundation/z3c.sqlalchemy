@@ -16,6 +16,11 @@
      available). E.g. when using Postgres you can reference as
      table within a different schema through '<schema>.<tablename>'.
 
+   - Model.add() accepts a new optional parameter 'table_name' that
+     can be used to specify the name of a table (including schema
+     information) when you want to use the 'name' parameter as
+     an alias for the related table/mapper.
+
  
 0.1.6 (28.03.2007)
 

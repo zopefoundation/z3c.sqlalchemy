@@ -85,11 +85,13 @@ class LazyMapperCollection(dict):
             # if not: introspect table definition
             if table is None:
 
+                table_name = self._model.get(name, {}).get('table_name') or name
+
                 # check for 'schema.tablename'
-                if '.' in name:
-                    schema, tablename = name.split('.')
+                if '.' in table_name:
+                    schema, tablename = table_name.split('.')
                 else:
-                    tablename, schema = name, None
+                    tablename, schema = table_name, None
 
                 table = Table(tablename, 
                               self._metadata, 
@@ -140,12 +142,12 @@ class LazyMapperCollection(dict):
             mapper =  self._mapper_factory(table, 
                                            properties=properties, 
                                            cls=mapper_class)
-            self.registerMapper(mapper, name)
+            self._registerMapper(mapper, name)
 
         return self[name]
 
 
-    def registerMapper(self, mapper, name):
+    def _registerMapper(self, mapper, name):
         """ register a mapper under a given name """
     
         self._lock.acquire()
