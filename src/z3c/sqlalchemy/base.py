@@ -65,7 +65,7 @@ class BaseWrapper(object):
             else:
                 raise ValueError("The 'model' parameter passed to constructor must either be "\
                                  "the name of a named utility implementing IModelProvider or "\
-                                 "an instance of haufe.sqlalchemy.model.Model.")
+                                 "an instance of z3c.sqlalchemy.model.Model.")
 
         # mappers must be initialized at last since we need to acces
         # the 'model' from within the constructor of LazyMapperCollection
