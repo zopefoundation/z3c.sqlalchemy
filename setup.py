@@ -22,7 +22,7 @@ CLASSIFIERS = [
 ]
 
 version_file = os.path.join('src', 'z3c', 'sqlalchemy', 'version.txt')
-version = open(version_file).read()
+version = open(version_file).read().strip()
 
 readme_file = os.path.join('src', 'z3c', 'sqlalchemy', 'README.txt')
 long_description = open(readme_file).read()
