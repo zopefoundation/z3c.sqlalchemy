@@ -84,7 +84,17 @@ class LazyMapperCollection(dict):
 
             # if not: introspect table definition
             if table is None:
-                table = Table(name, self._metadata, autoload=True)
+
+                # check for 'schema.tablename'
+                if '.' in name:
+                    schema, tablename = name.split('.')
+                else:
+                    tablename, schema = name, None
+
+                table = Table(tablename, 
+                              self._metadata, 
+                              schema=schema,
+                              autoload=True)
 
             # check if the model contains an optional mapper class
             mapper_class = None

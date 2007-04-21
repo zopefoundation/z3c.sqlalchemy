@@ -11,6 +11,11 @@
 
    - registerSQLAlchemyWrapper() now defers the registration until
      the Wrapper is used first when calling getSQLAlchemyWrapper() 
+
+   - the 'name' parameter of Model.add() now supports schemas (if
+     available). E.g. when using Postgres you can reference as
+     table within a different schema through '<schema>.<tablename>'.
+
  
 0.1.6 (28.03.2007)
 

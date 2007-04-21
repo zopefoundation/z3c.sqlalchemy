@@ -79,8 +79,6 @@ class Model(dict):
 
         for name in self.names:
             yield name, self[name]
-            
-
                         
 
 if __name__ == '__main__':
