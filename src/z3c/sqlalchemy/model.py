@@ -43,14 +43,14 @@ class Model(dict):
             'mapper_class' -- an optional class to be used as mapper class for 'table'
 
             'relations' -- an optional list of table names referencing 'table'. This is used 
-                           for auto-constructing the relation properties of the mapper class.
+            for auto-constructing the relation properties of the mapper class.
 
             'autodetect_relations' -- try to autodetect the relationships between tables
-                           and auto-construct the relation properties of the mapper if
-                           'relations' is omitted (set to None)
+            and auto-construct the relation properties of the mapper if
+            'relations' is omitted (set to None)
 
             'table_name' -- optional full name of a table (e.g. 'someschema.sometable') if
-                            you want to use 'name' as alias for the table.
+            you want to use 'name' as alias for the table.
         """
 
         if table is not None and not isinstance(table, sqlalchemy.Table):
