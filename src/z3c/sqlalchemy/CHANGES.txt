@@ -1,4 +1,4 @@
-0.1.7 (unreleased)
+0.1.7 (21.04.2007)
 
    - replaced 'echo' parameter of the constructor with a generic **kw
      parameter in order to provide full parameter support for
