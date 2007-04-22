@@ -1,5 +1,7 @@
 0.1.8 (unreleased)
 
+   - added shorter method names as aliases 
+
 
 0.1.7 (21.04.2007)
 

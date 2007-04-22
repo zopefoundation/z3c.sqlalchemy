@@ -1,7 +1,7 @@
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
-# (C) Zope Corporation and Contributor
+# (C) Zope Corporation and Contributors
 # Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
@@ -23,7 +23,8 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper, PythonPostgresWrapper 
 from z3c.sqlalchemy.base import BaseWrapper
 
-__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper')
+__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper',
+           'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers', 'getSAWrapper')
 
 registeredWrappers = {}
 
@@ -43,15 +44,21 @@ def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
 
     return klass(dsn, model, **kw)
 
+createSAWrapper = createSQLAlchemyWrapper 
+
 
 def registerSQLAlchemyWrapper(wrapper, name):
     """ deferred registration of the wrapper as named utility """
 
     if not registeredWrappers.has_key(name):
         registeredWrappers[name] = wrapper    
+
+registerSAWrapper = registerSQLAlchemyWrapper
     
 def _registerSQLAlchemyWrapper(wrapper, name):
-    """ register a SQLAlchemyWrapper as named utility """
+    """ register a SQLAlchemyWrapper as named utility.
+        (never call this method directly)
+    """
 
     try:
         # Zope 2.9
@@ -74,10 +81,17 @@ def _registerSQLAlchemyWrapper(wrapper, name):
         utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
 
 
-def getSQLAlchemyWrapper(name):
+def getSQLAlchemyWrapper(name):        
+    """ return a SQLAlchemyWrapper instance by name """
 
     if not registeredWrappers.has_key(name):    
         raise ValueError('No registered SQLAlchemyWrapper with name %s found' % name)
+
+    # Perform a late and lazy registration of the wrapper as
+    # named utility. Late initialization is necessary for Zope 2
+    # application if you want to register wrapper instances during
+    # the product initialization phase of Zope when the Z3 registries
+    # are not yet initializied.
 
     try: 
         return getUtility(ISQLAlchemyWrapper, name)
@@ -86,6 +100,7 @@ def getSQLAlchemyWrapper(name):
         _registerSQLAlchemyWrapper(wrapper, name)
         return wrapper
 
+getSAWrapper = getSQLAlchemyWrapper
 
 def allRegisteredSQLAlchemyWrappers():
     """ return a dict containing information for all
@@ -97,6 +112,8 @@ def allRegisteredSQLAlchemyWrappers():
                'dsn' : wrapper.dsn,
                'echo' : wrapper.echo,
               }
+
+allRegisteredSAWrappers = allRegisteredSQLAlchemyWrappers
 
 
 if __name__ == '__main__':
