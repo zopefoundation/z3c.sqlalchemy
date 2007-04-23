@@ -1,3 +1,4 @@
+- pass BoundMetaData somehow to the model in order to support autoloading
 
 - Consider Elixir for describing the Model
 
