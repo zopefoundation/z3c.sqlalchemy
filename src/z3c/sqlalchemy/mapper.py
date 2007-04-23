@@ -22,6 +22,8 @@ marker = object
 class MappedClassBase(object):
     """ base class for all mapped classes """
 
+    __auto_mapped__ = False
+
     def __init__(self, **kw):
         """ accepts keywords arguments used for initialization of
             mapped attributes/columns.
@@ -53,6 +55,7 @@ class MapperFactory(object):
             newCls = cls
 
         mapper(newCls, table, properties=properties)
+        newCls.__auto_mapped__ = True
         return newCls
 
 
@@ -101,8 +104,10 @@ class LazyMapperCollection(dict):
 
             # check if the model contains an optional mapper class
             mapper_class = None
-            if self._model.has_key(name):            
+            auto_mapped = False
+            if self._model.has_key(name):           
                 mapper_class = self._model[name].get('mapper_class')
+                auto_mapped = getattr(mapper_class, '__auto_mapped__', False)
 
 
             # use auto-introspected table dependencies for creating
@@ -140,9 +145,15 @@ class LazyMapperCollection(dict):
                 properties[table_refname] = relation(table_ref_mapper)
        
             # create a mapper and cache it 
-            mapper =  self._mapper_factory(table, 
-                                           properties=properties, 
-                                           cls=mapper_class)
+
+            
+            if mapper_class.__dict__.has_key('c'):
+                mapper = mapper_class
+
+            else:
+                mapper =  self._mapper_factory(table, 
+                                               properties=properties, 
+                                               cls=mapper_class)
             self._registerMapper(mapper, name)
 
         return self[name]
