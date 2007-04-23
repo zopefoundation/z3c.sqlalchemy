@@ -6,6 +6,7 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
+import warnings
 import threading
 
 import sqlalchemy
@@ -27,10 +28,13 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, **kw):
+    def __init__(self, dsn, model=None, model_provider=None, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
+
+            'model_provider' - optional callable providing an instance
+             of model.Model() 
 
             'kw' - optional keyword arguments passed to create_engine()
         """
@@ -49,7 +53,12 @@ class BaseWrapper(object):
         self._engine.echo = self.echo
         self._model = None
 
+        if model is not None and model_provider is not None:
+            raise ValueError("You can not specify both 'model' and 'model_provider' at the same time")
+
         if model:
+            warnings.warn("The 'model' parameter is deprecated. Use 'model_provider' instead", DeprecationWarning, stacklevel=1)
+
             if isinstance(model, Model):
                 self._model = model
 
@@ -62,10 +71,18 @@ class BaseWrapper(object):
 
                 self._model = util.getModel()
 
+
             else:
                 raise ValueError("The 'model' parameter passed to constructor must either be "\
                                  "the name of a named utility implementing IModelProvider or "\
                                  "an instance of z3c.sqlalchemy.model.Model.")
+
+        if model_provider:
+
+            if not callable(model_provider):
+                raise ValueError('model_provider must be callable')
+
+            self._model = model_provider(self.metadata)
 
         # mappers must be initialized at last since we need to acces
         # the 'model' from within the constructor of LazyMapperCollection
