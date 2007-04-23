@@ -146,8 +146,7 @@ class LazyMapperCollection(dict):
        
             # create a mapper and cache it 
 
-            
-            if mapper_class.__dict__.has_key('c'):
+            if mapper_class and mapper_class.__dict__.has_key('c'):
                 mapper = mapper_class
 
             else:
