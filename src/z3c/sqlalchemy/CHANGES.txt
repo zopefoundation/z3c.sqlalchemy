@@ -1,11 +1,11 @@
 0.1.9 (unreleased)
 
-   - base.py: deprecated 'model' parameter
+   - base.py: the 'model' parameter can now also be a callable
+     returning an instance of model.Model
 
-   - base.py: added 'model_provider' parameter which is
-     an optional callable called with a BoundMetaData
-     instance in order to auto-load tables (which requires
-     BoundMetaData).
+   - base.py: calling a model provider or a method providing a
+     model with a BoundMetaData instance in order to allow 
+     table auto-loading
 
 
 0.1.8 (23.04.2007)

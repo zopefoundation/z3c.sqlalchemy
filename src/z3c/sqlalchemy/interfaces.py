@@ -60,7 +60,7 @@ class IModelProvider(Interface):
         and the mapper classes.
     """
 
-    def getModel():
+    def getModel(metadata=None):
         """ The model is described as an ordered dictionary.  The entries are
             (tablename, some_dict) where 'some_dict' is a dictionary containing a
             key 'table' referencing a Table() instance and an optional key
