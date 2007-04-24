@@ -35,7 +35,7 @@ class Model(dict):
             self.add(**d)
 
 
-    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None):
+    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None, primary_key=None):
         """ 'name'  -- name of table (no schema support so far!)
 
             'table' -- a sqlalchemy.Table instance (None, for autoloading)
@@ -51,6 +51,9 @@ class Model(dict):
 
             'table_name' -- optional full name of a table (e.g. 'someschema.sometable') if
             you want to use 'name' as alias for the table.
+
+            'primary_key' -- a sequence of strings used as primary keys for a mapper
+            (basically necessary when auto-loading a view as Table())
         """
 
         if table is not None and not isinstance(table, sqlalchemy.Table):
@@ -75,6 +78,7 @@ class Model(dict):
                       'mapper_class' : mapper_class,
                       'autodetect_relations' : autodetect_relations,
                       'table_name' : table_name,
+                      'primary_key' : primary_key,
                      }
 
 

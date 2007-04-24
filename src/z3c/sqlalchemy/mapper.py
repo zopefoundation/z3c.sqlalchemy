@@ -22,8 +22,6 @@ marker = object
 class MappedClassBase(object):
     """ base class for all mapped classes """
 
-    __auto_mapped__ = False
-
     def __init__(self, **kw):
         """ accepts keywords arguments used for initialization of
             mapped attributes/columns.
@@ -39,7 +37,7 @@ class MapperFactory(object):
     def __init__(self, metadata):
         self.metadata = metadata
 
-    def __call__(self, table, properties={}, cls=None):
+    def __call__(self, table, properties={}, cls=None, primary_key=None):
         """ Returns a tuple (mapped_class, table_class).
             'table' - sqlalchemy.Table to be mapped
 
@@ -54,8 +52,10 @@ class MapperFactory(object):
         else:
             newCls = cls
 
-        mapper(newCls, table, properties=properties)
-        newCls.__auto_mapped__ = True
+        mapper(newCls, 
+               table, 
+               properties=properties, 
+               primary_key=primary_key)
         return newCls
 
 
@@ -104,10 +104,8 @@ class LazyMapperCollection(dict):
 
             # check if the model contains an optional mapper class
             mapper_class = None
-            auto_mapped = False
             if self._model.has_key(name):           
                 mapper_class = self._model[name].get('mapper_class')
-                auto_mapped = getattr(mapper_class, '__auto_mapped__', False)
 
 
             # use auto-introspected table dependencies for creating
@@ -143,6 +141,10 @@ class LazyMapperCollection(dict):
 
                 # add the mapper as relation to the properties dict
                 properties[table_refname] = relation(table_ref_mapper)
+
+
+            # pre-configured primary_key parameter?
+            primary_key = self._model.get(name, {}).get('primary_key')
        
             # create a mapper and cache it 
 
@@ -150,8 +152,10 @@ class LazyMapperCollection(dict):
                 mapper = mapper_class
 
             else:
+
                 mapper =  self._mapper_factory(table, 
-                                               properties=properties, 
+                                               properties=properties,
+                                               primary_key=primary_key, 
                                                cls=mapper_class)
             self._registerMapper(mapper, name)
 
