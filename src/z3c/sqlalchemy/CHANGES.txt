@@ -7,6 +7,11 @@
      model with a BoundMetaData instance in order to allow 
      table auto-loading
 
+   - Model.add() got a new parameter 'primary_key' in order to specify a
+     primary_key hint. This is useful when you are trying to auto-load a view
+     as Table() having no primary key information. The 'primary_key' parameter
+     is either None or a sequence of column names.
+
 
 0.1.8 (23.04.2007)
 

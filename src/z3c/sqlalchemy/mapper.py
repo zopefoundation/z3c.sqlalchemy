@@ -144,17 +144,18 @@ class LazyMapperCollection(dict):
 
 
             # pre-configured primary_key parameter?
-            primary_key = self._model.get(name, {}).get('primary_key')
+            primary_key = self._model.get(name, {}).get('primary_key', None)
+
             if isinstance(primary_key, (list, tuple)):
+                # The 'primary_key' hint is configured as a list/tuple of
+                # column names. However the mapper() method requires
+                # a sequence of the related Column() instances
                 primary_key = [getattr(table.c, pk) for pk in primary_key]
        
             # create a mapper and cache it 
-
             if mapper_class and mapper_class.__dict__.has_key('c'):
                 mapper = mapper_class
-
             else:
-
                 mapper =  self._mapper_factory(table, 
                                                properties=properties,
                                                primary_key=primary_key, 
