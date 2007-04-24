@@ -17,7 +17,6 @@ import unittest
 import sqlalchemy
 
 from zope.interface.verify import verifyClass
-from zope.component import getUtility
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
