@@ -145,6 +145,8 @@ class LazyMapperCollection(dict):
 
             # pre-configured primary_key parameter?
             primary_key = self._model.get(name, {}).get('primary_key')
+            if isinstance(primary_key, (list, tuple)):
+                primary_key = [getattr(table.c, pk) for pk in primary_key]
        
             # create a mapper and cache it 
 
