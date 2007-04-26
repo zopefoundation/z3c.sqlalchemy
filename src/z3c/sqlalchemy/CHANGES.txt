@@ -1,4 +1,4 @@
-0.1.9 (unreleased)
+0.1.9 (26.04.2007)
 
    - base.py: the 'model' parameter can now also be a callable
      returning an instance of model.Model
@@ -9,8 +9,8 @@
 
    - Model.add() got a new parameter 'primary_key' in order to specify a
      primary_key hint. This is useful when you are trying to auto-load a view
-     as Table() having no primary key information. The 'primary_key' parameter
-     is either None or a sequence of column names.
+     as Table() having no primary key information. The 'primary_key' parameter is
+     either None or a sequence of column names.
 
 
 0.1.8 (23.04.2007)
