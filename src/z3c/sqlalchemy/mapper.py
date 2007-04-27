@@ -37,7 +37,7 @@ class MapperFactory(object):
     def __init__(self, metadata):
         self.metadata = metadata
 
-    def __call__(self, table, properties={}, cls=None, primary_key=None):
+    def __call__(self, table, properties={}, cls=None):
         """ Returns a tuple (mapped_class, table_class).
             'table' - sqlalchemy.Table to be mapped
 
@@ -54,8 +54,7 @@ class MapperFactory(object):
 
         mapper(newCls, 
                table, 
-               properties=properties, 
-               primary_key=primary_key)
+               properties=properties) 
         return newCls
 
 

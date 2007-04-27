@@ -1,5 +1,8 @@
 0.1.10  (unreleased)
 
+   - removed the 'primary_key' parameter introduced in 0.1.9 because
+     we don't need. It can be defined within the model using a
+     PrimaryKeyConstraint()
 
 0.1.9 (26.04.2007)
 
