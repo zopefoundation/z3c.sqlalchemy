@@ -4,6 +4,11 @@
      we don't need. It can be defined within the model using a
      PrimaryKeyConstraint()
 
+   - createSAWrapper: setting forZope=True for a non-postgres DSN
+     now also returns a Zope-aware wrapper instance (instead
+     of a BaseWrapper instance).  (Reported by Martin Aspeli)
+
+
 0.1.9 (26.04.2007)
 
    - base.py: the 'model' parameter can now also be a callable

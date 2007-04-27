@@ -31,13 +31,13 @@ registeredWrappers = {}
 def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
-        Set 'forZope' to True for a Zope related wrapper.
+        Set 'forZope' to True to obtain a Zope-aware wrapper.
     """
 
     url = make_url(dsn)
     driver = url.drivername
 
-    klass = BaseWrapper
+    klass = forZope and ZopeBaseWrapper or BaseWrapper
 
     if driver == 'postgres':
         klass = forZope and ZopePostgresWrapper or PythonPostgresWrapper
@@ -110,7 +110,7 @@ def allRegisteredSQLAlchemyWrappers():
     for name, wrapper in getUtilitiesFor(ISQLAlchemyWrapper):
         yield {'name' : name,
                'dsn' : wrapper.dsn,
-               'echo' : wrapper.echo,
+               'kw' : wrapper.kw,
               }
 
 allRegisteredSAWrappers = allRegisteredSQLAlchemyWrappers
