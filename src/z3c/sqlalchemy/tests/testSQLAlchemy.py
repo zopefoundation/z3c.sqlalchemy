@@ -21,7 +21,7 @@ from zope.interface.verify import verifyClass
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
-from z3c.sqlalchemy import createSQLAlchemyWrapper, Model, registerSQLAlchemyWrapper, getSQLAlchemyWrapper
+from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
 
 
 class WrapperTests(unittest.TestCase):
@@ -66,7 +66,7 @@ class WrapperTests(unittest.TestCase):
 
 
     def testSimplePopulation(self):
-        db = createSQLAlchemyWrapper('sqlite:///test')
+        db = createSAWrapper('sqlite:///test')
         # obtain mapper for table 'user'
 
         User = db.getMapper('user')
@@ -91,14 +91,14 @@ class WrapperTests(unittest.TestCase):
         M = Model()
         M.add('user', mapper_class=myUser)
 
-        db = createSQLAlchemyWrapper('sqlite:///test', model=M)
+        db = createSAWrapper('sqlite:///test', model=M)
         User = db.getMapper('user')
         self.assertEqual(User, myUser)
 
 
     def testGetMappers(self):
 
-        db = createSQLAlchemyWrapper('sqlite:///test')
+        db = createSAWrapper('sqlite:///test')
         Users = db.getMapper('user')
         Skills = db.getMapper('skills')
         User, Skills = db.getMappers('user', 'skills')
@@ -112,22 +112,22 @@ class WrapperTests(unittest.TestCase):
     def testModelNonExistingTables(self):
         M = Model()
         M.add('non_existing_table')
-        db = createSQLAlchemyWrapper('sqlite:///test', model=M)
+        db = createSAWrapper('sqlite:///test', model=M)
         try:
             foo = db.getMapper('non_existing_table')
         except sqlalchemy.exceptions.NoSuchTableError:
             pass
 
     def testWrapperRegistration(self):
-        wrapper = createSQLAlchemyWrapper('sqlite:///test')
-        registerSQLAlchemyWrapper(wrapper, 'test.wrapper')
-        wrapper2 = getSQLAlchemyWrapper('test.wrapper')
+        wrapper = createSAWrapper('sqlite:///test')
+        registerSAWrapper(wrapper, 'test.wrapper')
+        wrapper2 = getSAWrapper('test.wrapper')
         self.assertEqual(wrapper, wrapper2)
     
     def testWrapperRegistrationFailing(self):
-        wrapper = createSQLAlchemyWrapper('sqlite:///test')
-        registerSQLAlchemyWrapper(wrapper, 'test.wrapper')
-        self.assertRaises(ValueError, getSQLAlchemyWrapper, 'test.wrapperNonExistant')
+        wrapper = createSAWrapper('sqlite:///test')
+        registerSAWrapper(wrapper, 'test.wrapper')
+        self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
 
 
 def test_suite():
