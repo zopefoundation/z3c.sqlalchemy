@@ -173,8 +173,7 @@ class ZopeBaseWrapper(BaseWrapper):
         session = sqlalchemy.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
-        DM = DataManager(session)  # no, 'DM' does not mean Dieter Maurer
-        txn.join(DM)
+        txn.join(DataManager(session))
 
         # update thread-local cache
         _cache.last_transaction = txn_str
