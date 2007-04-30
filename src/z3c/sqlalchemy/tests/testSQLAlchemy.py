@@ -21,6 +21,7 @@ from zope.interface.verify import verifyClass
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
+from z3c.sqlalchemy.mapper import MappedClassBase
 from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
 
 
@@ -85,7 +86,7 @@ class WrapperTests(unittest.TestCase):
 
     def testMapperWithCustomModel(self):
 
-        class myUser(object): 
+        class myUser(MappedClassBase): 
             pass
 
         M = Model()
@@ -94,6 +95,15 @@ class WrapperTests(unittest.TestCase):
         db = createSAWrapper('sqlite:///test', model=M)
         User = db.getMapper('user')
         self.assertEqual(User, myUser)
+
+
+    def testCustomMapperClassWithWrongType(self):
+
+        class myUser(object): 
+            pass
+
+        M = Model()
+        self.assertRaises(TypeError, M.add, 'user', mapper_class=myUser)
 
 
     def testGetMappers(self):

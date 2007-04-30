@@ -1,3 +1,8 @@
+0.1.11 (unreleased)
+
+   - added check for the 'mapper_class' attribute (classes from now
+     on must be a subclass of MapperClassBase)
+
 0.1.10 (30.04.2007)
 
    - fixed a bug in mapper (unfortunately I forgot to commit a

@@ -14,6 +14,8 @@ Optional Model support
 
 import sqlalchemy
 
+from mapper import MappedClassBase
+
 __all__ = ('Model',)
 
 
@@ -56,8 +58,8 @@ class Model(dict):
         if table is not None and not isinstance(table, sqlalchemy.Table):
             raise TypeError("'table' must be an instance or sqlalchemy.Table or None")
 
-        if mapper_class is not None and not issubclass(mapper_class, object):
-            raise TypeError("'mapper_class' must be a new-style class")
+        if mapper_class is not None and not issubclass(mapper_class, MappedClassBase):
+            raise TypeError("'mapper_class' must be a subclass of MappedClassBase")
         
         if relations is not None:
             for r in relations:
