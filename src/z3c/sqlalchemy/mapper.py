@@ -22,6 +22,9 @@ marker = object
 class MappedClassBase(object):
     """ base class for all mapped classes """
 
+    # Zope 2 security magic.......buuuuuuuhhhhhh
+    __allow_access_to_unprotected_subobjects__ = 1
+
     def __init__(self, **kw):
         """ accepts keywords arguments used for initialization of
             mapped attributes/columns.
