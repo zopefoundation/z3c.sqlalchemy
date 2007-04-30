@@ -232,7 +232,7 @@ class ZopeBaseWrapper(BaseWrapper):
             return _connection_cache.last_connection
 
         # no cached connection, let's create a new one
-        connection = sqlalchemy.engine.connect()
+        connection = self.engine.connect()
                                           
         # register a DataManager with the current transaction
         txn.join(ConnectionDataManager(connection))
