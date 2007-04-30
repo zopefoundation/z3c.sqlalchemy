@@ -113,8 +113,9 @@ class BaseWrapper(object):
     def _createEngine(self):
         return sqlalchemy.create_engine(self.dsn, **self.kw)
 
+_session_cache = threading.local() # module-level cache 
+_connection_cache = threading.local() # module-level cache 
 
-_cache = threading.local() # module-level cache 
 
 class SessionDataManager(object):
     """ Wraps session into transaction context of Zope """
@@ -148,6 +149,38 @@ class SessionDataManager(object):
         return str(id(self))
 
 
+class ConnectionDataManager(object):
+    """ Wraps connection into transaction context of Zope """
+
+    implements(IDataManager)
+
+    def __init__(self, connection):
+        self.connection = connection
+        self.transaction = connection.begin()
+
+    def tpc_begin(self, trans):
+        pass
+
+    def abort(self, trans):
+        self.transaction.rollback()
+
+    def commit(self, trans):
+        self.transaction.commit()
+        self.connection.close()
+
+    def tpc_vote(self, trans):
+        pass
+
+    def tpc_finish(self, trans):
+        pass
+
+    def tpc_abort(self, trans):
+        pass
+
+    def sortKey(self):
+        return str(id(self))
+
+
 class ZopeBaseWrapper(BaseWrapper):
     """ A wrapper to be used from within Zope. It connects
         the session with the transaction management of Zope.
@@ -156,9 +189,9 @@ class ZopeBaseWrapper(BaseWrapper):
     @property
     def session(self):
 
-        if not hasattr(_cache, 'last_transaction'):
-            _cache.last_transaction = None
-            _cache.last_session = None
+        if not hasattr(_session_cache, 'last_transaction'):
+            _session_cache.last_transaction = None
+            _session_cache.last_session = None
 
         # get current transaction
         txn = transaction.get()
@@ -166,8 +199,8 @@ class ZopeBaseWrapper(BaseWrapper):
 
         # return cached session if we are within the same transaction
         # and same thread
-        if txn_str == _cache.last_transaction:
-            return _cache.last_session
+        if txn_str == _session_cache.last_transaction:
+            return _session_cache.last_session
 
         # no cached session, let's create a new one
         session = sqlalchemy.create_session(self._engine)
@@ -176,9 +209,38 @@ class ZopeBaseWrapper(BaseWrapper):
         txn.join(SessionDataManager(session))
 
         # update thread-local cache
-        _cache.last_transaction = txn_str
-        _cache.last_session = session
+        _session_cache.last_transaction = txn_str
+        _session_cache.last_session = session
 
         # return the session
         return session 
+
+    @property
+    def connection(self):
+
+        if not hasattr(_connection_cache, 'last_connection'):
+            _connection_cache.last_transaction = None
+            _connection_cache.last_connection = None
+
+        # get current transaction
+        txn = transaction.get()
+        txn_str = str(txn)
+
+        # return cached connection if we are within the same transaction
+        # and same thread
+        if txn_str == _connection_cache.last_transaction:
+            return _connection_cache.last_connection
+
+        # no cached connection, let's create a new one
+        connection = sqlalchemy.engine.connect()
+                                          
+        # register a DataManager with the current transaction
+        txn.join(ConnectionDataManager(connection))
+
+        # update thread-local cache
+        _connection_cache.last_transaction = txn_str
+        _connection_cache.last_connection = connection
+
+        # return the connection
+        return connection
 
