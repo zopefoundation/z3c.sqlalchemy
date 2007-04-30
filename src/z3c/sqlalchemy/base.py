@@ -163,10 +163,13 @@ class ConnectionDataManager(object):
 
     def abort(self, trans):
         self.transaction.rollback()
+        self.connection.close()
+        self.connection = None
 
     def commit(self, trans):
         self.transaction.commit()
         self.connection.close()
+        self.connection = None
 
     def tpc_vote(self, trans):
         pass
