@@ -51,8 +51,8 @@ Usage
 
 Basic usage from within a pure Python application:
 
-   > from z3c.sqlalchemy import createSQLAlchemyWrapper
-   > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB')
+   > from z3c.sqlalchemy import createSAWrapper
+   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
    > session = wrapper.session
    > FormatMapper = wrapper.getMapper('format') # auto-generated mapper for table 'format'
    > for row in session.query(FormatMapper).select(...): print row
@@ -62,8 +62,8 @@ When using Zope 2/3 you can use the same code but you want a wrapper that
 participates in Zope transactions. For this purpose you must use the additional
 parameter 'forZope':
 
-   > from z3c.sqlalchemy import createSQLAlchemyWrapper
-   > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
+   > from z3c.sqlalchemy import createSAWrapper
+   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
    > session = wrapper.session
 
 In this case the session will participate automatically in a Zope transaction.
@@ -89,10 +89,10 @@ z3c.sqlalchemy how mappers a generated.
 
 Example:
 
-   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSAWrapper, Model
    > model = Model()
    > model.add(name='A', relations=('B',))
-   > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
    > AMapper= wrapper.getMapper('A') 
 
 This will generate a mapper AMapper where all instances of AMapper have a
@@ -106,10 +106,10 @@ Unfortunately SQLAlchemy does not support this feature out-of-the-box and in a p
 way. Therefore this feature of z3c.sqlalchemy is highly experimental and currently
 only available for Postgres (tested with Postgres 8.X).
 
-   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSAWrapper, Model
    > model = Model()
    > model.add(name='A', autodetect_relations=True)
-   > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
    > AMapper= wrapper.getMapper('A') 
 
 In this case z3c.sqlalchemy will scan all tables in order to detect
@@ -122,11 +122,11 @@ In same cases you might be interested to use your own base classes for a
 generated mapper.  Also this usecase is supported by passing the base class to
 the model using the 'mapper_class' parameter:
 
-   > from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
+   > from z3c.sqlalchemy import createSAWrapper, Model
    > class MyAMapper(object): pass
    > model = Model()
    > model.add(name='A', relations=('B',) mapper_class = MyAMapper)
-   > wrapper = createSQLAlchemyWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
    > AMapper= wrapper.getMapper('A')  # AMapper will be an instance of MyAMapper
 
 
