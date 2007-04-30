@@ -116,7 +116,7 @@ class BaseWrapper(object):
 
 _cache = threading.local() # module-level cache 
 
-class DataManager(object):
+class SessionDataManager(object):
     """ Wraps session into transaction context of Zope """
 
     implements(IDataManager)
@@ -173,7 +173,7 @@ class ZopeBaseWrapper(BaseWrapper):
         session = sqlalchemy.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
-        txn.join(DataManager(session))
+        txn.join(SessionDataManager(session))
 
         # update thread-local cache
         _cache.last_transaction = txn_str
