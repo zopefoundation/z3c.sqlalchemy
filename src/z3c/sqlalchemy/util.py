@@ -24,7 +24,7 @@ from z3c.sqlalchemy.postgres import ZopePostgresWrapper, PythonPostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
 
 __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper',
-           'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers', 'getSAWrapper')
+           'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers', 'getSAWrapper', 'allSAWrapperNames')
 
 registeredWrappers = {}
 
@@ -114,6 +114,12 @@ def allRegisteredSQLAlchemyWrappers():
               }
 
 allRegisteredSAWrappers = allRegisteredSQLAlchemyWrappers
+
+
+def allSAWrapperNames():
+    """ return list of all registered wrapper names """
+    names = registeredWrappers.keys()
+    return sorted(names)
 
 
 if __name__ == '__main__':
