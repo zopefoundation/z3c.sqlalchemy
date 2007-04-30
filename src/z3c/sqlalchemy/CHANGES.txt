@@ -1,4 +1,7 @@
-0.1.10  (unreleased)
+0.1.10 (30.04.2007)
+
+   - fixed a bug in mapper (unfortunately I forgot to commit a
+     necessary change)
 
    - removed the 'primary_key' parameter introduced in 0.1.9 because
      we don't need. It can be defined within the model using a
