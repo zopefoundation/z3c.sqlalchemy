@@ -66,10 +66,8 @@ class BaseWrapper(object):
         self.drivername = self.url.drivername
         self.kw = kw
         self.echo = kw.get('echo', False)
-        self._engine = self._createEngine()
-        self._engine.echo = self.echo
         self._model = None
-
+        self._createEngine()
 
         if model:
 
@@ -132,7 +130,10 @@ class BaseWrapper(object):
         return self._model
 
     def _createEngine(self):
-        return sqlalchemy.create_engine(self.dsn, **self.kw)
+        import pdb; pdb.set_trace() 
+        self._engine = sqlalchemy.create_engine(self.dsn, **self.kw)
+        self._engine.echo = self.echo
+
 
 session_cache = SynchronizedThreadCache()
 connection_cache = SynchronizedThreadCache()
