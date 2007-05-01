@@ -31,7 +31,6 @@ class SynchronizedThreadCache(object):
 
 
     def set(self, **kw):
-
         self.lock.acquire()
         for k,v in kw.items():
             setattr(self.cache, k, v)
@@ -40,11 +39,9 @@ class SynchronizedThreadCache(object):
 
     def get(self, *names):
         self.lock.acquire()
-        lst = []
-        for name in names:
-            lst.append(getattr(self.cache, name, None))
+        result = [getattr(self.cache, name, None) for name in names]
         self.lock.release()
-        return lst
+        return result
 
 
 class BaseWrapper(object):
@@ -150,9 +147,6 @@ class SessionDataManager(object):
         self.session = session
         self.transaction = session.create_transaction()
 
-    def tpc_begin(self, trans):
-        pass
-
     def abort(self, trans):
         self.transaction.rollback()
         session_cache.set(last_session=None, last_transaction=None)
@@ -161,6 +155,9 @@ class SessionDataManager(object):
         self.session.flush()
         self.transaction.commit()
         session_cache.set(last_session=None, last_transaction=None)
+
+    def tpc_begin(self, trans):
+        pass
 
     def tpc_vote(self, trans):
         pass
@@ -184,9 +181,6 @@ class ConnectionDataManager(object):
         self.connection = connection
         self.transaction = connection.begin()
 
-    def tpc_begin(self, trans):
-        pass
-
     def abort(self, trans):
         self.transaction.rollback()
         self.connection.close()
@@ -198,6 +192,9 @@ class ConnectionDataManager(object):
         self.connection.close()
         self.connection = None
         connection_cache.set(last_connection=None, last_transaction=None)
+
+    def tpc_begin(self, trans):
+        pass
 
     def tpc_vote(self, trans):
         pass
