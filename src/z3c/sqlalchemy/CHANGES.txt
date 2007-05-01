@@ -3,6 +3,16 @@
    - added check for the 'mapper_class' attribute (classes from now
      on must be a subclass of MapperClassBase)
 
+   - a Zope-aware SAWrapper now has a 'connection' property that can
+     be used to execute SQL statements directly. 'connection' is an 
+     instance of sqlalchemy.Connection and directly tied to the current
+     Zope transaction.
+
+   - changed the caching of the connection and session object for Zope wrapper
+     since the id of a transaction is not reliable (different transaction
+     object can re-use the same memory address leading to cache errors)
+
+
 0.1.10 (30.04.2007)
 
    - fixed a bug in mapper (unfortunately I forgot to commit a

@@ -23,6 +23,30 @@ import transaction
 from transaction.interfaces import IDataManager
 
 
+class SynchronizedThreadCache(object):
+
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.cache = threading.local()
+
+
+    def set(self, **kw):
+
+        self.lock.acquire()
+        for k,v in kw.items():
+            setattr(self.cache, k, v)
+        self.lock.release()
+
+
+    def get(self, *names):
+        self.lock.acquire()
+        lst = []
+        for name in names:
+            lst.append(getattr(self.cache, name, None))
+        self.lock.release()
+        return lst
+
+
 class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
@@ -113,8 +137,8 @@ class BaseWrapper(object):
     def _createEngine(self):
         return sqlalchemy.create_engine(self.dsn, **self.kw)
 
-_session_cache = threading.local() # module-level cache 
-_connection_cache = threading.local() # module-level cache 
+session_cache = SynchronizedThreadCache()
+connection_cache = SynchronizedThreadCache()
 
 
 class SessionDataManager(object):
@@ -131,10 +155,12 @@ class SessionDataManager(object):
 
     def abort(self, trans):
         self.transaction.rollback()
+        session_cache.set(last_session=None, last_transaction=None)
 
     def commit(self, trans):
         self.session.flush()
         self.transaction.commit()
+        session_cache.set(last_session=None, last_transaction=None)
 
     def tpc_vote(self, trans):
         pass
@@ -165,11 +191,13 @@ class ConnectionDataManager(object):
         self.transaction.rollback()
         self.connection.close()
         self.connection = None
+        connection_cache.set(last_connection=None, last_transaction=None)
 
     def commit(self, trans):
         self.transaction.commit()
         self.connection.close()
         self.connection = None
+        connection_cache.set(last_connection=None, last_transaction=None)
 
     def tpc_vote(self, trans):
         pass
@@ -192,28 +220,21 @@ class ZopeBaseWrapper(BaseWrapper):
     @property
     def session(self):
 
-        if not hasattr(_session_cache, 'last_transaction'):
-            _session_cache.last_transaction = None
-            _session_cache.last_session = None
-
-        # get current transaction
-        txn = transaction.get()
-        txn_str = str(txn)
+        last_session, = connection_cache.get('last_session')
 
         # return cached session if we are within the same transaction
         # and same thread
-        if txn_str == _session_cache.last_transaction:
-            return _session_cache.last_session
+        if last_session is not None:
+            return last_session
 
         # no cached session, let's create a new one
         session = sqlalchemy.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
-        txn.join(SessionDataManager(session))
+        transaction.get().join(SessionDataManager(session))
 
         # update thread-local cache
-        _session_cache.last_transaction = txn_str
-        _session_cache.last_session = session
+        session_cache.set(last_session=session)
 
         # return the session
         return session 
@@ -221,28 +242,21 @@ class ZopeBaseWrapper(BaseWrapper):
     @property
     def connection(self):
 
-        if not hasattr(_connection_cache, 'last_connection'):
-            _connection_cache.last_transaction = None
-            _connection_cache.last_connection = None
-
-        # get current transaction
-        txn = transaction.get()
-        txn_str = str(txn)
+        last_connection, = connection_cache.get('last_connection')
 
         # return cached connection if we are within the same transaction
         # and same thread
-        if txn_str == _connection_cache.last_transaction:
-            return _connection_cache.last_connection
+        if last_connection is not None:
+            return last_connection
 
         # no cached connection, let's create a new one
         connection = self.engine.connect()
                                           
         # register a DataManager with the current transaction
-        txn.join(ConnectionDataManager(connection))
+        transaction.get().join(ConnectionDataManager(connection))
 
         # update thread-local cache
-        _connection_cache.last_transaction = txn_str
-        _connection_cache.last_connection = connection
+        connection_cache.set(last_connection=connection)
 
         # return the connection
         return connection
