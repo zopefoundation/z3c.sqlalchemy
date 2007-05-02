@@ -130,7 +130,6 @@ class BaseWrapper(object):
         return self._model
 
     def _createEngine(self):
-        import pdb; pdb.set_trace() 
         self._engine = sqlalchemy.create_engine(self.dsn, **self.kw)
         self._engine.echo = self.echo
 
