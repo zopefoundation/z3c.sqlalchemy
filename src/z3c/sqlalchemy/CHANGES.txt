@@ -1,4 +1,4 @@
-0.1.11 (unreleased)
+0.1.11 (02.05.2007)
 
    - added check for the 'mapper_class' attribute (classes from now
      on must be a subclass of MapperClassBase)
