@@ -151,6 +151,7 @@ class LazyMapperCollection(dict):
                 mapper =  self._mapper_factory(table, 
                                                properties=properties,
                                                cls=mapper_class)
+
             self._registerMapper(mapper, name)
 
         return self[name]
