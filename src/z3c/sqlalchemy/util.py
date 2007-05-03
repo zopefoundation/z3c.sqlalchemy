@@ -28,10 +28,13 @@ __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegistere
 
 registeredWrappers = {}
 
-def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
+def createSAWrapper(dsn, model=None, forZope=False, name=None, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
         Set 'forZope' to True to obtain a Zope-aware wrapper.
+
+        'name' can be set to register the wrapper automatically  in order
+        to avoid a dedicated registerSAWrapper() call.
     """
 
     url = make_url(dsn)
@@ -42,20 +45,25 @@ def createSQLAlchemyWrapper(dsn, model=None, forZope=False, **kw):
     if driver == 'postgres':
         klass = forZope and ZopePostgresWrapper or PythonPostgresWrapper
 
-    return klass(dsn, model, **kw)
+    wrapper = klass(dsn, model, **kw)
+    if name is not None:
+        registerSAWrapper(wrapper, name)
 
-createSAWrapper = createSQLAlchemyWrapper 
+    return wrapper
+
+createSQLAlchemyWrapper = createSAWrapper
 
 
-def registerSQLAlchemyWrapper(wrapper, name):
+def registerSAWrapper(wrapper, name):
     """ deferred registration of the wrapper as named utility """
 
     if not registeredWrappers.has_key(name):
         registeredWrappers[name] = wrapper    
 
-registerSAWrapper = registerSQLAlchemyWrapper
+registerSQLAlchemyWrapper = registerSAWrapper
+
     
-def _registerSQLAlchemyWrapper(wrapper, name):
+def _registerSAWrapper(wrapper, name):
     """ register a SQLAlchemyWrapper as named utility.
         (never call this method directly)
     """
@@ -81,7 +89,7 @@ def _registerSQLAlchemyWrapper(wrapper, name):
         utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
 
 
-def getSQLAlchemyWrapper(name):        
+def getSAWrapper(name):        
     """ return a SQLAlchemyWrapper instance by name """
 
     if not registeredWrappers.has_key(name):    
@@ -97,12 +105,13 @@ def getSQLAlchemyWrapper(name):
         return getUtility(ISQLAlchemyWrapper, name)
     except ComponentLookupError:
         wrapper =  registeredWrappers[name]
-        _registerSQLAlchemyWrapper(wrapper, name)
+        _registerSAWrapper(wrapper, name)
         return wrapper
 
-getSAWrapper = getSQLAlchemyWrapper
+getSQLAlchemyWrapper = getSAWrapper
 
-def allRegisteredSQLAlchemyWrappers():
+
+def allRegisteredSAWrappers():
     """ return a dict containing information for all
         registered wrappers.
     """
@@ -113,7 +122,7 @@ def allRegisteredSQLAlchemyWrappers():
                'kw' : wrapper.kw,
               }
 
-allRegisteredSAWrappers = allRegisteredSQLAlchemyWrappers
+allRegisteredSQLAlchemyWrappers = allRegisteredSAWrappers
 
 
 def allSAWrapperNames():
@@ -123,4 +132,4 @@ def allSAWrapperNames():
 
 
 if __name__ == '__main__':
-    print createWrapper('postgres://test:test@db.example.com/TestDB', None)
+    print createSAWrapper('postgres://test:test@db.example.com/TestDB', forZope=True)

@@ -128,16 +128,24 @@ class WrapperTests(unittest.TestCase):
         except sqlalchemy.exceptions.NoSuchTableError:
             pass
 
+
     def testWrapperRegistration(self):
         wrapper = createSAWrapper('sqlite:///test')
-        registerSAWrapper(wrapper, 'test.wrapper')
-        wrapper2 = getSAWrapper('test.wrapper')
+        registerSAWrapper(wrapper, 'test.wrapper1')
+        wrapper2 = getSAWrapper('test.wrapper1')
         self.assertEqual(wrapper, wrapper2)
+
     
     def testWrapperRegistrationFailing(self):
         wrapper = createSAWrapper('sqlite:///test')
-        registerSAWrapper(wrapper, 'test.wrapper')
+        registerSAWrapper(wrapper, 'test.wrapper2')
         self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
+
+
+    def testWrapperDirectRegistration(self):
+        wrapper = createSAWrapper('sqlite:///test', name='test.wrapper3')
+        wrapper2 = getSAWrapper('test.wrapper3')
+        self.assertEqual(wrapper, wrapper2)
 
 
 def test_suite():

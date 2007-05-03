@@ -1,3 +1,9 @@
+0.1.12 (unreleased)
+
+   - createSAWrapper() got a new optional 'name' parameter in order
+     to register the wrapper automatically instead of using a dedicated
+     registerSAWrapper(wrapper, name) call
+
 0.1.11 (02.05.2007)
 
    - added check for the 'mapper_class' attribute (classes from now
