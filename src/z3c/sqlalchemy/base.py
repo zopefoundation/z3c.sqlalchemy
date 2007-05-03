@@ -217,7 +217,7 @@ class ZopeBaseWrapper(BaseWrapper):
     @property
     def session(self):
 
-        last_session, = connection_cache.get('last_session')
+        last_session, = session_cache.get('last_session')
 
         # return cached session if we are within the same transaction
         # and same thread
