@@ -1,4 +1,4 @@
-0.1.12 (unreleased)
+0.1.12 (03.05.2007)
 
    - createSAWrapper() got a new optional 'name' parameter in order
      to register the wrapper automatically instead of using a dedicated
