@@ -1,6 +1,11 @@
-0.1.13 (unreleased)
+0.1.13 (05.05.2007)
 
    - sessions were returned from the wrong cache
+
+   - moved the rollback/commit handling inside the SessionDataManager
+     in order to play more nicely with the TPC. See
+     http://mail.zope.org/pipermail/zodb-dev/2007-May/010996.html
+
 
 0.1.12 (03.05.2007)
 

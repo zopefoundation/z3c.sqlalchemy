@@ -148,13 +148,10 @@ class SessionDataManager(object):
         self.transaction = session.create_transaction()
 
     def abort(self, trans):
-        self.transaction.rollback()
-        session_cache.set(last_session=None, last_transaction=None)
+        pass
 
     def commit(self, trans):
         self.session.flush()
-        self.transaction.commit()
-        session_cache.set(last_session=None, last_transaction=None)
 
     def tpc_begin(self, trans):
         pass
@@ -163,13 +160,16 @@ class SessionDataManager(object):
         pass
 
     def tpc_finish(self, trans):
-        pass
+        self.transaction.commit()
+        session_cache.set(last_session=None, last_transaction=None)
+        
 
     def tpc_abort(self, trans):
-        pass
+        self.transaction.rollback()
+        session_cache.set(last_session=None, last_transaction=None)
 
     def sortKey(self):
-        return str(id(self))
+        return 'z3c.sqlalchemy' + str(id(self))
 
 
 class ConnectionDataManager(object):
@@ -206,7 +206,7 @@ class ConnectionDataManager(object):
         pass
 
     def sortKey(self):
-        return str(id(self))
+        return 'z3c.sqlalchemy' + str(id(self))
 
 
 class ZopeBaseWrapper(BaseWrapper):
