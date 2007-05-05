@@ -55,6 +55,7 @@ class ISQLAlchemyWrapper(Interface):
             ATT: Schema support?
         """                
 
+
 class IModelProvider(Interface):
     """ A model providers provides information about the tables to be used
         and the mapper classes.
