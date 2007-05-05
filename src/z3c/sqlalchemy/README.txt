@@ -129,6 +129,20 @@ the model using the 'mapper_class' parameter:
    > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
    > AMapper= wrapper.getMapper('A')  # AMapper will be an instance of MyAMapper
 
+When you are working with wrapper in a Zope 2/3 environment you are usually
+interested to to register a wrapper instance as named utility implementing
+ISQLAlchemyWrapper. You can can perform the registration lazily by passing the
+name utility as 'name' parameter to the createSAWrapper(...,
+name='my.postgres.test.db') method.
+
+A convenience method for obtaining a wrapper instance by name is available
+through getSAWrapper:
+
+   > createSAWrapper(dsn,..., name='my.name')
+   > ...
+   > wrapper = getSAWrapper('my.name')
+
+
 
 Supported systems
 =================

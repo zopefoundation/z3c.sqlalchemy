@@ -1,3 +1,10 @@
+1.0.0 (05.05.2007)
+
+   - source code polishing
+   
+   - documentation update
+
+
 0.1.13 (05.05.2007)
 
    - sessions were returned from the wrong cache
