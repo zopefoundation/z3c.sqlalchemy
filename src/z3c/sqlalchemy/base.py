@@ -81,13 +81,10 @@ class BaseWrapper(object):
                 except ComponentLookupError:
                     raise ComponentLookupError("No named utility '%s' providing IModelProvider found" % model)
 
-
                 self._model = util.getModel(self.metadata)
 
             elif callable(model):                        
-
                 self._model = model(self.metadata)
-
 
             else:
                 raise ValueError("The 'model' parameter passed to constructor must either be "\

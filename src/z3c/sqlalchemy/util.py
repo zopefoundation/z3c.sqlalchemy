@@ -31,7 +31,15 @@ registeredWrappers = {}
 def createSAWrapper(dsn, model=None, forZope=False, name=None, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
-        Set 'forZope' to True to obtain a Zope-aware wrapper.
+
+        'dsn' - something like 'postgres://user:password@host/dbname'
+
+        'model' - None or  an instance of model.Model or a string representing
+        a named utility implementing IModelProvider or a method/callable returning an
+        instance of model.Model.
+
+        'forZope' - set this to True in order to obtain a Zope-transaction-aware
+        wrapper.
 
         'name' can be set to register the wrapper automatically  in order
         to avoid a dedicated registerSAWrapper() call.

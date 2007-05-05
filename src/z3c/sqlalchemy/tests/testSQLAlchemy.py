@@ -18,7 +18,7 @@ import sqlalchemy
 
 from zope.interface.verify import verifyClass
 
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
+from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
 from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
 from z3c.sqlalchemy.base import BaseWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
@@ -64,6 +64,9 @@ class WrapperTests(unittest.TestCase):
 
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
+
+    def testIModel(self):
+        verifyClass(IModel, Model)
 
 
     def testSimplePopulation(self):

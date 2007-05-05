@@ -11,10 +11,11 @@
 Optional Model support 
 """
 
-
 import sqlalchemy
+from zope.interface import implements
 
 from mapper import MappedClassBase
+from interfaces import IModel
 
 __all__ = ('Model',)
 
@@ -24,6 +25,8 @@ class Model(dict):
         constructor of a SQLAlchemy wrapper in order to provide hints for the mapper
         generation.
     """        
+
+    implements(IModel)
 
     def __init__(self, *args):
         """ The constructor can be called with a series of dict. Each dict
