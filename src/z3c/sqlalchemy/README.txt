@@ -143,6 +143,21 @@ through getSAWrapper:
    > wrapper = getSAWrapper('my.name')
 
 
+Installation:
+=============
+
+  - either install z3c.sqlalchemy using easy_install from Cheeseshop:
+
+        "easy_install z3c.sqlalchemy"
+
+  - or download the sources from Cheeseshop at
+
+    http://cheeseshop.python.org/pypi/z3c.sqlalchemy/1.0.0
+
+    and install it manually after unpacking the sources:
+
+        "python2.4 setup.py install"""
+
 
 Supported systems
 =================
