@@ -12,10 +12,12 @@ from setuptools import setup, find_packages
 
 
 CLASSIFIERS = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: Zope Public License',
     'Operating System :: OS Independent',
+    'Framework :: Zope2'
+    'Framework :: Zope3'
     'Programming Language :: Python',
     'Topic :: Database :: Front-Ends',
     'Topic :: Software Development :: Libraries :: Python Modules',
