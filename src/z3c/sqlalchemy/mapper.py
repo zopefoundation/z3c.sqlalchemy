@@ -33,6 +33,15 @@ class MappedClassBase(object):
         for k,v in kw.items():
             setattr(self, k, v)
 
+    def clone(self):
+        """ create a  pristine copy """
+
+        d = dict()
+        for col in self.c.keys():
+            d[col] = getattr(self, col)
+        return self.__class__(**d)
+
+
 
 class MapperFactory(object):
     """ a factory for table and mapper objects """
