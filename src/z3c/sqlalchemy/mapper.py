@@ -34,7 +34,10 @@ class MappedClassBase(object):
             setattr(self, k, v)
 
     def clone(self):
-        """ create a  pristine copy """
+        """ Create a  pristine copy.
+            Use this method if you need to reinsert a copy of the current
+            mapper instance back into the database.
+        """
 
         d = dict()
         for col in self.c.keys():
