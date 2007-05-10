@@ -1,3 +1,10 @@
+1.1.0 (unreleased)
+        
+   - added support for defining a model using Elixir. elixir.Entity instance
+     can be added through Model.addEntity(name, entity). A
+     wrapper.getMapper(name) will return a copy of the registered entity instance
+     and attach it automatically to the current session. 
+
 1.0.1 (unreleased)
 
    - MappedClassBase: new clone() method
