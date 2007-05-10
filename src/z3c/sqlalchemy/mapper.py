@@ -91,6 +91,17 @@ class LazyMapperCollection(dict):
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
+        if name in self._model.keys():
+            d = self._model[name]
+            print d      
+            if d.has_key('entity'):
+                entity = d['entity']
+                from copy import deepcopy
+                entity2 = deepcopy(entity)
+                self._wrapper.session.bind_mapper(entity2, self._wrapper._engine)
+                return entity2
+        
+
         if not self.has_key(name):
 
             # no-cached data, let's lookup the table ourselfs

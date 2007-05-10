@@ -39,6 +39,14 @@ class Model(dict):
         for d in args:
             self.add(**d)
 
+    def addElixir(self, name, entity):
+        """ Blurb """
+
+        self.names.append(name)
+        self[name] = {'name' : name,
+                      'entity' : entity,
+                     }
+
 
     def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None):
         """ 'name'  -- name of table (no schema support so far!)
