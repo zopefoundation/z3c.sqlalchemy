@@ -2,6 +2,8 @@
 
    - MappedClassBase: new clone() method
 
+   - more checks in Model.add()
+
 
 1.0.0 (05.05.2007)
 
