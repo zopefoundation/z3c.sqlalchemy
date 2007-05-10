@@ -12,6 +12,7 @@ Utility methods for SqlAlchemy
 """
 
 import new
+from copy import deepcopy
 import threading
 
 from sqlalchemy import Table, mapper, BoundMetaData, relation
@@ -91,15 +92,12 @@ class LazyMapperCollection(dict):
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
-        if name in self._model.keys():
-            d = self._model[name]
-            if d.has_key('entity'):
-                entity = d['entity']
-                from copy import deepcopy
-                entity2 = deepcopy(entity)
-                self._wrapper.session.bind_mapper(entity2, self._wrapper._engine)
-                return entity2
-        
+        # Elixir support first
+        entity = self._model.get(name, {}).get('entity')
+        if entity:
+            entity2 = deepcopy(entity)
+            self._wrapper.session.bind_mapper(entity2, self._wrapper._engine)
+            return entity2
 
         if not self.has_key(name):
 
