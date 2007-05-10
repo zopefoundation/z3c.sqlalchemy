@@ -65,9 +65,13 @@ class Model(dict):
             raise TypeError("'mapper_class' must be a subclass of MappedClassBase")
         
         if relations is not None:
+
+            if not isinstance(relations, (tuple, list)):
+                    raise TypeError('relations must be specified a sequence of strings')    
+
             for r in relations:
                 if not isinstance(r, str):
-                    raise TypeError('relations must be specified as sequence of strings')    
+                    raise TypeError('relations must be specified a sequence of strings')    
 
         if relations is not None and autodetect_relations == True:
             raise ValueError("'relations' and 'autodetect_relations' can't be specified at the same time")
