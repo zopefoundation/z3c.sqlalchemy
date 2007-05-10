@@ -45,6 +45,25 @@ Requirements:
 
     - SQLAlchemy 0.3.6 or higher   
 
+    - Python 2.4+
+
+
+Installation:
+=============
+
+  - using easy_install:
+
+      > easy_install z3c.sqlalchemy
+
+    use the --no-deps option if you don't want the zope.* eggs installed 
+
+
+  - using Python directly:
+
+      > python2.4 setup.py install
+
+   (or using python2.5)
+
 
 Usage
 =====
