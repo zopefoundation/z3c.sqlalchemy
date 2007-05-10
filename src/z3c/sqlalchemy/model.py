@@ -14,6 +14,12 @@ Optional Model support
 import sqlalchemy
 from zope.interface import implements
 
+try:
+    from elixir import Entity
+    HAVE_ELIXIR = True
+except ImportError:
+    HAVE_ELIXIR = False
+
 from mapper import MappedClassBase
 from interfaces import IModel
 
@@ -39,8 +45,15 @@ class Model(dict):
         for d in args:
             self.add(**d)
 
-    def addElixir(self, name, entity):
-        """ Blurb """
+
+    def addEntity(self, name, entity):
+        """ Add an Elixir entitiy"""
+
+        if not HAVE_ELIXIR:
+            raise TypeError('Elixir support is not available since the exlir package is not available')
+
+        if not issubclass(entity, Entity):
+            raise TypeError("'entity' must be an instance of elixir.Entity'")
 
         self.names.append(name)
         self[name] = {'name' : name,

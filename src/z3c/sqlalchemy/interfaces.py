@@ -95,6 +95,10 @@ class IModel(Interface):
         """
 
 
+    def addEntity(name, entity):
+        """ Registers an elixir.Entity subclass as 'name' """
+
+
     def items():
         """ return items in insertion order """
 
