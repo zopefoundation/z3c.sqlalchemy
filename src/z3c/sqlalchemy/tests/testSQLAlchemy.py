@@ -121,6 +121,9 @@ class WrapperTests(unittest.TestCase):
         M = Model()
         self.assertRaises(ValueError, M.add, 'user', relations=('foo', 'bar'), autodetect_relations=True)
 
+    def testModelWeirdRelationsParameters(self):
+        M = Model()
+        self.assertRaises(TypeError, M.add, 'user', relations=('foo'))
 
     def testModelNonExistingTables(self):
         M = Model()
