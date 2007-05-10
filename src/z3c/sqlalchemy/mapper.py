@@ -93,7 +93,6 @@ class LazyMapperCollection(dict):
 
         if name in self._model.keys():
             d = self._model[name]
-            print d      
             if d.has_key('entity'):
                 entity = d['entity']
                 from copy import deepcopy
