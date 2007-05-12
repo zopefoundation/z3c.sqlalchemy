@@ -187,7 +187,7 @@ class LazyMapperCollection(dict):
             self._registerMapper(mapper, name)
 
         mapper = self[name]
-        mapper.setWrapper(self.wrapper)
+        mapper.setWrapper(self._wrapper)
         return mapper
 
 
