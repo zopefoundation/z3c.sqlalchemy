@@ -25,6 +25,8 @@ class MappedClassBase(object):
     # Zope 2 security magic.......buuuuuuuhhhhhh
     __allow_access_to_unprotected_subobjects__ = 1
 
+    wrapper = None
+
     def __init__(self, **kw):
         """ accepts keywords arguments used for initialization of
             mapped attributes/columns.
@@ -32,6 +34,24 @@ class MappedClassBase(object):
 
         for k,v in kw.items():
             setattr(self, k, v)
+
+
+    def setWrapper(self, wrapper):
+        """ pass in the wrapper in order to provide the getMapper()
+            functionality directly from a mapper instance.
+        """
+        self.wrapper = wrapper
+
+
+    def getMapper(self, name):
+        """ wrap getMapper() call """
+        return self.wrapper.getMapper(name)
+
+    
+    def getMappers(self, *names):
+        """ wrap getMappers() call """
+        return self.wrapper.getMappers(*names)
+
 
     def clone(self):
         """ Create a  pristine copy.
@@ -149,7 +169,7 @@ class LazyMapperCollection(dict):
 
             # find all dependent tables (referencing the current table)
             for table_refname in dependent_table_names:
-
+                import pdb; pdb.set_trace() 
                 # create or get a mapper for the referencing table
                 table_ref_mapper = self.getMapper(table_refname)
 
@@ -166,7 +186,9 @@ class LazyMapperCollection(dict):
 
             self._registerMapper(mapper, name)
 
-        return self[name]
+        mapper = self[name]
+        mapper.setWrapper(self.wrapper)
+        return mapper
 
 
     def _registerMapper(self, mapper, name):

@@ -1,3 +1,8 @@
+1.0.2 (unreleased)
+
+   - MappedClassBase: new convinience methods getMapper(), getMappers()
+
+
 1.0.1 (unreleased)
 
    - MappedClassBase: new clone() method
