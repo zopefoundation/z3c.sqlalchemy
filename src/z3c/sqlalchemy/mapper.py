@@ -25,32 +25,15 @@ class MappedClassBase(object):
     # Zope 2 security magic.......buuuuuuuhhhhhh
     __allow_access_to_unprotected_subobjects__ = 1
 
-    wrapper = None
 
     def __init__(self, **kw):
         """ accepts keywords arguments used for initialization of
             mapped attributes/columns.
         """
 
+        self.wrapper = None
         for k,v in kw.items():
             setattr(self, k, v)
-
-
-    def setWrapper(self, wrapper):
-        """ pass in the wrapper in order to provide the getMapper()
-            functionality directly from a mapper instance.
-        """
-        self.wrapper = wrapper
-
-
-    def getMapper(self, name):
-        """ wrap getMapper() call """
-        return self.wrapper.getMapper(name)
-
-    
-    def getMappers(self, *names):
-        """ wrap getMappers() call """
-        return self.wrapper.getMappers(*names)
 
 
     def clone(self):
@@ -186,9 +169,7 @@ class LazyMapperCollection(dict):
 
             self._registerMapper(mapper, name)
 
-        mapper = self[name]
-        mapper.setWrapper(self._wrapper)
-        return mapper
+        return self[name]
 
 
     def _registerMapper(self, mapper, name):
