@@ -40,7 +40,7 @@ class WrapperTests(unittest.TestCase):
 
         cur.execute("""CREATE TABLE user(id int4 primary key,"""
                     """                  firstname varchar(255),"""
-                    """                  lasttname varchar(255)"""
+                    """                  lastname varchar(255)"""
                     """)""")
 
         try:
@@ -153,6 +153,29 @@ class WrapperTests(unittest.TestCase):
         wrapper2 = getSAWrapper('test.wrapper3')
         self.assertEqual(wrapper, wrapper2)
 
+        
+    def testMapperGetMapper(self):
+
+        def getModel(md):
+
+            model = Model()
+            model.add('user', table=sqlalchemy.Table('user', md, autoload=True), relations=('skills',))
+            model.add('skills', table=sqlalchemy.Table('skills', 
+                                                       md, 
+                                                       sqlalchemy.ForeignKeyConstraint(('user_id',), ('user.id',)),
+                                                       autoload=True, 
+                                                       ))
+            return model
+
+        db = createSAWrapper('sqlite:///test', model=getModel)
+        User = db.getMapper('user')
+        session = db.session
+        session.save(User(id=1,firstname='foo', lastname='bar'))
+        session.flush()
+        user = session.query(User).select_by(firstname='foo')[0]
+        Skill = user.getMapper('skills')
+        user.skills.append(Skill(id=1, name='Zope'))
+        session.flush()
 
 def test_suite():
     from unittest import TestSuite, makeSuite
