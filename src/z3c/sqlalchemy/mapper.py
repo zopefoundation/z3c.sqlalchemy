@@ -49,7 +49,14 @@ class MappedClassBase(object):
 
 
     def getMapper(self, name):
-        """ return a mapper associated with the current mapper """
+        """ Return a mapper associated with the current mapper.
+            If this mapper represents a table A having a relationship
+            to table B then the mapper for B can be obtained through
+            self.getMapper('B'). This method is useful if you don't want
+            to pass the wrapper around this the wrapper is officially
+            the only way to get hold of a mapper by name. See also
+            http://groups.google.com/group/sqlalchemy/browse_thread/thread/%2018fb2e2818bdc032/5c2dfd71679925cb#5c2dfd71679925cb
+        """
         return class_mapper(self.__class__).props[name].mapper.class_
 
 
