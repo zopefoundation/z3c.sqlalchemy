@@ -1,4 +1,4 @@
-1.0.2 (unreleased)
+1.0.2 (13.05.2007)
 
    - MappedClassBase has a new convinience method getMapper() that returns a
      mapper class associated through a relation with the current mapper
