@@ -14,7 +14,7 @@ Utility methods for SqlAlchemy
 import new
 import threading
 
-from sqlalchemy import Table, mapper, BoundMetaData, relation
+from sqlalchemy import Table, mapper, BoundMetaData, relation, class_mapper
 
 marker = object
 
@@ -46,6 +46,11 @@ class MappedClassBase(object):
         for col in self.c.keys():
             d[col] = getattr(self, col)
         return self.__class__(**d)
+
+
+    def getMapper(self, name):
+        """ return a mapper associated with the current mapper """
+        return class_mapper(self.__class__).props[name].mapper.class_
 
 
 
