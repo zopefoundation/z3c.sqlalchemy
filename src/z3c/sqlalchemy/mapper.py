@@ -157,7 +157,6 @@ class LazyMapperCollection(dict):
 
             # find all dependent tables (referencing the current table)
             for table_refname in dependent_table_names:
-                import pdb; pdb.set_trace() 
                 # create or get a mapper for the referencing table
                 table_ref_mapper = self.getMapper(table_refname)
 
