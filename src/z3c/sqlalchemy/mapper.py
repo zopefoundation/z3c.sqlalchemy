@@ -168,7 +168,7 @@ class LazyMapperCollection(dict):
                 table_ref_mapper = self.getMapper(table_refname)
 
                 # add the mapper as relation to the properties dict
-                properties[table_refname] = relation(table_ref_mapper)
+                properties[table_refname] = relation(table_ref_mapper, cascade=self._model.get(name, {}).get('cascade'))
 
             # create a mapper and cache it 
             if mapper_class and mapper_class.__dict__.has_key('c'):

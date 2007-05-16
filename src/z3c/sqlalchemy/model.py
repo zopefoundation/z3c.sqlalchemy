@@ -40,7 +40,7 @@ class Model(dict):
             self.add(**d)
 
 
-    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None):
+    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None, cascade=None):
         """ 'name'  -- name of table (no schema support so far!)
 
             'table' -- a sqlalchemy.Table instance (None, for autoloading)
@@ -56,6 +56,8 @@ class Model(dict):
 
             'table_name' -- optional full name of a table (e.g. 'someschema.sometable') if
             you want to use 'name' as alias for the table.
+        
+            'cascade' -- cascade parameter directly passed to the relation() call
         """
 
         if table is not None and not isinstance(table, sqlalchemy.Table):
@@ -83,6 +85,7 @@ class Model(dict):
                       'relations' : relations,
                       'mapper_class' : mapper_class,
                       'autodetect_relations' : autodetect_relations,
+                      'cascade' : cascade,
                       'table_name' : table_name,
                      }
 
