@@ -1,6 +1,8 @@
-1.0.3 (unreleased)
+1.0.3 (26.05.2007)
 
    - new 'cascade' parameter for the Model.add()
+
+   - tweaked the ZODB transaction integration a bit
 
 1.0.2 (13.05.2007)
 
