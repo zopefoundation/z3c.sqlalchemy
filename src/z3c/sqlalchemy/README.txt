@@ -181,7 +181,7 @@ Installation:
 Supported systems
 =================
 z3c.sqlalchemy was developed with Zope 2.8/Zope 3.0 and basically tested against
-Postgres 8.X and SQLite 3.3.
+Postgres 7.4.X and 8.X and SQLite 3.3.
 
 
 Author
