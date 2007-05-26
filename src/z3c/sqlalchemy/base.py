@@ -38,6 +38,7 @@ class SynchronizedThreadCache(object):
 
 
     def get(self, *names):
+#        print len(self.cache.__dict__)
         self.lock.acquire()
         result = [getattr(self.cache, name, None) for name in names]
         self.lock.release()
@@ -145,24 +146,29 @@ class SessionDataManager(object):
         self.transaction = session.create_transaction()
 
     def abort(self, trans):
-        pass
+        self.transaction.rollback()
+        self.session.clear()
+        session_cache.set(last_session=None, last_transaction=None)
 
     def commit(self, trans):
+        pass
         self.session.flush()
 
     def tpc_begin(self, trans):
         pass
 
     def tpc_vote(self, trans):
-        pass
+        self.session.flush()
+        self.transaction.commit()
+        self.session.clear()
+        session_cache.set(last_session=None, last_transaction=None)
 
     def tpc_finish(self, trans):
-        self.transaction.commit()
-        session_cache.set(last_session=None, last_transaction=None)
-        
+        pass
 
     def tpc_abort(self, trans):
         self.transaction.rollback()
+        self.session.clear()
         session_cache.set(last_session=None, last_transaction=None)
 
     def sortKey(self):
