@@ -38,7 +38,6 @@ class SynchronizedThreadCache(object):
 
 
     def get(self, *names):
-#        print len(self.cache.__dict__)
         self.lock.acquire()
         result = [getattr(self.cache, name, None) for name in names]
         self.lock.release()
