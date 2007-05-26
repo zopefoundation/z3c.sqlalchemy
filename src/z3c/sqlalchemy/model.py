@@ -57,7 +57,7 @@ class Model(dict):
             'table_name' -- optional full name of a table (e.g. 'someschema.sometable') if
             you want to use 'name' as alias for the table.
         
-            'cascade' -- cascade parameter directly passed to the relation() call
+            'cascade' -- optional cascade parameter directly passed to the relation() call
         """
 
         if table is not None and not isinstance(table, sqlalchemy.Table):
