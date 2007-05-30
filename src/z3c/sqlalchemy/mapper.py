@@ -95,7 +95,7 @@ class LazyMapperCollection(dict):
         # Elixir support first
         entity = self._model.get(name, {}).get('entity')
         if entity:
-            entity2 = deepcopy(entity)
+            entity2 = new.classobj('%s_entity' % name, (entity,), {})
             self._wrapper.session.bind_mapper(entity2, self._wrapper._engine)
             return entity2
 
