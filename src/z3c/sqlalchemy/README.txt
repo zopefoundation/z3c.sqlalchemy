@@ -184,6 +184,13 @@ z3c.sqlalchemy was developed with Zope 2.8/Zope 3.0 and basically tested against
 Postgres 7.4.X and 8.X and SQLite 3.3.
 
 
+Known issues
+============
+Running z3c.sqalchemy against MySQL databases without transaction support might
+cause trouble upon the implicit commit() operation. For this reason MySQL without
+transaction support isn't supported right now
+
+
 Author
 ======
 z3c.sqlalchemy was written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
