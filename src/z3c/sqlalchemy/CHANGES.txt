@@ -1,3 +1,6 @@
+1.0.4 (unreleased)
+
+
 1.0.3 (26.05.2007)
 
    - new 'cascade' parameter for the Model.add()
