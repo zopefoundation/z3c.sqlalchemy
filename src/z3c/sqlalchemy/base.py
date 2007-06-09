@@ -48,12 +48,15 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, **kw):
+    def __init__(self, dsn, model=None, transactional=True, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
 
             'kw' - optional keyword arguments passed to create_engine()
+
+            'transactional' - True|False, only used by SQLAlchemyDA, 
+                              *don't touch it*
         """
 
         self.dsn = dsn
@@ -64,6 +67,7 @@ class BaseWrapper(object):
         self.password = self.url.password
         self.dbname = self.url.database 
         self.drivername = self.url.drivername
+        self.transactional = transactional
         self.kw = kw
         self.echo = kw.get('echo', False)
         self._model = None
@@ -179,18 +183,21 @@ class ConnectionDataManager(object):
 
     implements(IDataManager)
 
-    def __init__(self, connection):
+    def __init__(self, connection, transactional=True):
         self.connection = connection
+        self.transactional = transactional
         self.transaction = connection.begin()
 
     def abort(self, trans):
-        self.transaction.rollback()
+        if self.transactional:
+            self.transaction.rollback()
         self.connection.close()
         self.connection = None
         connection_cache.set(last_connection=None, last_transaction=None)
 
     def commit(self, trans):
-        self.transaction.commit()
+        if self.transactional:
+            self.transaction.commit()
         self.connection.close()
         self.connection = None
         connection_cache.set(last_connection=None, last_transaction=None)
@@ -252,7 +259,7 @@ class ZopeBaseWrapper(BaseWrapper):
         connection = self.engine.connect()
                                           
         # register a DataManager with the current transaction
-        transaction.get().join(ConnectionDataManager(connection))
+        transaction.get().join(ConnectionDataManager(connection, self.transactional))
 
         # update thread-local cache
         connection_cache.set(last_connection=connection)

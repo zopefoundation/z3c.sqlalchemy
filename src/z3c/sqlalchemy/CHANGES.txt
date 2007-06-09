@@ -1,5 +1,7 @@
 1.0.4 (unreleased)
 
+  - added new 'transactional' flag (used by SQLAlchemyDA only)
+
 
 1.0.3 (26.05.2007)
 
