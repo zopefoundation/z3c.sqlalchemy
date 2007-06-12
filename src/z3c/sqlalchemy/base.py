@@ -153,7 +153,7 @@ class SessionDataManager(object):
     def abort(self, trans):
         self.transaction.rollback()
         self.session.clear()
-        session_cache.set(last_session=None, last_transaction=None)
+        session_cache.set(last_session=None)
 
     def commit(self, trans):
         pass
@@ -166,7 +166,7 @@ class SessionDataManager(object):
         self.session.flush()
         self.transaction.commit()
         self.session.clear()
-        session_cache.set(last_session=None, last_transaction=None)
+        session_cache.set(last_session=None)
 
     def tpc_finish(self, trans):
         pass
@@ -174,7 +174,7 @@ class SessionDataManager(object):
     def tpc_abort(self, trans):
         self.transaction.rollback()
         self.session.clear()
-        session_cache.set(last_session=None, last_transaction=None)
+        session_cache.set(last_session=None)
 
     def sortKey(self):
         return 'z3c.sqlalchemy' + str(id(self))
@@ -195,14 +195,14 @@ class ConnectionDataManager(object):
             self.transaction.rollback()
         self.connection.close()
         self.connection = None
-        connection_cache.set(last_connection=None, last_transaction=None)
+        connection_cache.set(last_connection=None)
 
     def commit(self, trans):
         if self.transactional:
             self.transaction.commit()
         self.connection.close()
         self.connection = None
-        connection_cache.set(last_connection=None, last_transaction=None)
+        connection_cache.set(last_connection=None)
 
     def tpc_begin(self, trans):
         pass
