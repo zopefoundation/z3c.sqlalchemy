@@ -6,6 +6,7 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
+import random
 import threading
 
 import sqlalchemy
@@ -72,6 +73,7 @@ class BaseWrapper(object):
         self.echo = kw.get('echo', False)
         self._model = None
         self._createEngine()
+        self._id = random.random() # used as unique key for session/connection cache
 
         if model:
 

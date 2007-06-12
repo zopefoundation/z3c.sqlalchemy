@@ -1,3 +1,9 @@
+1.0.5 (unreleased)
+
+  - it should be now safe to use sessions from multiple wrappers
+    within one Zope transaction
+    
+
 1.0.4 (09.06.2007)
 
   - added new 'transactional' flag (used by SQLAlchemyDA only)
