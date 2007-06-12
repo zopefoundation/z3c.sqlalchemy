@@ -146,14 +146,15 @@ class SessionDataManager(object):
 
     implements(IDataManager)
 
-    def __init__(self, session):
+    def __init__(self, session, id):
         self.session = session
+        self._id = id
         self.transaction = session.create_transaction()
 
     def abort(self, trans):
         self.transaction.rollback()
         self.session.clear()
-        session_cache.set(last_session=None)
+        session_cache.set(**{'last_session_%s' % self._id : None})
 
     def commit(self, trans):
         pass
@@ -166,7 +167,7 @@ class SessionDataManager(object):
         self.session.flush()
         self.transaction.commit()
         self.session.clear()
-        session_cache.set(last_session=None)
+        session_cache.set(**{'last_session_%s' % self._id : None})
 
     def tpc_finish(self, trans):
         pass
@@ -174,7 +175,7 @@ class SessionDataManager(object):
     def tpc_abort(self, trans):
         self.transaction.rollback()
         self.session.clear()
-        session_cache.set(last_session=None)
+        session_cache.set(**{'last_session_%s' % self._id : None})
 
     def sortKey(self):
         return 'z3c.sqlalchemy' + str(id(self))
@@ -228,7 +229,7 @@ class ZopeBaseWrapper(BaseWrapper):
     @property
     def session(self):
 
-        last_session, = session_cache.get('last_session')
+        last_session, = session_cache.get('last_session_%s' % self._id)
 
         # return cached session if we are within the same transaction
         # and same thread
@@ -239,10 +240,10 @@ class ZopeBaseWrapper(BaseWrapper):
         session = sqlalchemy.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
-        transaction.get().join(SessionDataManager(session))
+        transaction.get().join(SessionDataManager(session, self._id))
 
         # update thread-local cache
-        session_cache.set(last_session=session)
+        session_cache.set(**{'last_session_%s' % self._id : session})
 
         # return the session
         return session 
