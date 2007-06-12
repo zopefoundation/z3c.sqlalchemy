@@ -1,8 +1,10 @@
 1.0.5 (unreleased)
 
-  - it should be now safe to use sessions from multiple wrappers
-    within one Zope transaction
-    
+  - It should be now safe to use sessions from multiple wrappers
+    within one Zope transaction. In former versions of z3c.sqlalchemy
+    calling wrapper1.session and wrapper2.session within the same
+    transaction would return a session bound to wrapper1 in both
+    cases.
 
 1.0.4 (09.06.2007)
 
