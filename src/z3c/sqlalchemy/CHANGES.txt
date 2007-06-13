@@ -1,4 +1,4 @@
-1.0.5 (unreleased)
+1.0.5 (13.06.2007)
 
   - It should be now safe to use sessions from multiple wrappers
     within one Zope transaction. In former versions of z3c.sqlalchemy
