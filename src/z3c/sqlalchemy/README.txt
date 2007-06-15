@@ -65,6 +65,13 @@ Installation:
    (or using python2.5)
 
 
+  - z3c.sqlalchemy depends on the modules zope.component, zope.schema
+    and zope.interface. If you are using z3c.sqlalchemy in a Python-only
+    environment, ensure the these components have to be installed either
+    as eggs or by setting the PYTHONPATH to a corresponding Zope 2 
+    or Zope 3 installation.
+
+
 Usage
 =====
 
