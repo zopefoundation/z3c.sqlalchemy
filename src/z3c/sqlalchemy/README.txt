@@ -142,7 +142,8 @@ generated mapper.  Also this usecase is supported by passing the base class to
 the model using the 'mapper_class' parameter:
 
    > from z3c.sqlalchemy import createSAWrapper, Model
-   > class MyAMapper(object): pass
+   > from z3c.sqlalchemy.mapper import MappedClassBase
+   > class MyAMapper(MappedClassBase): pass
    > model = Model()
    > model.add(name='A', relations=('B',) mapper_class = MyAMapper)
    > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
