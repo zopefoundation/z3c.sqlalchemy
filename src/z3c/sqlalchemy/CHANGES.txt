@@ -1,6 +1,8 @@
-1.0.6 (unreleased)
+1.0.6 (25.06.2007)
 
   - added 'namespace_packages' directive to setup.py
+
+  - cache 'metadata' property
 
 1.0.5 (13.06.2007)
 
