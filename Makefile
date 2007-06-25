@@ -1,4 +1,4 @@
-all: sdist egg upload
+all: sdist egg register
 
 sdist:
 	python2.4 setup.py sdist upload
