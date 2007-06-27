@@ -1,3 +1,8 @@
+1.0.7 (27.06.2007)
+
+  - SessionDataManager: moved commit code from tpc_vote()
+    to tpc_finish() (Thanks to Christian Theune for the hint)
+
 1.0.6 (25.06.2007)
 
   - added 'namespace_packages' directive to setup.py

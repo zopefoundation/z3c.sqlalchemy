@@ -159,7 +159,6 @@ class SessionDataManager(object):
         session_cache.set(**{'last_session_%s' % self._id : None})
 
     def commit(self, trans):
-        pass
         self.session.flush()
 
     def tpc_begin(self, trans):
@@ -167,12 +166,12 @@ class SessionDataManager(object):
 
     def tpc_vote(self, trans):
         self.session.flush()
+
+    def tpc_finish(self, trans):
         self.transaction.commit()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
-    def tpc_finish(self, trans):
-        pass
 
     def tpc_abort(self, trans):
         self.transaction.rollback()
