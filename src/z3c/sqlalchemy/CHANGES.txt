@@ -1,3 +1,9 @@
+1.0.8 (unreleased)
+
+  - SessionDataManager: create a session transaction as late
+    as possible and only if necessary in order to minimize deadlocks
+
+
 1.0.7 (27.06.2007)
 
   - SessionDataManager: moved commit code from tpc_vote()

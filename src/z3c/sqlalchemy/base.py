@@ -151,30 +151,38 @@ class SessionDataManager(object):
     def __init__(self, session, id):
         self.session = session
         self._id = id
-        self.transaction = session.create_transaction()
+        self.transaction = None
 
     def abort(self, trans):
         self.transaction.rollback()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
+    def _flush(self):
+        if self.session.new or self.session.deleted or self.session.dirty:
+            if self.transaction is None:
+                self.transaction = session.create_transaction()
+            self.session.flush()
+
     def commit(self, trans):
-        self.session.flush()
+        self._flush()
 
     def tpc_begin(self, trans):
         pass
 
     def tpc_vote(self, trans):
-        self.session.flush()
+        self._flush()
 
     def tpc_finish(self, trans):
-        self.transaction.commit()
+        if self.transaction is not None:
+            self.transaction.commit()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
 
     def tpc_abort(self, trans):
-        self.transaction.rollback()
+        if self.transaction is not None:
+            self.transaction.rollback()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
