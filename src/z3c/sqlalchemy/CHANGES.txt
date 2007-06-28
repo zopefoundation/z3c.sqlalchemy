@@ -1,7 +1,9 @@
 1.0.8 (unreleased)
 
   - SessionDataManager: create a session transaction as late
-    as possible and only if necessary in order to minimize deadlocks
+    as possible and only if necessary in order to minimize deadlocks.
+    So z3c.sqlalchemy won't create a transaction any more if there
+    only SELECT operations within the current session.
 
 
 1.0.7 (27.06.2007)

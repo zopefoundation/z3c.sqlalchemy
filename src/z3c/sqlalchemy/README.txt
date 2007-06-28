@@ -43,7 +43,7 @@ Requirements:
 
     - Zope 2.8+, Zope 3.X
 
-    - SQLAlchemy 0.3.6 or higher   
+    - SQLAlchemy 0.3.8 or higher   
 
     - Python 2.4+
 
