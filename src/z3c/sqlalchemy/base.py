@@ -162,7 +162,7 @@ class SessionDataManager(object):
     def _flush(self):
         if self.session.new or self.session.deleted or self.session.dirty:
             if self.transaction is None:
-                self.transaction = session.create_transaction()
+                self.transaction = self.session.create_transaction()
             self.session.flush()
 
     def commit(self, trans):
