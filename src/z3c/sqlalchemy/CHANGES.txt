@@ -1,3 +1,7 @@
+1.0.9 (unreleased)
+
+  - added namespace declarations
+
 1.0.8 (28.06.2007)
 
   - SessionDataManager: create a session transaction as late
