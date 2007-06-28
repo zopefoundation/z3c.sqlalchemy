@@ -160,9 +160,15 @@ class SessionDataManager(object):
         session_cache.set(**{'last_session_%s' % self._id : None})
 
     def _flush(self):
+        # check if the session contains something flushable
         if self.session.new or self.session.deleted or self.session.dirty:
+
+            # Check if a session-bound transaction has been created so far.
+            # If not, create a new transaction
             if self.transaction is None:
                 self.transaction = self.session.create_transaction()
+
+            # Flush
             self.session.flush()
 
     def commit(self, trans):
