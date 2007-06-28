@@ -1,4 +1,4 @@
-1.0.8 (unreleased)
+1.0.8 (28.06.2007)
 
   - SessionDataManager: create a session transaction as late
     as possible and only if necessary in order to minimize deadlocks.
