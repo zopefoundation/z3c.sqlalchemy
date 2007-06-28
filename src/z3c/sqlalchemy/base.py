@@ -154,7 +154,8 @@ class SessionDataManager(object):
         self.transaction = None
 
     def abort(self, trans):
-        self.transaction.rollback()
+        if self.transaction is not None:
+            self.transaction.rollback()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
