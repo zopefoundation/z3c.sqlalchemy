@@ -1,6 +1,9 @@
-1.0.9 (unreleased)
+1.0.9 (08.07.2007)
 
   - added namespace declarations
+
+  - reST-ified documentation
+
 
 1.0.8 (28.06.2007)
 

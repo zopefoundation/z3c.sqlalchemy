@@ -1,13 +1,6 @@
-##########################################################################
-# z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
-#
-# (C) Zope Corporation and Contributors
-#
-# Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
-# and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
-#
-# z3c.sqlalchemy is published under the Zope Public License V 2.1
-##########################################################################
+=====================================================
+z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
+=====================================================
 
 
 What is z3c.sqlalchemy?
@@ -51,18 +44,18 @@ Requirements:
 Installation:
 =============
 
-  - using easy_install:
+  - using easy_install::
 
       > easy_install z3c.sqlalchemy
 
-    use the --no-deps option if you don't want the zope.* eggs installed 
+  Use the --no-deps option if you don't want the zope.* eggs installed 
 
 
-  - using Python directly:
+  - using Python directly::
 
       > python2.4 setup.py install
 
-   (or using python2.5)
+  (or using python2.5)
 
 
   - z3c.sqlalchemy depends on the modules zope.component, zope.schema
@@ -75,7 +68,7 @@ Installation:
 Usage
 =====
 
-Basic usage from within a pure Python application:
+Basic usage from within a pure Python application::
 
    > from z3c.sqlalchemy import createSAWrapper
    > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
@@ -86,7 +79,7 @@ Basic usage from within a pure Python application:
 
 When using Zope 2/3 you can use the same code but you want a wrapper that
 participates in Zope transactions. For this purpose you must use the additional
-parameter 'forZope':
+parameter 'forZope'::
 
    > from z3c.sqlalchemy import createSAWrapper
    > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
@@ -113,7 +106,7 @@ this purpose you can create a wrapper with a "model" as optional parameter. A
 model is basically a configuration or a series of hints in order to tell
 z3c.sqlalchemy how mappers a generated.
 
-Example:
+Example::
 
    > from z3c.sqlalchemy import createSAWrapper, Model
    > model = Model()
@@ -130,7 +123,7 @@ parameter (as a sequence of related table names).
 z3c.sqlalchemy also supports the auto-detection of relationships between tables.
 Unfortunately SQLAlchemy does not support this feature out-of-the-box and in a portable
 way. Therefore this feature of z3c.sqlalchemy is highly experimental and currently
-only available for Postgres (tested with Postgres 8.X).
+only available for Postgres (tested with Postgres 8.X).::
 
    > from z3c.sqlalchemy import createSAWrapper, Model
    > model = Model()
@@ -146,7 +139,7 @@ only Postgres tables in the 'public' schema are supported).
 
 In same cases you might be interested to use your own base classes for a
 generated mapper.  Also this usecase is supported by passing the base class to
-the model using the 'mapper_class' parameter:
+the model using the 'mapper_class' parameter::
 
    > from z3c.sqlalchemy import createSAWrapper, Model
    > from z3c.sqlalchemy.mapper import MappedClassBase
@@ -163,7 +156,7 @@ name utility as 'name' parameter to the createSAWrapper(...,
 name='my.postgres.test.db') method.
 
 A convenience method for obtaining a wrapper instance by name is available
-through getSAWrapper:
+through getSAWrapper::
 
    > createSAWrapper(dsn,..., name='my.name')
    > ...
@@ -175,7 +168,7 @@ Installation:
 
   - either install z3c.sqlalchemy using easy_install from Cheeseshop:
 
-        "easy_install z3c.sqlalchemy"
+        **easy_install z3c.sqlalchemy**
 
   - or download the sources from Cheeseshop at
 
@@ -183,17 +176,19 @@ Installation:
 
     and install it manually after unpacking the sources:
 
-        "python2.4 setup.py install"""
+        **python2.4 setup.py install**
 
 
 Supported systems
 =================
+
 z3c.sqlalchemy was developed with Zope 2.8/Zope 3.0 and basically tested against
 Postgres 7.4.X and 8.X and SQLite 3.3.
 
 
 Known issues
 ============
+
 Running z3c.sqalchemy against MySQL databases without transaction support might
 cause trouble upon the implicit commit() operation. For this reason MySQL without
 transaction support isn't supported right now
@@ -201,25 +196,33 @@ transaction support isn't supported right now
 
 Author
 ======
+
 z3c.sqlalchemy was written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 and ZOPYX Ltd. & Co. KG, Tuebingen, Germany.
 
 
 License
 =======
+
 z3c.sqlalchemy is licensed under the Zope Public License 2.1. 
+
 See LICENSE.txt.
 
 
 Contact
 =======
-Andreas Jung, 
-E-mail: info at zopyx dot com
-Web: http://www.zopyx.com
+
+| ZOPYX Ltd. & Co. KG
+| Andreas Jung
+| Charlottenstr. 37/1
+| D-72070 Tuebingen, Germany 
+| E-mail: info at zopyx dot com
+| Web: http://www.zopyx.com
 
 
 Credits
 =======
+
 Parts of the code are influenced by z3c.zalchemy (Juergen Kartnaller, Michael
 Bernstein & others) and Alchemist/ore.alchemist (Kapil Thangavelu). Thanks to
 Martin Aspeli for giving valuable feedback.
