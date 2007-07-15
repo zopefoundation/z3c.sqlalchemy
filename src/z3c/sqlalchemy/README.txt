@@ -12,17 +12,15 @@ The wrapper cares about connection handling, optional transaction integration
 with Zope 2/3 and wrapper management (caching, introspection). z3c.sqlalchemy
 gives you flexible control over the mapper creation. Mapper classes can be
 
-    - auto-generated (with or without autodetection of table relationships)
-
-    - configured by the developer 
+- auto-generated (with or without autodetection of table relationships)
+- configured by the developer 
 
 
 What z3c.sqlalchemy does not do and won't do:
 =============================================
 
-    - no support for Zope 3 schemas 
-
-    - no support for Archetypes schemas
+- no support for Zope 3 schemas 
+- no support for Archetypes schemas
 
 
 z3c.sqlachemy just tries to provide you with the basic functionalities you need
@@ -34,35 +32,29 @@ higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
 Requirements:
 =============
 
-    - Zope 2.8+, Zope 3.X
-
-    - SQLAlchemy 0.3.8 or higher   
-
-    - Python 2.4+
+- Zope 2.8+, Zope 3.X
+- SQLAlchemy 0.3.8 or higher   
+- Python 2.4+
 
 
 Installation:
 =============
 
-  - using easy_install::
+Either using easy_install::
 
-      > easy_install z3c.sqlalchemy
+  easy_install z3c.sqlalchemy
 
-  Use the --no-deps option if you don't want the zope.* eggs installed 
+or using Python directly::
 
+  python2.4 setup.py install
 
-  - using Python directly::
-
-      > python2.4 setup.py install
-
-  (or using python2.5)
-
-
-  - z3c.sqlalchemy depends on the modules zope.component, zope.schema
-    and zope.interface. If you are using z3c.sqlalchemy in a Python-only
-    environment, ensure the these components have to be installed either
-    as eggs or by setting the PYTHONPATH to a corresponding Zope 2 
-    or Zope 3 installation.
+Note:
+-----
+z3c.sqlalchemy depends on the modules **zope.component**, **zope.schema**
+and **zope.interface**. If you are using z3c.sqlalchemy in a Python-only
+environment, ensure the these components have to be installed either
+as eggs or by setting the PYTHONPATH to a corresponding Zope 2 
+or Zope 3 installation.
 
 
 Usage
@@ -70,20 +62,20 @@ Usage
 
 Basic usage from within a pure Python application::
 
-   > from z3c.sqlalchemy import createSAWrapper
-   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
-   > session = wrapper.session
-   > FormatMapper = wrapper.getMapper('format') # auto-generated mapper for table 'format'
-   > for row in session.query(FormatMapper).select(...): print row
-   > session.flush() # if necessary
+   from z3c.sqlalchemy import createSAWrapper
+   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
+   session = wrapper.session
+   FormatMapper = wrapper.getMapper('format') # auto-generated mapper for table 'format'
+   for row in session.query(FormatMapper).select(...): print row
+   session.flush() # if necessary
 
 When using Zope 2/3 you can use the same code but you want a wrapper that
 participates in Zope transactions. For this purpose you must use the additional
 parameter 'forZope'::
 
-   > from z3c.sqlalchemy import createSAWrapper
-   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
-   > session = wrapper.session
+   from z3c.sqlalchemy import createSAWrapper
+   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
+   session = wrapper.session
 
 In this case the session will participate automatically in a Zope transaction.
 The wrapper will call automatically session.flush() upon a transaction commit.
@@ -108,11 +100,11 @@ z3c.sqlalchemy how mappers a generated.
 
 Example::
 
-   > from z3c.sqlalchemy import createSAWrapper, Model
-   > model = Model()
-   > model.add(name='A', relations=('B',))
-   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
-   > AMapper= wrapper.getMapper('A') 
+   from z3c.sqlalchemy import createSAWrapper, Model
+   model = Model()
+   model.add(name='A', relations=('B',))
+   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   AMapper= wrapper.getMapper('A') 
 
 This will generate a mapper AMapper where all instances of AMapper have a
 property 'B' that relates to all corresponding rows in B (see the SQLAlchemy
@@ -125,11 +117,11 @@ Unfortunately SQLAlchemy does not support this feature out-of-the-box and in a p
 way. Therefore this feature of z3c.sqlalchemy is highly experimental and currently
 only available for Postgres (tested with Postgres 8.X).::
 
-   > from z3c.sqlalchemy import createSAWrapper, Model
-   > model = Model()
-   > model.add(name='A', autodetect_relations=True)
-   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
-   > AMapper= wrapper.getMapper('A') 
+   from z3c.sqlalchemy import createSAWrapper, Model
+   model = Model()
+   model.add(name='A', autodetect_relations=True)
+   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   AMapper= wrapper.getMapper('A') 
 
 In this case z3c.sqlalchemy will scan all tables in order to detect
 relationships automatically and build the mapper class and its properties
@@ -141,13 +133,13 @@ In same cases you might be interested to use your own base classes for a
 generated mapper.  Also this usecase is supported by passing the base class to
 the model using the 'mapper_class' parameter::
 
-   > from z3c.sqlalchemy import createSAWrapper, Model
-   > from z3c.sqlalchemy.mapper import MappedClassBase
-   > class MyAMapper(MappedClassBase): pass
-   > model = Model()
-   > model.add(name='A', relations=('B',) mapper_class = MyAMapper)
-   > wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
-   > AMapper= wrapper.getMapper('A')  # AMapper will be an instance of MyAMapper
+   from z3c.sqlalchemy import createSAWrapper, Model
+   from z3c.sqlalchemy.mapper import MappedClassBase
+   class MyAMapper(MappedClassBase): pass
+   model = Model()
+   model.add(name='A', relations=('B',) mapper_class = MyAMapper)
+   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
+   AMapper= wrapper.getMapper('A')  # AMapper will be an instance of MyAMapper
 
 When you are working with wrapper in a Zope 2/3 environment you are usually
 interested to to register a wrapper instance as named utility implementing
@@ -158,25 +150,9 @@ name='my.postgres.test.db') method.
 A convenience method for obtaining a wrapper instance by name is available
 through getSAWrapper::
 
-   > createSAWrapper(dsn,..., name='my.name')
-   > ...
-   > wrapper = getSAWrapper('my.name')
-
-
-Installation:
-=============
-
-  - either install z3c.sqlalchemy using easy_install from Cheeseshop:
-
-        **easy_install z3c.sqlalchemy**
-
-  - or download the sources from Cheeseshop at
-
-    http://cheeseshop.python.org/pypi/z3c.sqlalchemy/1.0.0
-
-    and install it manually after unpacking the sources:
-
-        **python2.4 setup.py install**
+    createSAWrapper(dsn,..., name='my.name')
+    ...
+    wrapper = getSAWrapper('my.name')
 
 
 Supported systems
@@ -226,5 +202,4 @@ Credits
 Parts of the code are influenced by z3c.zalchemy (Juergen Kartnaller, Michael
 Bernstein & others) and Alchemist/ore.alchemist (Kapil Thangavelu). Thanks to
 Martin Aspeli for giving valuable feedback.
-
 

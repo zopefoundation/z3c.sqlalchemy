@@ -1,4 +1,5 @@
 1.0.9 (08.07.2007)
+------------------
 
   - added namespace declarations
 
@@ -6,6 +7,7 @@
 
 
 1.0.8 (28.06.2007)
+------------------
 
   - SessionDataManager: create a session transaction as late
     as possible and only if necessary in order to minimize deadlocks.
@@ -14,17 +16,20 @@
 
 
 1.0.7 (27.06.2007)
+------------------
 
   - SessionDataManager: moved commit code from tpc_vote()
     to tpc_finish() (Thanks to Christian Theune for the hint)
 
 1.0.6 (25.06.2007)
+------------------
 
   - added 'namespace_packages' directive to setup.py
 
   - cache 'metadata' property
 
 1.0.5 (13.06.2007)
+------------------
 
   - It should be now safe to use sessions from multiple wrappers
     within one Zope transaction. In former versions of z3c.sqlalchemy
@@ -33,22 +38,26 @@
     cases.
 
 1.0.4 (09.06.2007)
+------------------
 
   - added new 'transactional' flag (used by SQLAlchemyDA only)
 
 1.0.3 (26.05.2007)
+------------------
 
    - new 'cascade' parameter for the Model.add()
 
    - tweaked the ZODB transaction integration a bit
 
 1.0.2 (13.05.2007)
+------------------
 
    - MappedClassBase has a new convinience method getMapper() that returns a
      mapper class associated through a relation with the current mapper
 
 
 1.0.1 (unreleased)
+------------------
 
    - MappedClassBase: new clone() method
 
@@ -56,6 +65,7 @@
 
 
 1.0.0 (05.05.2007)
+------------------
 
    - source code polishing
    
@@ -63,6 +73,7 @@
 
 
 0.1.13 (05.05.2007)
+-------------------
 
    - sessions were returned from the wrong cache
 
@@ -72,12 +83,14 @@
 
 
 0.1.12 (03.05.2007)
+-------------------
 
    - createSAWrapper() got a new optional 'name' parameter in order
      to register the wrapper automatically instead of using a dedicated
      registerSAWrapper(wrapper, name) call
 
 0.1.11 (02.05.2007)
+-------------------
 
    - added check for the 'mapper_class' attribute (classes from now
      on must be a subclass of MapperClassBase)
@@ -93,6 +106,7 @@
 
 
 0.1.10 (30.04.2007)
+-------------------
 
    - fixed a bug in mapper (unfortunately I forgot to commit a
      necessary change)
@@ -107,6 +121,7 @@
 
 
 0.1.9 (26.04.2007)
+------------------
 
    - base.py: the 'model' parameter can now also be a callable
      returning an instance of model.Model
@@ -122,6 +137,7 @@
 
 
 0.1.8 (23.04.2007)
+------------------
 
    - added shorter method names as aliases 
 
@@ -130,8 +146,9 @@
 
 
 0.1.7 (21.04.2007)
+------------------
 
-   - replaced 'echo' parameter of the constructor with a generic **kw
+   - replaced 'echo' parameter of the constructor with a generic keyword
      parameter in order to provide full parameter support for
      create_engine. Optional arguments passed to the constructur are
      passed directly to create_engine()
@@ -154,22 +171,26 @@
 
  
 0.1.6 (28.03.2007)
+------------------
 
    - fixed a bug in registerSQLAlchemyWrapper
 
 0.1.5 (28.03.2007)
+------------------
   
    - registerSQLAlchemyWrapper() should now work with Zope 2.8-2.10
 
    - abort() was defined twice inside the DataManager class
  
 0.1.4 (21.03.2007)
+------------------
 
    - the Model class now behave (where needed) as a sorted
      dictionary. Its items() method must returned all items
      in insertion order.
 
 0.1.3 (20.03.2007)
+------------------
 
    - added getMappers() convenience method
 
@@ -179,14 +200,17 @@
 
 
 0.1.2 (unreleased)
+------------------
 
    - fixed class hierarchy issues with Postgres wrapper classes
 
 
 0.1.1 (unreleased)
+------------------
 
    - fixed setup.py
 
 0.1 (18.03.2007)
+----------------
 
    - initial version

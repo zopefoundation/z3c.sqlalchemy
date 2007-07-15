@@ -27,12 +27,12 @@ version_file = os.path.join('src', 'z3c', 'sqlalchemy', 'version.txt')
 version = open(version_file).read().strip()
 
 readme_file = os.path.join('src', 'z3c', 'sqlalchemy', 'README.txt')
-desc = open(readme_file).read() 
+desc = open(readme_file).read().strip()
 
 changes_file = os.path.join('src', 'z3c', 'sqlalchemy', 'CHANGES.txt')
-changes = open(changes_file).read()
+changes = open(changes_file).read().strip()
 
-long_description = desc + '\nChanges:\n========\n\n' + changes
+long_description = desc + '\n\nChanges\n=======\n\n'  + changes
 
 
 setup(name='z3c.sqlalchemy',
