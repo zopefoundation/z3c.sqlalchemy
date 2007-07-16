@@ -1,3 +1,9 @@
+1.0.11 (unreleased)
+-------------------
+
+  - replaced BoundMetaData() with MetaData() (requires SA 0.3.9+)
+
+
 1.0.10 (16.07.2007)
 -------------------
 

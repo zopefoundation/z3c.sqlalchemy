@@ -108,7 +108,7 @@ class BaseWrapper(object):
     @property
     def metadata(self):
         if not hasattr(self, '_v_metadata'):
-            self._v_metadata = sqlalchemy.BoundMetaData(self._engine)
+            self._v_metadata = sqlalchemy.MetaData(self._engine)
         return self._v_metadata
 
     @property
