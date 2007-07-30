@@ -14,7 +14,8 @@ Utility methods for SqlAlchemy
 import new
 import threading
 
-from sqlalchemy import Table, mapper, MetaData, relation, class_mapper
+from sqlalchemy import Table, MetaData 
+from sqlalchemy.orm import mapper, relation, class_mapper
 
 marker = object
 
