@@ -1,3 +1,8 @@
+1.0.12 (unreleased)
+-------------------
+
+  - fixed import issues with the upcoming SA 0.4.X series
+ 
 1.0.11 (30.07.2007)
 -------------------
 
