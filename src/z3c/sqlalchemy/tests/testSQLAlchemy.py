@@ -76,14 +76,14 @@ class WrapperTests(unittest.TestCase):
         User = db.getMapper('user')
         session = db.session
 
-        rows = session.query(User).select()
+        rows = session.query(User).all()
         self.assertEqual(len(rows), 0)
 
         session.save(User(id=1, firstname='udo', lastname='juergens'))
         session.save(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
         
-        rows = session.query(User).select()
+        rows = session.query(User).all()
         self.assertEqual(len(rows), 2)
 
 
@@ -172,7 +172,7 @@ class WrapperTests(unittest.TestCase):
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
         session.flush()
-        user = session.query(User).select_by(firstname='foo')[0]
+        user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
         user.skills.append(Skill(id=1, name='Zope'))
         session.flush()

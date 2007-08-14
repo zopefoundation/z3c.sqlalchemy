@@ -58,7 +58,11 @@ class MappedClassBase(object):
             the only way to get hold of a mapper by name. See also
             http://groups.google.com/group/sqlalchemy/browse_thread/thread/18fb2e2818bdc032/5c2dfd71679925cb#5c2dfd71679925cb
         """
-        return class_mapper(self.__class__).props[name].mapper.class_
+        try:
+            return class_mapper(self.__class__)._Mapper__props[name].mapper.class_
+        except AttributeError:
+            return class_mapper(self.__class__).props[name].mapper.class_
+
 
 
 
