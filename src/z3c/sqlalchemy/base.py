@@ -113,7 +113,7 @@ class BaseWrapper(object):
 
     @property
     def session(self):
-        return sqlalchemy.create_session(self._engine)
+        return sqlalchemy.orm.create_session(self._engine)
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
@@ -253,7 +253,7 @@ class ZopeBaseWrapper(BaseWrapper):
             return last_session
 
         # no cached session, let's create a new one
-        session = sqlalchemy.create_session(self._engine)
+        session = sqlalchemy.orm.create_session(self._engine)
                                           
         # register a DataManager with the current transaction
         transaction.get().join(SessionDataManager(session, self._id))

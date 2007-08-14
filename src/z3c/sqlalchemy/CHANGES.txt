@@ -1,7 +1,10 @@
-1.0.12 (unreleased)
+1.1.0 (unreleased)
 -------------------
 
   - fixed import issues with the upcoming SA 0.4.X series
+
+  - create_session() calls (for SA 0.4.X)
+
  
 1.0.11 (30.07.2007)
 -------------------
