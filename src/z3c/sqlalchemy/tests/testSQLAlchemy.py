@@ -37,11 +37,11 @@ class WrapperTests(unittest.TestCase):
         execute = wrapper.engine.execute
 
         try:
-            execute("""DROP TABLE user""")
+            execute("""DROP TABLE users""")
         except:
             pass
 
-        execute("""CREATE TABLE user(id int primary key,"""
+        execute("""CREATE TABLE users(id int primary key,"""
                     """                  firstname varchar(255),"""
                     """                  lastname varchar(255)"""
                     """)""")
@@ -51,9 +51,11 @@ class WrapperTests(unittest.TestCase):
         except:
             pass
         execute("""CREATE TABLE skills(id int primary key,"""
-                    """                    user_id int, """
-                    """                    name varchar(255)"""
+                    """                user_id int, """
+                    """                name varchar(255)"""
                     """)""")
+
+        del wrapper
         
 
     def testIFaceBaseWrapper (self):
@@ -73,9 +75,9 @@ class WrapperTests(unittest.TestCase):
 
     def testSimplePopulation(self):
         db = createSAWrapper(self.dsn)
-        # obtain mapper for table 'user'
+        # obtain mapper for table 'users'
 
-        User = db.getMapper('user')
+        User = db.getMapper('users')
         session = db.session
 
         rows = session.query(User).all()
@@ -95,10 +97,10 @@ class WrapperTests(unittest.TestCase):
             pass
 
         M = Model()
-        M.add('user', mapper_class=myUser)
+        M.add('users', mapper_class=myUser)
 
         db = createSAWrapper(self.dsn, model=M)
-        User = db.getMapper('user')
+        User = db.getMapper('users')
         self.assertEqual(User, myUser)
 
 
@@ -108,24 +110,24 @@ class WrapperTests(unittest.TestCase):
             pass
 
         M = Model()
-        self.assertRaises(TypeError, M.add, 'user', mapper_class=myUser)
+        self.assertRaises(TypeError, M.add, 'users', mapper_class=myUser)
 
 
     def testGetMappers(self):
 
         db = createSAWrapper(self.dsn)
-        Users = db.getMapper('user')
+        Users = db.getMapper('users')
         Skills = db.getMapper('skills')
-        User, Skills = db.getMappers('user', 'skills')
+        User, Skills = db.getMappers('users', 'skills')
 
 
     def testModelWeirdParameters(self):
         M = Model()
-        self.assertRaises(ValueError, M.add, 'user', relations=('foo', 'bar'), autodetect_relations=True)
+        self.assertRaises(ValueError, M.add, 'users', relations=('foo', 'bar'), autodetect_relations=True)
 
     def testModelWeirdRelationsParameters(self):
         M = Model()
-        self.assertRaises(TypeError, M.add, 'user', relations=('foo'))
+        self.assertRaises(TypeError, M.add, 'users', relations=('foo'))
 
     def testModelNonExistingTables(self):
         M = Model()
@@ -162,16 +164,16 @@ class WrapperTests(unittest.TestCase):
         def getModel(md):
 
             model = Model()
-            model.add('user', table=sqlalchemy.Table('user', md, autoload=True), relations=('skills',))
+            model.add('users', table=sqlalchemy.Table('users', md, autoload=True), relations=('skills',))
             model.add('skills', table=sqlalchemy.Table('skills', 
                                                        md, 
-                                                       sqlalchemy.ForeignKeyConstraint(('user_id',), ('user.id',)),
+                                                       sqlalchemy.ForeignKeyConstraint(('user_id',), ('users.id',)),
                                                        autoload=True, 
                                                        ))
             return model
 
         db = createSAWrapper(self.dsn, model=getModel)
-        User = db.getMapper('user')
+        User = db.getMapper('users')
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
         session.flush()
