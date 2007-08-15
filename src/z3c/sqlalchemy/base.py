@@ -113,7 +113,7 @@ class BaseWrapper(object):
 
     @property
     def session(self):
-        return sqlalchemy.orm.create_session(self._engine)
+        return self._sessionmaker()
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
@@ -137,6 +137,7 @@ class BaseWrapper(object):
     def _createEngine(self):
         self._engine = sqlalchemy.create_engine(self.dsn, **self.kw)
         self._engine.echo = self.echo
+        self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine)
 
 
 session_cache = SynchronizedThreadCache()
@@ -253,7 +254,7 @@ class ZopeBaseWrapper(BaseWrapper):
             return last_session
 
         # no cached session, let's create a new one
-        session = sqlalchemy.orm.create_session(self._engine)
+        session = self._sessionmaker()
                                           
         # register a DataManager with the current transaction
         transaction.get().join(SessionDataManager(session, self._id))
