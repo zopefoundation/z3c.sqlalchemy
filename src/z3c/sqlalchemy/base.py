@@ -137,7 +137,9 @@ class BaseWrapper(object):
     def _createEngine(self):
         self._engine = sqlalchemy.create_engine(self.dsn, **self.kw)
         self._engine.echo = self.echo
-        self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine)
+        self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine, 
+                                                         autoflush=True,
+                                                         transactional=True)
 
 
 session_cache = SynchronizedThreadCache()
