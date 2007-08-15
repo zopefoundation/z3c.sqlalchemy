@@ -59,7 +59,7 @@ class MappedClassBase(object):
             http://groups.google.com/group/sqlalchemy/browse_thread/thread/18fb2e2818bdc032/5c2dfd71679925cb#5c2dfd71679925cb
         """
         try:
-            return class_mapper(self.__class__)._Mapper__props[name].mapper.class_
+            return class_mapper(self.__class__).get_property(name).mapper.class_
         except AttributeError:
             return class_mapper(self.__class__).props[name].mapper.class_
 
