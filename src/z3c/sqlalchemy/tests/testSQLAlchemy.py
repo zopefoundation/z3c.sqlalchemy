@@ -13,6 +13,7 @@
 Tests, tests, tests.........
 """
 
+import os
 import unittest
 import sqlalchemy
 
@@ -31,28 +32,29 @@ class WrapperTests(unittest.TestCase):
     def setUp(self):
         from pysqlite2 import dbapi2 as sqlite
 
-        db = sqlite.connect('test')
-        cur = db.cursor()
+        self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
+        wrapper = createSAWrapper(self.dsn)
+        execute = wrapper.engine.execute
+
         try:
-            cur.execute("""DROP TABLE user""")
+            execute("""DROP TABLE user""")
         except:
             pass
 
-        cur.execute("""CREATE TABLE user(id int primary key,"""
+        execute("""CREATE TABLE user(id int primary key,"""
                     """                  firstname varchar(255),"""
                     """                  lastname varchar(255)"""
                     """)""")
 
         try:
-            cur.execute("""DROP TABLE skills""")
+            execute("""DROP TABLE skills""")
         except:
             pass
-        cur.execute("""CREATE TABLE skills(id int primary key,"""
+        execute("""CREATE TABLE skills(id int primary key,"""
                     """                    user_id int, """
                     """                    name varchar(255)"""
                     """)""")
-        db.close()
-
+        
 
     def testIFaceBaseWrapper (self):
         verifyClass(ISQLAlchemyWrapper , BaseWrapper)
@@ -70,7 +72,7 @@ class WrapperTests(unittest.TestCase):
 
 
     def testSimplePopulation(self):
-        db = createSAWrapper('sqlite:///test')
+        db = createSAWrapper(self.dsn)
         # obtain mapper for table 'user'
 
         User = db.getMapper('user')
@@ -95,7 +97,7 @@ class WrapperTests(unittest.TestCase):
         M = Model()
         M.add('user', mapper_class=myUser)
 
-        db = createSAWrapper('sqlite:///test', model=M)
+        db = createSAWrapper(self.dsn, model=M)
         User = db.getMapper('user')
         self.assertEqual(User, myUser)
 
@@ -111,7 +113,7 @@ class WrapperTests(unittest.TestCase):
 
     def testGetMappers(self):
 
-        db = createSAWrapper('sqlite:///test')
+        db = createSAWrapper(self.dsn)
         Users = db.getMapper('user')
         Skills = db.getMapper('skills')
         User, Skills = db.getMappers('user', 'skills')
@@ -128,7 +130,7 @@ class WrapperTests(unittest.TestCase):
     def testModelNonExistingTables(self):
         M = Model()
         M.add('non_existing_table')
-        db = createSAWrapper('sqlite:///test', model=M)
+        db = createSAWrapper(self.dsn, model=M)
         try:
             foo = db.getMapper('non_existing_table')
         except sqlalchemy.exceptions.NoSuchTableError:
@@ -137,19 +139,20 @@ class WrapperTests(unittest.TestCase):
 
     def testWrapperRegistration(self):
         wrapper = createSAWrapper('sqlite:///test')
+        wrapper = createSAWrapper(self.dsn)
         registerSAWrapper(wrapper, 'test.wrapper1')
         wrapper2 = getSAWrapper('test.wrapper1')
         self.assertEqual(wrapper, wrapper2)
 
     
     def testWrapperRegistrationFailing(self):
-        wrapper = createSAWrapper('sqlite:///test')
+        wrapper = createSAWrapper(self.dsn)
         registerSAWrapper(wrapper, 'test.wrapper2')
         self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
 
 
     def testWrapperDirectRegistration(self):
-        wrapper = createSAWrapper('sqlite:///test', name='test.wrapper3')
+        wrapper = createSAWrapper(self.dsn, name='test.wrapper3')
         wrapper2 = getSAWrapper('test.wrapper3')
         self.assertEqual(wrapper, wrapper2)
 
@@ -167,7 +170,7 @@ class WrapperTests(unittest.TestCase):
                                                        ))
             return model
 
-        db = createSAWrapper('sqlite:///test', model=getModel)
+        db = createSAWrapper(self.dsn, model=getModel)
         User = db.getMapper('user')
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
