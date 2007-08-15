@@ -30,7 +30,6 @@ class WrapperTests(unittest.TestCase):
 
 
     def setUp(self):
-        from pysqlite2 import dbapi2 as sqlite
 
         self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
         wrapper = createSAWrapper(self.dsn)
@@ -140,7 +139,6 @@ class WrapperTests(unittest.TestCase):
 
 
     def testWrapperRegistration(self):
-        wrapper = createSAWrapper('sqlite:///test')
         wrapper = createSAWrapper(self.dsn)
         registerSAWrapper(wrapper, 'test.wrapper1')
         wrapper2 = getSAWrapper('test.wrapper1')
