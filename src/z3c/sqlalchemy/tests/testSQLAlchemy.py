@@ -17,6 +17,8 @@ import os
 import unittest
 import sqlalchemy
 
+from sqlalchemy import MetaData, Integer, String, Column, Table
+
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
@@ -28,34 +30,24 @@ from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapp
 
 class WrapperTests(unittest.TestCase):
 
-
     def setUp(self):
 
         self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
         wrapper = createSAWrapper(self.dsn)
-        execute = wrapper.engine.execute
+        metadata = MetaData(bind=wrapper.engine)
 
-        try:
-            execute("""DROP TABLE users""")
-        except:
-            pass
+        users = Table('users', metadata,
+                      Column('id', Integer, primary_key=True),
+                      Column('firstname', String),
+                      Column('lastname', String))
 
-        execute("""CREATE TABLE users(id int primary key,"""
-                    """                  firstname varchar(255),"""
-                    """                  lastname varchar(255)"""
-                    """)""")
+        skill = Table('skills', metadata,
+                      Column('id', Integer, primary_key=True),
+                      Column('user_id', Integer),
+                      Column('name', String))
 
-        try:
-            execute("""DROP TABLE skills""")
-        except:
-            pass
-        execute("""CREATE TABLE skills(id int primary key,"""
-                    """                user_id int, """
-                    """                name varchar(255)"""
-                    """)""")
+        metadata.create_all()
 
-        del wrapper
-        
 
     def testIFaceBaseWrapper (self):
         verifyClass(ISQLAlchemyWrapper , BaseWrapper)
