@@ -1,9 +1,14 @@
 1.1.0 (unreleased)
 -------------------
 
+  - WARNING: this version requires SA 0.4.X and higher 
+
   - fixed import issues with the upcoming SA 0.4.X series
 
   - create_session() calls (for SA 0.4.X)
+
+  - the unittests support an optional $TEST_DSN environment in order
+    to run the test against an existing database (other than SQLite)
 
  
 1.0.11 (30.07.2007)
