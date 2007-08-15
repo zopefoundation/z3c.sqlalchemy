@@ -38,7 +38,7 @@ class WrapperTests(unittest.TestCase):
         except:
             pass
 
-        cur.execute("""CREATE TABLE user(id int4 primary key,"""
+        cur.execute("""CREATE TABLE user(id int primary key,"""
                     """                  firstname varchar(255),"""
                     """                  lastname varchar(255)"""
                     """)""")
@@ -47,8 +47,8 @@ class WrapperTests(unittest.TestCase):
             cur.execute("""DROP TABLE skills""")
         except:
             pass
-        cur.execute("""CREATE TABLE skills(id int4 primary key,"""
-                    """                    user_id int4, """
+        cur.execute("""CREATE TABLE skills(id int primary key,"""
+                    """                    user_id int, """
                     """                    name varchar(255)"""
                     """)""")
         db.close()
