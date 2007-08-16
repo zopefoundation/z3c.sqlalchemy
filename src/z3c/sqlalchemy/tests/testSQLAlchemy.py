@@ -143,6 +143,12 @@ class WrapperTests(unittest.TestCase):
         self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
 
 
+    def testWrapperDoubleRegistrationFailing(self):
+        wrapper = createSAWrapper(self.dsn)
+        registerSAWrapper(wrapper, 'test.wrapper2')
+        self.assertRaises(ValueError, registerSAWrapper, wrapper, 'test.wrapper2')
+
+
     def testWrapperDirectRegistration(self):
         wrapper = createSAWrapper(self.dsn, name='test.wrapper3')
         wrapper2 = getSAWrapper('test.wrapper3')
