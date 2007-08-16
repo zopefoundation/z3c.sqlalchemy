@@ -70,7 +70,7 @@ def registerSAWrapper(wrapper, name):
     if not registeredWrappers.has_key(name):
         registeredWrappers[name] = wrapper 
     else:
-        raise ValueError("SAWrapper '%s' already registed.\n"
+        raise ValueError("SAWrapper '%s' already registered.\n"
                          "You can not register a wrapper twice under the same name." % name)
 
 registerSQLAlchemyWrapper = registerSAWrapper
