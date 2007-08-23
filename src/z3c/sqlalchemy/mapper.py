@@ -33,7 +33,7 @@ class MappedClassBase(object):
         """
 
         self.wrapper = None
-        for k,v in kw.items():
+        for k, v in kw.items():
             setattr(self, k, v)
 
 
