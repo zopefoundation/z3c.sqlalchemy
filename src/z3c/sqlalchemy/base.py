@@ -269,6 +269,10 @@ class ZopeBaseWrapper(BaseWrapper):
 
     @property
     def connection(self):
+        """ This property is _private_ and only intented to be used
+            by SQLAlchemyDA and therefore it is not part of the 
+            public API. 
+        """
 
         last_connection, = connection_cache.get('last_connection')
 
