@@ -139,7 +139,6 @@ class WrapperTests(unittest.TestCase):
     
     def testWrapperRegistrationFailing(self):
         wrapper = createSAWrapper(self.dsn)
-        registerSAWrapper(wrapper, 'test.wrapper2')
         self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
 
 
