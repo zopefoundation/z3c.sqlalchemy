@@ -154,8 +154,7 @@ class WrapperTests(unittest.TestCase):
         self.assertEqual(wrapper, wrapper2)
 
         
-    def testMapperGetMapper(self):
-
+    def testXXMapperGetMapper(self):
         def getModel(md):
 
             model = Model()
@@ -171,7 +170,7 @@ class WrapperTests(unittest.TestCase):
         User = db.getMapper('users')
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
-        session.flush()
+
         user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
         user.skills.append(Skill(id=1, name='Zope'))
