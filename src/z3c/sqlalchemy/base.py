@@ -12,11 +12,13 @@ import threading
 import sqlalchemy
 from sqlalchemy.engine.url import make_url
 
+from zope.event import notify
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
+from z3c.sqlalchemy.interfaces import ISessionFlushedEvent, IBeforeSessionFlushEvent
 from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection
 
@@ -165,14 +167,16 @@ class SessionDataManager(object):
     def _flush(self):
         # check if the session contains something flushable
         if self.session.new or self.session.deleted or self.session.dirty:
-
+        
             # Check if a session-bound transaction has been created so far.
             # If not, create a new transaction
             if self.transaction is None:
                 self.transaction = self.session.create_transaction()
 
             # Flush
+            notify(BeforeSessionFlushEvent(self.session))
             self.session.flush()
+            notify(SessionFlushedEvent(self.session))
 
     def commit(self, trans):
         self._flush()
@@ -292,4 +296,14 @@ class ZopeBaseWrapper(BaseWrapper):
 
         # return the connection
         return connection
+
+class SessionEvent(object):
+    def __init__(self, session):
+        self.session = session
+
+class SessionFlushedEvent(SessionEvent):
+    implements(ISessionFlushedEvent)
+
+class BeforeSessionFlushEvent(SessionEvent):
+    implements(IBeforeSessionFlushEvent)
 

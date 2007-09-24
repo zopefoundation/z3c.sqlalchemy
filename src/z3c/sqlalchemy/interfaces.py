@@ -98,3 +98,9 @@ class IModel(Interface):
     def items():
         """ return items in insertion order """
 
+
+class ISessionFlushedEvent(Interface):
+    """ Event triggered after session has been flushed """
+
+class IBeforeSessionFlushEvent(Interface):
+    """ Event triggered before session will be flushed """
