@@ -9,6 +9,16 @@
 
   - the unittests support an optional $TEST_DSN environment in order
     to run the test against an existing database (other than SQLite)
+               
+  - major overhoul of the Zope transaction integration: now using
+    one DataManager for the session object and the connection. The 
+    connection as returned through the 'connection' property is also
+    used for creating a new 'session'. Older z3c.sqlalchemy version
+    used separate connections. This allows applications to use both
+    a session and a connection within the same Zope request/thread
+    without running into transaction problems. SQL actions and
+    session related modifications should happen within the same
+    transaction.
 
  
 1.0.11 (30.07.2007)
