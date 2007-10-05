@@ -156,47 +156,36 @@ class SessionDataManager(object):
     def __init__(self, session, id):
         self.session = session
         self._id = id
-        self.transaction = None
 
     def abort(self, trans):
-        if self.transaction is not None:
-            self.transaction.rollback()
+        self.session.rollback()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
     def _flush(self):
         # check if the session contains something flushable
         if self.session.new or self.session.deleted or self.session.dirty:
-        
-            # Check if a session-bound transaction has been created so far.
-            # If not, create a new transaction
-            if self.transaction is None:
-                self.transaction = self.session.create_transaction()
-
             # Flush
             notify(BeforeSessionFlushEvent(self.session))
             self.session.flush()
             notify(SessionFlushedEvent(self.session))
 
     def commit(self, trans):
-        self._flush()
+        self.session.commit()
 
     def tpc_begin(self, trans):
-        pass
-
-    def tpc_vote(self, trans):
         self._flush()
 
+    def tpc_vote(self, trans):
+        pass
+
     def tpc_finish(self, trans):
-        if self.transaction is not None:
-            self.transaction.commit()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
 
     def tpc_abort(self, trans):
-        if self.transaction is not None:
-            self.transaction.rollback()
+        self.session.rollback()
         self.session.clear()
         session_cache.set(**{'last_session_%s' % self._id : None})
 
@@ -277,7 +266,6 @@ class ZopeBaseWrapper(BaseWrapper):
             by SQLAlchemyDA and therefore it is not part of the 
             public API. 
         """
-
         last_connection, = connection_cache.get('last_connection')
 
         # return cached connection if we are within the same transaction
