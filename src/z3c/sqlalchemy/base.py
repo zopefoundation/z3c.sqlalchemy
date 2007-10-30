@@ -171,6 +171,7 @@ class SessionDataManager(object):
             self.transaction.rollback()
         self.session.clear()
         connection_cache.remove(self._id)
+        self._cleanup()
 
     def _flush(self):
 
