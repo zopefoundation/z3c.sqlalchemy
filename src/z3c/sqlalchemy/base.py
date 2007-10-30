@@ -144,7 +144,8 @@ class BaseWrapper(object):
         self._engine.echo = self.echo
         self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine, 
                                                          autoflush=True,
-                                                         transactional=True)
+                                                         transactional=True,
+                                                         **self.kw)
 
 
 connection_cache = SynchronizedThreadCache()
