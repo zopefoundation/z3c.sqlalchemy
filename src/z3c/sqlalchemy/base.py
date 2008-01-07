@@ -54,7 +54,7 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, transactional=True, engine_options=None, session_options=Nonem, **kw):
+    def __init__(self, dsn, model=None, transactional=True, engine_options=None, session_options=None, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
@@ -265,5 +265,5 @@ class ZopeBaseWrapper(BaseWrapper):
             by SQLAlchemyDA and therefore it is not part of the 
             public API. 
         """
-
+    
         return self.__getOrCreateConnectionCacheItem(self._id)['connection']
