@@ -22,9 +22,8 @@
 
   - Wrapper constructor now accepts two new optional dicts 
     'engine_options' and 'session_options' that will be passed down 
-    to the engine and the sessionmaker. Support for the generic 
-    **kw argument has been dropped (might raise a backward 
-    compatibility problem). Patch provided by Klaus Barthelmann.
+    to the engine and the sessionmaker.  Patch provided by 
+    Klaus Barthelmann.
 
  
 1.0.11 (30.07.2007)

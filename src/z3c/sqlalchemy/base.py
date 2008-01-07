@@ -54,12 +54,10 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, transactional=True, echo=False, engine_options=None, session_options=None):
+    def __init__(self, dsn, model=None, transactional=True, engine_options=None, session_options=Nonem, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
-
-            'echo' - boolean controlling the verbosity of the engine
 
             'engine_options' - optional keyword arguments passed to create_engine()
 
@@ -78,9 +76,10 @@ class BaseWrapper(object):
         self.dbname = self.url.database 
         self.drivername = self.url.drivername
         self.transactional = transactional
+        self.echo = kw.get('echo', False)
         self.engine_options = engine_options or {}
+        self.engine_options.update(echo=self.echo)
         self.session_options = session_options or {}
-        self.echo = echo
         self._model = None
         self._createEngine()
         self._id = str(random.random()) # used as unique key for session/connection cache
