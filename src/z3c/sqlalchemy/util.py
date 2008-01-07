@@ -28,7 +28,7 @@ __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegistere
 
 registeredWrappers = {}
 
-def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=True, **kw):
+def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=True, engine_options=None, session_options=None):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
 
@@ -45,6 +45,12 @@ def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=Tru
 
         'name' can be set to register the wrapper automatically  in order
         to avoid a dedicated registerSAWrapper() call.
+
+        'engine_options' can be set to a dict containing keyword parameters
+        passed to create_engine.
+
+        'session_options' can be set to a dict containing keyword parameters
+        passed to create_session or sessionmaker.
     """
 
     url = make_url(dsn)
@@ -55,7 +61,7 @@ def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=Tru
     if driver == 'postgres':
         klass = forZope and ZopePostgresWrapper or PythonPostgresWrapper
 
-    wrapper = klass(dsn, model, transactional, **kw)
+    wrapper = klass(dsn, model, transactional, engine_options, session_options)
     if name is not None:
         registerSAWrapper(wrapper, name)
 

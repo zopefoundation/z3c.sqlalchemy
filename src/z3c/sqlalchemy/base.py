@@ -54,12 +54,16 @@ class BaseWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, transactional=True, **kw):
+    def __init__(self, dsn, model=None, transactional=True, echo=False, engine_options=None, session_options=None):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
 
-            'kw' - optional keyword arguments passed to create_engine()
+            'echo' - boolean controlling the verbosity of the engine
+
+            'engine_options' - optional keyword arguments passed to create_engine()
+
+            'session_options' - optional keyword arguments passed to create_session() or sessionmaker()
 
             'transactional' - True|False, only used by SQLAlchemyDA, 
                               *don't touch it*
@@ -74,8 +78,9 @@ class BaseWrapper(object):
         self.dbname = self.url.database 
         self.drivername = self.url.drivername
         self.transactional = transactional
-        self.kw = kw
-        self.echo = kw.get('echo', False)
+        self.engine_options = engine_options or {}
+        self.session_options = session_options or {}
+        self.echo = echo
         self._model = None
         self._createEngine()
         self._id = str(random.random()) # used as unique key for session/connection cache
@@ -140,12 +145,11 @@ class BaseWrapper(object):
         return self._model
 
     def _createEngine(self):
-        self._engine = sqlalchemy.create_engine(self.dsn, **self.kw)
-        self._engine.echo = self.echo
+        self._engine = sqlalchemy.create_engine(self.dsn, **self.engine_options)
         self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine, 
                                                          autoflush=True,
                                                          transactional=True,
-                                                         **self.kw)
+                                                         **self.session_options)
 
 
 connection_cache = SynchronizedThreadCache()
