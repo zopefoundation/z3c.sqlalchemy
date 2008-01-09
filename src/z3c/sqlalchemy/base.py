@@ -78,7 +78,7 @@ class BaseWrapper(object):
         self.transactional = transactional
         self.echo = kw.get('echo', False)
         self.engine_options = engine_options
-        self.engine_options.update(echo=self.echo)
+        self.engine_options.update(echo=self.echo)  # BBB
         self.session_options = session_options
         self._model = None
         self._createEngine()
