@@ -29,7 +29,7 @@ __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegistere
 registeredWrappers = {}
 
 def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=True, 
-                    engine_options=None, session_options=None, **kw):
+                    engine_options={}, session_options={}, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
 
