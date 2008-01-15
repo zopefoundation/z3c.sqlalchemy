@@ -49,6 +49,14 @@ class MappedClassBase(object):
         return self.__class__(**d)
 
 
+    def asDict(self):
+        """ Return row values as a dict """
+        d= dict()
+        for col in self.c.keys():
+            d[col] = getattr(self, col)
+        return d
+
+
     def getMapper(self, name):
         """ Return a mapper associated with the current mapper.
             If this mapper represents a table A having a relationship

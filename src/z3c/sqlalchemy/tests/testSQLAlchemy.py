@@ -78,8 +78,11 @@ class WrapperTests(unittest.TestCase):
         session.save(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
         
-        rows = session.query(User).all()
+        rows = session.query(User).order_by(User.c.id).all()
         self.assertEqual(len(rows), 2)
+        row1 = rows[0]
+        d = row1.asDict()
+        self.assertEqual(d, {'firstname' : 'udo', 'lastname' : 'juergens', 'id' : 1})
 
 
     def testMapperWithCustomModel(self):
