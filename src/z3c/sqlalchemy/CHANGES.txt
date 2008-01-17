@@ -1,4 +1,4 @@
-1.1.0 (unreleased)
+1.1.0 (17.01.2008)
 -------------------
 
   - WARNING: this version requires SA 0.4.X and higher 
@@ -24,6 +24,9 @@
     'engine_options' and 'session_options' that will be passed down 
     to the engine and the sessionmaker.  Patch provided by 
     Klaus Barthelmann.
+
+  - mapped objects now provide a method asDict() to return the values 
+    of an objects as dict.
 
  
 1.0.11 (30.07.2007)
