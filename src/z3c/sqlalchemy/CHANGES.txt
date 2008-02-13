@@ -1,3 +1,8 @@
+1.1.1 (13.02.2008)
+-------------------
+
+  - the SessionDataManager now supports ZODB savepoints
+
 1.1.0 (17.01.2008)
 -------------------
 
