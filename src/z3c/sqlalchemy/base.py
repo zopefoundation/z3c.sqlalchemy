@@ -22,7 +22,7 @@ from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection
 
 import transaction
-from transaction.interfaces import ISavepointDataManager
+from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
 
 
 class SynchronizedThreadCache(object):
@@ -202,7 +202,8 @@ class SessionDataManager(object):
     def tpc_finish(self, trans):
 
         if self.transaction is not None:
-            self.transaction.commit()
+            while self.session.transaction.nested():
+                self.session.commit()
 
         self.session.clear()
         self._cleanup()
@@ -224,8 +225,25 @@ class SessionDataManager(object):
         connection_cache.remove(self._id)
 
     def savepoint(self):
-        """ empty implementation """
+        """ return a dummy savepoint """
+        return AlchemySavepoint()
+
+
+
+# taken from z3c.zalchemy
+
+class AlchemySavepoint(object):
+    """A dummy saveoint """
+
+    implements(IDataManagerSavepoint)
+
+    def __init__(self):
         pass
+
+    def rollback(self):
+        pass
+
+
 
 class ZopeBaseWrapper(BaseWrapper):
     """ A wrapper to be used from within Zope. It connects
