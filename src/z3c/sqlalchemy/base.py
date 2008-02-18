@@ -202,7 +202,7 @@ class SessionDataManager(object):
     def tpc_finish(self, trans):
 
         if self.transaction is not None:
-            while self.session.transaction.nested():
+            while self.session.transaction.nested:
                 self.session.commit()
 
         self.session.clear()
