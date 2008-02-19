@@ -204,6 +204,7 @@ class SessionDataManager(object):
         if self.transaction is not None:
             while self.session.transaction.nested:
                 self.session.commit()
+            self.transaction.commit()
 
         self.session.clear()
         self._cleanup()

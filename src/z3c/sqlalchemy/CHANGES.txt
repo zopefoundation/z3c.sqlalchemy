@@ -1,6 +1,9 @@
 Unreleased
 ----------
 
+  - fixed regression error introduced by previous change: commit the
+    zope transaction when ready in tpc_finish [maurits]
+
   - fixed issue where session's transaction.nested was being called as
     a callabe (it should be straight attribute access) [Rocky]
 
