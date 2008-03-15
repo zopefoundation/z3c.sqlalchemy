@@ -131,17 +131,5 @@ class BaseWrapper(object):
                                                          transactional=True,
                                                          **self.session_options)
 
+ZopeBaseWrapper = BaseWrapper
 
-class ZopeBaseWrapper(BaseWrapper):
-    """ A wrapper to be used from within Zope. It connects
-        the session with the transaction management of Zope.
-    """
-
-    @property
-    def connection(self):
-        """ This property is _private_ and only intented to be used
-            by SQLAlchemyDA and therefore it is not part of the 
-            public API. 
-        """
-    
-        return self.__getOrCreateConnectionCacheItem(self._id)['connection']
