@@ -13,6 +13,8 @@ import sqlalchemy
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import sessionmaker
 
+import transaction
+from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
@@ -20,34 +22,7 @@ from zope.component.interfaces import ComponentLookupError
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection
-
-import transaction
-from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
-
-
-class SynchronizedThreadCache(object):
-
-    def __init__(self):
-        self.lock = threading.Lock()
-        self.cache = threading.local()
-
-    def set(self, id, d):
-        self.lock.acquire()
-        setattr(self.cache, id, d)
-        self.lock.release()
-
-    def get(self, id):
-        self.lock.acquire()
-        result = getattr(self.cache, id, None)
-        self.lock.release()
-        return result
-
-    def remove(self, id):
-        self.lock.acquire()
-        if hasattr(self.cache, id):
-            delattr(self.cache, id)           
-        self.lock.release()
-
+from z3c.zalchemy.tm import AlchemyEngineUtility, AlchemyDataManager
 
 
 class BaseWrapper(object):
@@ -84,8 +59,9 @@ class BaseWrapper(object):
         self._createEngine()
         self._id = str(random.random()) # used as unique key for session/connection cache
 
-        from datamanager import *
-        util = AlchemyEngineUtility(dsn=dsn, name=name)
+        util = AlchemyEngineUtility(dsn=dsn, 
+                                    echo=kw.get('echo', ),
+                                    name='foo')
 
         if model:
 
@@ -125,7 +101,9 @@ class BaseWrapper(object):
 
     @property
     def session(self):
-        return self._sessionmaker()
+        session = self._sessionmaker()
+        transaction.get().join(AlchemyDataManager(session))
+        return session
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
@@ -154,132 +132,10 @@ class BaseWrapper(object):
                                                          **self.session_options)
 
 
-connection_cache = SynchronizedThreadCache()
-
-
-class SessionDataManager(object):
-    """ Wraps session into transaction context of Zope """
-
-    implements(ISavepointDataManager)
-
-    def __init__(self, connection, session, id, transactional=True):
-
-        self.connection = connection
-        self.session = session
-        self.transactional = True
-        self._id = id
-        self.transaction = None
-        if self.transactional:
-            self.transaction = connection.begin()
-
-    def abort(self, trans):
-
-        if self.transaction is not None:
-            self.transaction.rollback()
-        self.session.clear()
-        connection_cache.remove(self._id)
-        self._cleanup()
-
-    def _flush(self):
-
-        # check if the session contains something flushable
-        if self.session.new or self.session.deleted or self.session.dirty:
-
-            # Check if a session-bound transaction has been created so far.
-            # If not, create a new transaction
-#            if self.transaction is None:
-#                self.transaction = connection.begin()
-
-            # Flush
-            self.session.flush()
-
-    def commit(self, trans):
-        self._flush()
-
-    def tpc_begin(self, trans):
-        pass
-
-    def tpc_vote(self, trans):
-        self._flush()
-
-    def tpc_finish(self, trans):
-
-        if self.transaction is not None:
-            self.transaction.commit()
-
-        self.session.clear()
-        self._cleanup()
-        
-
-    def tpc_abort(self, trans):
-        if self.transaction is not None:
-            self.transaction.rollback()
-        self._cleanup()
-
-    def sortKey(self):
-        return 'z3c.sqlalchemy_' + str(id(self))
-
-    def _cleanup(self):
-        self.session.clear()
-        if self.connection:
-            self.connection.close()
-            self.connection = None
-        connection_cache.remove(self._id)
-
-    def savepoint(self):
-        """ return a dummy savepoint """
-        return AlchemySavepoint()
-
-
-
-# taken from z3c.zalchemy
-
-class AlchemySavepoint(object):
-    """A dummy saveoint """
-
-    implements(IDataManagerSavepoint)
-
-    def __init__(self):
-        pass
-
-    def rollback(self):
-        pass
-
-
-
 class ZopeBaseWrapper(BaseWrapper):
     """ A wrapper to be used from within Zope. It connects
         the session with the transaction management of Zope.
     """
-
-
-    def __getOrCreateConnectionCacheItem(self, cache_id):
-
-        cache_item = connection_cache.get(cache_id)
-
-        # return cached session if we are within the same transaction
-        # and same thread
-        if cache_item is not None:
-            return cache_item
-
-        # no cached session, let's create a new one
-        connection = self.engine.connect()
-        session = sessionmaker(connection)()
-                                          
-        # register a DataManager with the current transaction
-        transaction.get().join(SessionDataManager(connection, session, self._id))
-
-        # update thread-local cache
-        cache_item = dict(connection=connection, session=session)
-        connection_cache.set(self._id, cache_item)
-        return cache_item
-
-
-    @property
-    def session(self):
-        """ Return a (cached) session object for the current transaction """
-        return self.__getOrCreateConnectionCacheItem(self._id)['session']
-
 
     @property
     def connection(self):
