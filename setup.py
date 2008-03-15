@@ -50,8 +50,5 @@ setup(name='z3c.sqlalchemy',
       install_requires=['setuptools',
                         'z3c.zalchemy',
                         'SQLAlchemy>=0.4.0',
-#                        'zope.component==3.3',
-#                        'zope.interface==3.3',
-#                        'zope.schema==3.3',
                        ],
       extras_require=dict(test=['pysqlite']))
