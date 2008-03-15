@@ -125,7 +125,9 @@ class BaseWrapper(object):
         return self._model
 
     def _createEngine(self):
-        self._engine = sqlalchemy.create_engine(self.dsn, **self.engine_options)
+        self._engine = sqlalchemy.create_engine(self.dsn,       
+                                                strategy='threadlocal',
+                                                **self.engine_options)
         self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine, 
                                                          autoflush=True,
                                                          transactional=True,
