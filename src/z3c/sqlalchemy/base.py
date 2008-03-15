@@ -84,6 +84,9 @@ class BaseWrapper(object):
         self._createEngine()
         self._id = str(random.random()) # used as unique key for session/connection cache
 
+        from datamanager import *
+        util = AlchemyEngineUtility(dsn=dsn, name=name)
+
         if model:
 
             if isinstance(model, Model):
