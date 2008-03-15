@@ -185,3 +185,6 @@ def test_suite():
     suite.addTest(makeSuite(WrapperTests))
     return suite
 
+if __name__ == '__main__':
+    tr = unittest.TextTestRunner()
+    tr.run(test_suite())
