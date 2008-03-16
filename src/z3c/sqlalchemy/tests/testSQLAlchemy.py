@@ -179,12 +179,17 @@ class WrapperTests(unittest.TestCase):
         user.skills.append(Skill(id=1, name='Zope'))
         session.flush()
 
-
     def testSameSessionWithinSameThread(self):
         db = createSAWrapper(self.dsn)
         s1 = db.session
         s2 = db.session
         assert s1 is s2
+
+    def testConnectionProperty(self):
+        db = createSAWrapper(self.dsn)
+        conn = db.connection
+        self.assertEqual(hasattr(conn, 'cursor'), True)
+        self.assertEqual(hasattr(conn, 'execute'), True)
 
 
 def test_suite():

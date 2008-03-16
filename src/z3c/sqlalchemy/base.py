@@ -99,7 +99,7 @@ class BaseWrapper(object):
 
     @property
     def connection(self):
-        return session.connection()._Connection__connection.connection
+        return self.session.connection()._Connection__connection.connection
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
