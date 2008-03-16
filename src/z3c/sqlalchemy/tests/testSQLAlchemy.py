@@ -17,7 +17,7 @@ import os
 import unittest
 import sqlalchemy
 
-from sqlalchemy import MetaData, Integer, String, Column, Table
+from sqlalchemy import MetaData, Integer, String, Column, Table, Unicode
 
 from zope.interface.verify import verifyClass
 
@@ -190,6 +190,24 @@ class WrapperTests(unittest.TestCase):
         conn = db.connection
         self.assertEqual(hasattr(conn, 'cursor'), True)
         self.assertEqual(hasattr(conn, 'execute'), True)
+
+    def testEngineOptions(self):
+
+        self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
+        wrapper = createSAWrapper(self.dsn, engine_options={'convert_unicode' : True, 
+                                                            'assert_unicode' : True})
+        metadata = MetaData(bind=wrapper.engine)
+        users = Table('test', metadata,
+                      Column('id', Integer, primary_key=True),
+                      Column('text', Unicode))
+        metadata.create_all()      
+        self.assertEqual(wrapper.engine.dialect.convert_unicode, True)
+        Test = wrapper.getMapper('test')
+        session = wrapper.session
+        new_test = Test(id=1, text=u'foo')
+        session.save(new_test)
+        row = session.query(Test).one()
+        assert isinstance(row.text, unicode)
 
 
 def test_suite():
