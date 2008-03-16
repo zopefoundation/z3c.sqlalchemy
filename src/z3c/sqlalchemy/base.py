@@ -38,7 +38,6 @@ class BaseWrapper(object):
             'transactional' - True|False, only used by SQLAlchemyDA, 
                               *don't touch it*
         """
-
         self.dsn = dsn
         self.url = make_url(dsn)
         self.host = self.url.host
@@ -99,7 +98,7 @@ class BaseWrapper(object):
 
     @property
     def connection(self):
-        return self.session.connection()._Connection__connection.connection
+        return self.session.connection().connection
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
