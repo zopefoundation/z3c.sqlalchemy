@@ -71,8 +71,6 @@ def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=Tru
 
     return wrapper
 
-createSQLAlchemyWrapper = createSAWrapper
-
 
 def registerSAWrapper(wrapper, name):
     """ deferred registration of the wrapper as named utility """
@@ -83,9 +81,7 @@ def registerSAWrapper(wrapper, name):
         raise ValueError("SAWrapper '%s' already registered.\n"
                          "You can not register a wrapper twice under the same name." % name)
 
-registerSQLAlchemyWrapper = registerSAWrapper
 
-    
 def _registerSAWrapper(wrapper, name):
     """ register a SQLAlchemyWrapper as named utility.
         (never call this method directly)
@@ -131,8 +127,6 @@ def getSAWrapper(name):
         _registerSAWrapper(wrapper, name)
         return wrapper
 
-getSQLAlchemyWrapper = getSAWrapper
-
 
 def allRegisteredSAWrappers():
     """ return a dict containing information for all
@@ -144,8 +138,6 @@ def allRegisteredSAWrappers():
                'dsn' : wrapper.dsn,
                'kw' : wrapper.kw,
               }
-
-allRegisteredSQLAlchemyWrappers = allRegisteredSAWrappers
 
 
 def allSAWrapperNames():
