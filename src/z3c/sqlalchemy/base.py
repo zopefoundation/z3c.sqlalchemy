@@ -6,15 +6,12 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
-import random
-import threading
 
 import sqlalchemy
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 import transaction
-from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
@@ -57,7 +54,6 @@ class BaseWrapper(object):
         self.session_options = session_options
         self._model = None
         self._createEngine()
-        self._id = str(random.random()) # used as unique key for session/connection cache
 
         if model:
 
@@ -102,7 +98,7 @@ class BaseWrapper(object):
         return session
 
     @property
-    def session(self):
+    def connection(self):
         return session.connection()._Connection__connection.connection
 
     def registerMapper(self, mapper, name):
