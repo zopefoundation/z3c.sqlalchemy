@@ -11,7 +11,7 @@ import threading
 
 import sqlalchemy
 from sqlalchemy.engine.url import make_url
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 import transaction
 from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
@@ -58,10 +58,6 @@ class BaseWrapper(object):
         self._model = None
         self._createEngine()
         self._id = str(random.random()) # used as unique key for session/connection cache
-
-        util = AlchemyEngineUtility(dsn=dsn, 
-                                    echo=kw.get('echo', ),
-                                    name='foo')
 
         if model:
 
@@ -132,6 +128,7 @@ class BaseWrapper(object):
                                                          autoflush=True,
                                                          transactional=True,
                                                          **self.session_options)
+        self._sessionmaker = scoped_session(self._sessionmaker)
 
 ZopeBaseWrapper = BaseWrapper
 

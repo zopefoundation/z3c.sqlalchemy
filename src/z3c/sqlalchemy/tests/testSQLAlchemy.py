@@ -179,6 +179,14 @@ class WrapperTests(unittest.TestCase):
         user.skills.append(Skill(id=1, name='Zope'))
         session.flush()
 
+
+    def testSameSessionWithinSameThread(self):
+        db = createSAWrapper(self.dsn)
+        s1 = db.session
+        s2 = db.session
+        assert s1 is s2
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
