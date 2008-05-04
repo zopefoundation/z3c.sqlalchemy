@@ -14,7 +14,7 @@ Utility methods for SqlAlchemy
 import new
 import threading
 
-from sqlalchemy import Table, mapper, BoundMetaData, relation, class_mapper
+from sqlalchemy import Table, mapper, MetaData, relation, class_mapper
 
 marker = object
 
@@ -97,7 +97,7 @@ class LazyMapperCollection(dict):
         self._wrapper = wrapper
         self._engine = wrapper.engine
         self._model = wrapper.model or {}
-        self._metadata = BoundMetaData(self._engine)
+        self._metadata = MetaData(self._engine)
         self._mapper_factory = MapperFactory(self._metadata)
         self._dependent_tables = None
         self._lock = threading.Lock()
