@@ -20,15 +20,15 @@ from zope.component.interfaces import IUtilityService, ComponentLookupError
 from zope.component.servicenames import Utilities 
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
-from z3c.sqlalchemy.postgres import ZopePostgresWrapper, PythonPostgresWrapper 
-from z3c.sqlalchemy.base import BaseWrapper, ZopeBaseWrapper
+from z3c.sqlalchemy.postgres import ZopePostgresWrapper
+from z3c.sqlalchemy.base import ZopeWrapper
 
 __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper',
            'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers', 'getSAWrapper', 'allSAWrapperNames')
 
 registeredWrappers = {}
 
-def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=True, 
+def createSAWrapper(dsn, model=None, name=None, transactional=True, 
                     engine_options={}, session_options={}, **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
@@ -38,9 +38,6 @@ def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=Tru
         'model' - None or  an instance of model.Model or a string representing
         a named utility implementing IModelProvider or a method/callable returning an
         instance of model.Model.
-
-        'forZope' - set this to True in order to obtain a Zope-transaction-aware
-        wrapper.
 
         'transactional' - True|False, only used for SQLAlchemyDA *don't change it*
 
@@ -57,10 +54,10 @@ def createSAWrapper(dsn, model=None, forZope=False, name=None, transactional=Tru
     url = make_url(dsn)
     driver = url.drivername
 
-    klass = forZope and ZopeBaseWrapper or BaseWrapper
+    klass = ZopeWrapper 
 
     if driver == 'postgres':
-        klass = forZope and ZopePostgresWrapper or PythonPostgresWrapper
+        klass = ZopePostgresWrapper
 
     wrapper = klass(dsn, model, 
                     transactional=transactional, 

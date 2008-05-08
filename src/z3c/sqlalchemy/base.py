@@ -31,7 +31,9 @@ from zope.sqlalchemy import ZopeTransactionExtension, invalidate
 import transaction
 
 
-class BaseWrapper(object):
+TEST_TWOPHASE = False
+
+class ZopeWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
@@ -126,33 +128,10 @@ class BaseWrapper(object):
 
     def _createEngine(self):
         self._engine = sqlalchemy.create_engine(self.dsn, **self.engine_options)
-        self._sessionmaker = sqlalchemy.orm.sessionmaker(bind=self._engine, 
-                                                         autoflush=True,
-                                                         transactional=True,
-                                                         **self.session_options)
-
-
-
-class ZopeBaseWrapper(BaseWrapper):
-    """ A wrapper to be used from within Zope. It connects
-        the session with the transaction management of Zope.
-    """
-
-
-    def __getOrCreateConnectionCacheItem(self, cache_id):
-        pass
-
-    @property
-    def session(self):
-        """ Return a (cached) session object for the current transaction """
-        return self.__getOrCreateConnectionCacheItem(self._id)['session']
-
-
-    @property
-    def connection(self):
-        """ This property is _private_ and only intented to be used
-            by SQLAlchemyDA and therefore it is not part of the 
-            public API. 
-        """
-    
-        return self.__getOrCreateConnectionCacheItem(self._id)['connection']
+        self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
+                                            twophase=TEST_TWOPHASE,
+                                            transactional=True, 
+                                            autoflush=True, 
+                                            extension=ZopeTransactionExtension(),
+                                            **self.session_options
+                                            ))

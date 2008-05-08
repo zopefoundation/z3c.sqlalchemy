@@ -22,8 +22,7 @@ from sqlalchemy import MetaData, Integer, String, Column, Table
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
-from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
-from z3c.sqlalchemy.base import BaseWrapper
+from z3c.sqlalchemy.postgres import ZopePostgresWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
 from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
 
@@ -47,15 +46,6 @@ class WrapperTests(unittest.TestCase):
                       Column('name', String))
 
         metadata.create_all()
-
-
-    def testIFaceBaseWrapper (self):
-        verifyClass(ISQLAlchemyWrapper , BaseWrapper)
-
-
-    def testIFacePythonPostgres(self):
-        verifyClass(ISQLAlchemyWrapper , PythonPostgresWrapper)
-
 
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
