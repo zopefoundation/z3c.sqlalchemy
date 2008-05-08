@@ -171,11 +171,15 @@ class SessionDataManager(object):
 
     def abort(self, trans):
 
-        if self.transaction is not None:
-            self.transaction.rollback()
-        self.session.clear()
-        connection_cache.remove(self._id)
-        self._cleanup()
+        try:
+            if self.transaction is not None:
+                self.transaction.rollback()
+        # DM: done in "_cleanup" (similar untidy code at other places as well)
+##        self.session.clear()
+##        connection_cache.remove(self._id)
+        finally:
+            # ensure '_cleanup' is called even when 'rollback' causes an exception
+            self._cleanup()
 
     def _flush(self):
 
@@ -208,10 +212,12 @@ class SessionDataManager(object):
         self._cleanup()
         
 
-    def tpc_abort(self, trans):
-        if self.transaction is not None:
-            self.transaction.rollback()
-        self._cleanup()
+    # DM: no need to duplicate this code (identical to "abort")
+##    def tpc_abort(self, trans):
+##        if self.transaction is not None:
+##            self.transaction.rollback()
+##        self._cleanup()
+    tpc_abort = abort
 
     def sortKey(self):
         return 'z3c.sqlalchemy_' + str(id(self))
@@ -222,6 +228,7 @@ class SessionDataManager(object):
             self.connection.close()
             self.connection = None
         connection_cache.remove(self._id)
+        # DM: maybe, we should set "transaction" to "None"?
 
     def savepoint(self):
         """ return a dummy savepoint """

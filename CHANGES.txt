@@ -1,3 +1,8 @@
+1.1.5 (08.05.2008)
+------------------
+
+  - better error handling in case of a rollback (patch by Dieter Maurer)
+
 1.1.4 (15.03.2008)
 ------------------
 
