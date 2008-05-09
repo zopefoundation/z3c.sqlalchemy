@@ -25,9 +25,10 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
 from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
+from Testing.ZopeTestCase import ZopeTestCase
 
 
-class WrapperTests(unittest.TestCase):
+class WrapperTests(ZopeTestCase):
 
     def setUp(self):
 
