@@ -22,7 +22,6 @@ What z3c.sqlalchemy does not do and won't do:
 - no support for Zope 3 schemas 
 - no support for Archetypes schemas
 
-
 z3c.sqlachemy just tries to provide you with the basic functionalities you need
 to write SQLAlchemy-based applications with Zope 2/3. Higher-level
 functionalities like integration with Archetypes/Zope 3 schemas are subject to
@@ -33,7 +32,8 @@ Requirements:
 =============
 
 - Zope 2.8+, Zope 3.X
-- SQLAlchemy 0.4.0 or higher  (no support for SQLAlchemy 0.3) 
+- SQLAlchemy 0.4.6 or higher  (no support for SQLAlchemy 0.3) 
+- zope.sqlalchemy 0.1.0 or higher
 - Python 2.4+
 
 
