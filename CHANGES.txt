@@ -1,3 +1,16 @@
+1.2.0 (unreleased)
+------------------
+
+  - now using zope.sqlalchemy for ZODB transaction integration
+
+  - internal class renaming
+
+  - remove PythonBaseWrapper, there is only *one* ZopeWrapper
+
+  - requires SQLAlchemy 0.4.6 or higher
+
+  - requires zope.sqlalchemy 0.1 or higher
+
 1.1.5 (08.05.2008)
 ------------------
 
