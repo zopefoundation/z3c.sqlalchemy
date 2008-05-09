@@ -37,12 +37,12 @@ class WrapperTests(ZopeTestCase):
         metadata = MetaData(bind=wrapper.engine)
 
         users = Table('users', metadata,
-                      Column('id', Integer, primary_key=True),
+                      Column('user_id', Integer, primary_key=True),
                       Column('firstname', String),
                       Column('lastname', String))
 
         skill = Table('skills', metadata,
-                      Column('id', Integer, primary_key=True),
+                      Column('user_id', Integer, primary_key=True),
                       Column('user_id', Integer),
                       Column('name', String))
 
@@ -165,10 +165,25 @@ class WrapperTests(ZopeTestCase):
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
 
+        try:
+            session.flush()
+        except:
+            import traceback; traceback.print_exc()
+            import pdb; pdb.set_trace() 
+
         user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
         user.skills.append(Skill(id=1, name='Zope'))
         session.flush()
+
+    def testCheckConnection(self):
+        """ Check access to low-level connection """
+        db = createSAWrapper(self.dsn)
+        conn = db.connection               
+        cursor = conn.cursor()
+        cursor.execute('select * from users')
+        rows = cursor.fetchall()
+        self.assertEqual(len(rows), 0)
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -105,7 +105,14 @@ class ZopeWrapper(object):
 
     @property
     def session(self):
+        """ Return thread-local session """
         return self._sessionmaker()
+
+    @property
+    def connection(self):
+        """ Return underlying connection """
+        session = self.session
+        return session.connection().connection.connection
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
