@@ -99,7 +99,10 @@ class ZopeWrapper(object):
     def connection(self):
         """ Return underlying connection """
         session = self.session
-        return session.connection().connection.connection
+        # Return the ConnectionFairy
+        return session.connection().connection
+        # instead of the raw connection
+        #return session.connection().connection.connection
 
     def registerMapper(self, mapper, name):
         self._mappers.registerMapper(mapper, name)
