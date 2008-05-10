@@ -45,6 +45,7 @@ class WrapperTests(ZopeTestCase):
                       Column('user_id', Integer),
                       Column('name', String(255)))
 
+        metadata.drop_all()
         metadata.create_all()
 
     def testIFaceZopePostgres(self):
