@@ -37,14 +37,14 @@ class WrapperTests(ZopeTestCase):
         metadata = MetaData(bind=wrapper.engine)
 
         users = Table('users', metadata,
-                      Column('user_id', Integer, primary_key=True),
-                      Column('firstname', String),
-                      Column('lastname', String))
+                      Column('id', Integer, primary_key=True),
+                      Column('firstname', String(255)),
+                      Column('lastname', String(255)))
 
         skill = Table('skills', metadata,
                       Column('user_id', Integer, primary_key=True),
                       Column('user_id', Integer),
-                      Column('name', String))
+                      Column('name', String(255)))
 
         metadata.create_all()
 
@@ -68,7 +68,7 @@ class WrapperTests(ZopeTestCase):
         session.save(User(id=1, firstname='udo', lastname='juergens'))
         session.save(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
-        
+
         rows = session.query(User).order_by(User.c.id).all()
         self.assertEqual(len(rows), 2)
         row1 = rows[0]
@@ -164,13 +164,7 @@ class WrapperTests(ZopeTestCase):
         User = db.getMapper('users')
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
-
-        try:
-            session.flush()
-        except:
-            import traceback; traceback.print_exc()
-            import pdb; pdb.set_trace() 
-
+        session.flush()
         user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
         user.skills.append(Skill(id=1, name='Zope'))
@@ -184,6 +178,23 @@ class WrapperTests(ZopeTestCase):
         cursor.execute('select * from users')
         rows = cursor.fetchall()
         self.assertEqual(len(rows), 0)
+
+    def testConnectionPlusSession(self):
+        """ Check access to low-level connection """
+        db = createSAWrapper(self.dsn)
+
+        User = db.getMapper('users')
+        session = db.session
+        session.save(User(id=1, firstname='udo', lastname='juergens'))
+        session.save(User(id=2, firstname='heino', lastname='n/a'))
+        session.flush()
+
+        conn = db.connection               
+        cursor = conn.cursor()
+        cursor.execute('select * from users')
+        rows = cursor.fetchall()
+        self.assertEqual(len(rows), 2)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
