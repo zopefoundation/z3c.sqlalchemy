@@ -6,27 +6,20 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
-import random
-
-import sqlalchemy
-from sqlalchemy.engine.url import make_url
-from sqlalchemy.orm import sessionmaker
-
 from zope.interface import implements
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection
+from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 
 
-from sqlalchemy import *
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session, sessionmaker, relation
 from zope.sqlalchemy import ZopeTransactionExtension
 
-
-TEST_TWOPHASE = False
 
 class ZopeWrapper(object):
 
@@ -60,7 +53,6 @@ class ZopeWrapper(object):
         self.session_options = session_options
         self._model = None
         self._createEngine()
-        self._id = str(random.random()) # used as unique key for session/connection cache
 
         if model:
 
@@ -95,7 +87,7 @@ class ZopeWrapper(object):
     @property
     def metadata(self):
         if not hasattr(self, '_v_metadata'):
-            self._v_metadata = sqlalchemy.MetaData(self._engine)
+            self._v_metadata = MetaData(self._engine)
         return self._v_metadata
 
     @property
@@ -129,9 +121,8 @@ class ZopeWrapper(object):
         return self._model
 
     def _createEngine(self):
-        self._engine = sqlalchemy.create_engine(self.dsn, **self.engine_options)
+        self._engine = create_engine(self.dsn, **self.engine_options)
         self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
-                                            twophase=TEST_TWOPHASE,
                                             transactional=True, 
                                             autoflush=True, 
                                             extension=ZopeTransactionExtension(),
