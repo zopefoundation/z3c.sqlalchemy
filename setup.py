@@ -7,9 +7,7 @@
 ##########################################################################
 
 
-import os
 from setuptools import setup, find_packages
-
 
 CLASSIFIERS = [
     'Development Status :: 5 - Production/Stable',

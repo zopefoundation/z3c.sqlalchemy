@@ -7,7 +7,6 @@
 ##########################################################################
 
 import random
-import threading
 
 import sqlalchemy
 from sqlalchemy.engine.url import make_url
@@ -21,14 +20,10 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection
 
-import transaction
-from transaction.interfaces import ISavepointDataManager, IDataManagerSavepoint
 
 from sqlalchemy import *
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, relation
-from zope.sqlalchemy import ZopeTransactionExtension, invalidate
-import transaction
+from zope.sqlalchemy import ZopeTransactionExtension
 
 
 TEST_TWOPHASE = False

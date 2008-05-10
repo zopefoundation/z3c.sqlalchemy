@@ -14,7 +14,6 @@ Tests, tests, tests.........
 """
 
 import os
-import unittest
 import sqlalchemy
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
