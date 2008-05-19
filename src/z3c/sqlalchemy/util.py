@@ -150,4 +150,4 @@ def allSAWrapperNames():
 
 
 if __name__ == '__main__':
-    print createSAWrapper('postgres://test:test@db.example.com/TestDB', forZope=True)
+    print createSAWrapper('postgres://test:test@db.example.com/TestDB')
