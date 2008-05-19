@@ -7,9 +7,7 @@
 ##########################################################################
 
 
-import os
 from setuptools import setup, find_packages
-
 
 CLASSIFIERS = [
     'Development Status :: 5 - Production/Stable',
@@ -48,7 +46,8 @@ setup(name='z3c.sqlalchemy',
       zip_safe=True,
       namespace_packages=['z3c'],
       install_requires=['setuptools',
-                        'SQLAlchemy>=0.4.0',
+                        'SQLAlchemy>=0.4.6',
+                        'zope.sqlalchemy',
 #                        'zope.component==3.3',
 #                        'zope.interface==3.3',
 #                        'zope.schema==3.3',

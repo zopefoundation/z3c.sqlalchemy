@@ -14,7 +14,6 @@ Tests, tests, tests.........
 """
 
 import os
-import unittest
 import sqlalchemy
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
@@ -22,13 +21,13 @@ from sqlalchemy import MetaData, Integer, String, Column, Table
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
-from z3c.sqlalchemy.postgres import PythonPostgresWrapper,  ZopePostgresWrapper
-from z3c.sqlalchemy.base import BaseWrapper
+from z3c.sqlalchemy.postgres import ZopePostgresWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
 from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
+from Testing.ZopeTestCase import ZopeTestCase
 
 
-class WrapperTests(unittest.TestCase):
+class WrapperTests(ZopeTestCase):
 
     def setUp(self):
 
@@ -38,24 +37,16 @@ class WrapperTests(unittest.TestCase):
 
         users = Table('users', metadata,
                       Column('id', Integer, primary_key=True),
-                      Column('firstname', String),
-                      Column('lastname', String))
+                      Column('firstname', String(255)),
+                      Column('lastname', String(255)))
 
         skill = Table('skills', metadata,
-                      Column('id', Integer, primary_key=True),
+                      Column('user_id', Integer, primary_key=True),
                       Column('user_id', Integer),
-                      Column('name', String))
+                      Column('name', String(255)))
 
+        metadata.drop_all()
         metadata.create_all()
-
-
-    def testIFaceBaseWrapper (self):
-        verifyClass(ISQLAlchemyWrapper , BaseWrapper)
-
-
-    def testIFacePythonPostgres(self):
-        verifyClass(ISQLAlchemyWrapper , PythonPostgresWrapper)
-
 
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
@@ -77,7 +68,7 @@ class WrapperTests(unittest.TestCase):
         session.save(User(id=1, firstname='udo', lastname='juergens'))
         session.save(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
-        
+
         rows = session.query(User).order_by(User.c.id).all()
         self.assertEqual(len(rows), 2)
         row1 = rows[0]
@@ -173,11 +164,37 @@ class WrapperTests(unittest.TestCase):
         User = db.getMapper('users')
         session = db.session
         session.save(User(id=1,firstname='foo', lastname='bar'))
-
+        session.flush()
         user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
         user.skills.append(Skill(id=1, name='Zope'))
         session.flush()
+
+    def testCheckConnection(self):
+        """ Check access to low-level connection """
+        db = createSAWrapper(self.dsn)
+        conn = db.connection               
+        cursor = conn.cursor()
+        cursor.execute('select * from users')
+        rows = cursor.fetchall()
+        self.assertEqual(len(rows), 0)
+
+    def testConnectionPlusSession(self):
+        """ Check access to low-level connection """
+        db = createSAWrapper(self.dsn)
+
+        User = db.getMapper('users')
+        session = db.session
+        session.save(User(id=1, firstname='udo', lastname='juergens'))
+        session.save(User(id=2, firstname='heino', lastname='n/a'))
+        session.flush()
+
+        conn = db.connection               
+        cursor = conn.cursor()
+        cursor.execute('select * from users')
+        rows = cursor.fetchall()
+        self.assertEqual(len(rows), 2)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
