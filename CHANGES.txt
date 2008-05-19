@@ -5,7 +5,7 @@
 
   - internal class renaming
 
-  - remove PythonBaseWrapper, there is only *one* ZopeWrapper
+  - removed PythonBaseWrapper. Now there is only *one* ZopeWrapper
 
   - requires SQLAlchemy 0.4.6 or higher
 
