@@ -60,7 +60,7 @@ or Zope 3 installation.
 Usage
 =====
 
-Basic usage from within a pure Python application::
+Basic usage: 
 
    from z3c.sqlalchemy import createSAWrapper
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
@@ -69,18 +69,10 @@ Basic usage from within a pure Python application::
    for row in session.query(FormatMapper).select(...): print row
    session.flush() # if necessary
 
-When using Zope 2/3 you can use the same code but you want a wrapper that
-participates in Zope transactions. For this purpose you must use the additional
-parameter 'forZope'::
-
-   from z3c.sqlalchemy import createSAWrapper
-   wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', forZope=True)
-   session = wrapper.session
-
-In this case the session will participate automatically in a Zope transaction.
-The wrapper will call automatically session.flush() upon a transaction commit.
-Please note that 'wrapper.session' will always return the same session instance
-within the same transaction and same thread.
+The session will participate automatically in a Zope transaction.  The wrapper
+will call automatically session.flush() upon a transaction commit.  Please note
+that 'wrapper.session' will always return the same session instance within the
+same transaction and same thread.
 
 For a real-world application you don't want to create a new wrapper for every
 new request.  Instead you want to register a wrapper instance as named utility
@@ -88,7 +80,6 @@ new request.  Instead you want to register a wrapper instance as named utility
 within your application. This approach is very similiar to looking up an
 databases adapter or a ZSQL method through acquisition.
    
-
 By default "wrapper.getMapper(name)" will always auto-generate a new mapper
 class by using SQLAlchemy auto-load feature. The drawback of this approach is
 that the mapper class does not know about relationships to other tables. Assume

@@ -1,4 +1,4 @@
-1.2.0 (unreleased)
+1.2.0 (25.05.2008)
 ------------------
 
   - now using zope.sqlalchemy for ZODB transaction integration
