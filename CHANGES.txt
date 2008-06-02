@@ -1,4 +1,4 @@
-1.3.0 (unreleased)
+1.3.0 (02.06.2008)
 ------------------
 
   - support for sqlalchemy.ext.declarative
