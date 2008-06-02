@@ -56,16 +56,17 @@ class Model(dict):
 
             'table_name' -- optional full name of a table (e.g. 'someschema.sometable') if
             you want to use 'name' as alias for the table.
-        
+
             'cascade' -- optional cascade parameter directly passed to the relation() call
         """
 
         if table is not None and not isinstance(table, sqlalchemy.Table):
             raise TypeError("'table' must be an instance or sqlalchemy.Table or None")
 
-        if mapper_class is not None and not issubclass(mapper_class, MappedClassBase):
-            raise TypeError("'mapper_class' must be a subclass of MappedClassBase")
-        
+        # sqlalchemy.ext.declarative can be used on _any_ base class
+#        if mapper_class is not None and not issubclass(mapper_class, MappedClassBase):
+#            raise TypeError("'mapper_class' must be a subclass of MappedClassBase")
+
         if relations is not None:
 
             if not isinstance(relations, (tuple, list)):

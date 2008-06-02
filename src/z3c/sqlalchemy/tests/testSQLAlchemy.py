@@ -17,6 +17,10 @@ import os
 import sqlalchemy
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relation
+from sqlalchemy.schema import ForeignKey
+
 
 from zope.interface.verify import verifyClass
 
@@ -89,13 +93,13 @@ class WrapperTests(ZopeTestCase):
         self.assertEqual(User, myUser)
 
 
-    def testCustomMapperClassWithWrongType(self):
-
-        class myUser(object): 
-            pass
-
-        M = Model()
-        self.assertRaises(TypeError, M.add, 'users', mapper_class=myUser)
+#    def testCustomMapperClassWithWrongType(self):
+#
+#        class myUser(object): 
+#            pass
+#
+#        M = Model()
+#        self.assertRaises(TypeError, M.add, 'users', mapper_class=myUser)
 
 
     def testGetMappers(self):
@@ -195,6 +199,56 @@ class WrapperTests(ZopeTestCase):
         rows = cursor.fetchall()
         self.assertEqual(len(rows), 2)
 
+
+    def testDeclarative(self):
+
+        db = createSAWrapper(self.dsn)
+        session = db.session
+        metadata = db.metadata
+        Base = declarative_base(metadata = db.metadata)
+
+        class Foo(Base):
+            __tablename__ = 'foo'
+
+            id = Column('id', Integer, primary_key=True)
+            name = Column('name', String(50))
+
+        Base.metadata.create_all(db._engine)
+
+        session.save(Foo(id=1, name='Andreas Jung'))
+        session.save(Foo(id=2, name='Peter Becker'))
+        session.flush()
+
+        rows = session.query(Foo).all()
+        self.assertEqual(len(rows), 2)
+
+
+    def testDeclarativeWithModel(self):
+        def getModel(metadata):
+
+            model = Model()
+            Base = declarative_base(metadata=metadata)
+
+            class Foo(Base):
+                __tablename__ = 'foo'
+
+                id = Column('id', Integer, primary_key=True)
+                name = Column('name', String(50))
+
+            model.add('foo', mapper_class=Foo)
+            Base.metadata.create_all()
+            return model
+
+        db = createSAWrapper(self.dsn, model=getModel)
+        session = db.session
+        Foo = db.getMapper('foo')
+
+        session.save(Foo(id=1, name='Andreas Jung'))
+        session.save(Foo(id=2, name='Peter Becker'))
+        session.flush()
+
+        rows = session.query(Foo).all()
+        self.assertEqual(len(rows), 2)
 
 def test_suite():
     from unittest import TestSuite, makeSuite
