@@ -151,7 +151,7 @@ class SessionDataManager(object):
     def __init__(self, session, id):
         self.session = session
         self._id = id
-        self.transaction = None
+        self.transaction = self.session.create_transaction()
 
     def abort(self, trans):
         if self.transaction is not None:

@@ -1,3 +1,7 @@
+1.0.13 (05.06.2008)
+
+  - fix in transaction integration
+
 1.0.12 (08.07.2007)
 
   - restored missing 1.0 branch
