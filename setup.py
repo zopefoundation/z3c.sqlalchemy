@@ -21,7 +21,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-version = '1.3.0'
+version = '1.3.1'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
@@ -49,8 +49,8 @@ setup(name='z3c.sqlalchemy',
                         'SQLAlchemy>=0.4.6',
                         'zope.sqlalchemy',
                         'zope.component',
-                        'zope.interface==3.3',
-                        'zope.schema==3.3',
+                        'zope.interface>=3.3',
+                        'zope.schema>=3.3',
                         'zope.testing',
                        ],
       extras_require=dict(test=['pysqlite', 'zope.testing']))
