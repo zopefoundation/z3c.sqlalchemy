@@ -21,7 +21,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-version = '1.3.1'
+version = '1.3.2'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
@@ -46,8 +46,8 @@ setup(name='z3c.sqlalchemy',
       zip_safe=True,
       namespace_packages=['z3c'],
       install_requires=['setuptools',
-                        'SQLAlchemy>=0.4.6',
-                        'zope.sqlalchemy',
+                        'SQLAlchemy>=0.4.7',
+                        'zope.sqlalchemy>=0.3.0',
                         'zope.component',
                         'zope.interface>=3.3',
                         'zope.schema>=3.3',
