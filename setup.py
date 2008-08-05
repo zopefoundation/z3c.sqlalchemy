@@ -47,7 +47,7 @@ setup(name='z3c.sqlalchemy',
       namespace_packages=['z3c'],
       install_requires=['setuptools',
                         'SQLAlchemy',
-                        'zope.sqlalchemy'
+                        'zope.sqlalchemy',
                         'zope.component',
                         'zope.interface',
                         'zope.schema',
