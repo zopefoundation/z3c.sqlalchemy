@@ -67,7 +67,7 @@ def createSAWrapper(dsn, model=None, name=None, transactional=True,
                     transactional=transactional, 
                     engine_options=engine_options, 
                     session_options=session_options, 
-                    extension_optionis=extension_options,
+                    extension_options=extension_options,
                     **kw)
     if name is not None:
         registerSAWrapper(wrapper, name)
