@@ -57,7 +57,7 @@ class ZopeWrapper(object):
         self.engine_options = engine_options
         if 'echo' in kw:
             self.engine_options.update(echo=kw['echo'])
-        self.session_options = session_optionss
+        self.session_options = session_options
         self.extension_options = extension_options
         self._model = None
         self._createEngine()
