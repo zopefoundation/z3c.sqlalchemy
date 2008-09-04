@@ -25,14 +25,21 @@ class ZopeWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, transactional=True, engine_options={}, session_options={}, **kw):
+    def __init__(self, dsn, model=None, transactional=True, 
+                 engine_options={}, session_options={}, 
+                 extension_options={}, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
             'model' - optional instance of model.Model
 
-            'engine_options' - optional keyword arguments passed to create_engine()
+            'engine_options' - optional keyword arguments passed to
+            create_engine()
 
-            'session_options' - optional keyword arguments passed to create_session() or sessionmaker()
+            'session_options' - optional keyword arguments passed to
+            create_session() or sessionmaker()
+
+            'extension_options' - optional keyword argument passed to 
+            ZopeTransactionExtension()
 
             'transactional' - True|False, only used by SQLAlchemyDA, 
                               *don't touch it*
@@ -50,7 +57,8 @@ class ZopeWrapper(object):
         self.engine_options = engine_options
         if 'echo' in kw:
             self.engine_options.update(echo=kw['echo'])
-        self.session_options = session_options
+        self.session_options = session_optionss
+        self.extension_options = extension_options
         self._model = None
         self._createEngine()
 
@@ -126,8 +134,8 @@ class ZopeWrapper(object):
     def _createEngine(self):
         self._engine = create_engine(self.dsn, **self.engine_options)
         self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
-                                            transactional=True, 
+                                            autocommit=False, 
                                             autoflush=True, 
-                                            extension=ZopeTransactionExtension(),
+                                            extension=ZopeTransactionExtension(self.extension_options),
                                             **self.session_options
                                             ))

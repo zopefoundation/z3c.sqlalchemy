@@ -27,7 +27,10 @@ __all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegistere
 registeredWrappers = {}
 
 def createSAWrapper(dsn, model=None, name=None, transactional=True, 
-                    engine_options={}, session_options={}, **kw):
+                    engine_options={}, 
+                    session_options={}, 
+                    extension_options={},
+                    **kw):
     """ Convenience method to generate a wrapper for a DSN and a model.
         This method hides all database related magic from the user. 
 
@@ -47,6 +50,9 @@ def createSAWrapper(dsn, model=None, name=None, transactional=True,
 
         'session_options' can be set to a dict containing keyword parameters
         passed to create_session or sessionmaker.
+
+        'extension_options' can be set to a dict containing keyword parameters
+        passed to ZopeTransactionExtension()
     """
 
     url = make_url(dsn)
@@ -60,7 +66,9 @@ def createSAWrapper(dsn, model=None, name=None, transactional=True,
     wrapper = klass(dsn, model, 
                     transactional=transactional, 
                     engine_options=engine_options, 
-                    session_options=session_options, **kw)
+                    session_options=session_options, 
+                    extension_optionis=extension_options,
+                    **kw)
     if name is not None:
         registerSAWrapper(wrapper, name)
 
