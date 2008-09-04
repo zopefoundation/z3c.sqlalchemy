@@ -136,6 +136,6 @@ class ZopeWrapper(object):
         self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
                                             autocommit=False, 
                                             autoflush=True, 
-                                            extension=ZopeTransactionExtension(self.extension_options),
+                                            extension=ZopeTransactionExtension(**self.extension_options),
                                             **self.session_options
                                             ))
