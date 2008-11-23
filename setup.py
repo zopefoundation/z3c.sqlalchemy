@@ -21,7 +21,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-version = '1.3.5'
+version = '1.3.6'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
@@ -43,7 +43,7 @@ setup(name='z3c.sqlalchemy',
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
-      zip_safe=True,
+      zip_safe=False,
       namespace_packages=['z3c'],
       install_requires=['setuptools',
                         'SQLAlchemy',
