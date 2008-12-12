@@ -21,7 +21,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-version = '1.3.6'
+version = '1.3.7'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
