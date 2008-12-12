@@ -16,6 +16,7 @@ import threading
 
 from sqlalchemy import Table, MetaData 
 from sqlalchemy.orm import mapper, relation, class_mapper
+from sqlalchemy.ext.declarative import DeclarativeMeta
 
 marker = object
 
@@ -115,7 +116,6 @@ class LazyMapperCollection(dict):
         self._dependent_tables = None
         self._lock = threading.Lock()
 
-
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
@@ -127,6 +127,12 @@ class LazyMapperCollection(dict):
             # check if the optional model provides a table definition
             if self._model.has_key(name):            
                 table = self._model[name].get('table')
+
+                # support for SA declarative layer
+                mapper_class = self._model[name].get('mapper_class')
+                if isinstance(mapper_class, DeclarativeMeta):
+                    self._registerMapper(mapper_class, name)
+                    return mapper_class
 
             # if not: introspect table definition
             if table is None:
