@@ -25,7 +25,7 @@ class ZopeWrapper(object):
 
     implements(ISQLAlchemyWrapper)
 
-    def __init__(self, dsn, model=None, transactional=True, 
+    def __init__(self, dsn, model=None, transactional=True, twophase=False,
                  engine_options={}, session_options={}, 
                  extension_options={}, **kw):
         """ 'dsn' - a RFC-1738-style connection string
@@ -52,6 +52,7 @@ class ZopeWrapper(object):
         self.username = self.url.username
         self.password = self.url.password
         self.dbname = self.url.database 
+        self.twophase = twophase
         self.drivername = self.url.drivername
         self.transactional = transactional
         self.engine_options = engine_options
@@ -135,7 +136,7 @@ class ZopeWrapper(object):
         self._engine = create_engine(self.dsn, **self.engine_options)
         self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
                                             transactional=True,
-                                            twophase=True,
+                                            twophase=self.twophase,
                                             autoflush=True, 
                                             extension=ZopeTransactionExtension(**self.extension_options),
                                             **self.session_options
