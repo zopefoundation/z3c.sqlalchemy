@@ -20,6 +20,29 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 
 marker = object
 
+class Proxy(dict):
+    """ Dict-Proxy for mapped objects providing
+        attribute-style access.
+    """
+
+    def __init__(self, obj):
+        super(dict, self).__init__()
+        self.update(obj.__dict__.copy())
+        for attr in getattr(obj, 'proxied_properties', ()):
+            self[attr] = getattr(obj, attr)
+        del self['_sa_instance_state']
+
+    def __getattribute__(self, name):
+        if name in dict.keys(self):
+            return self.get(name)
+
+        return super(dict, self).__getattribute__(name) 
+
+    def __getattr__(self, name, default=None):
+        if name in dict.keys(self):
+            return self.get(name, default)
+        return super(dict, self).__getattr__(name, default) 
+
 
 class MappedClassBase(object):
     """ base class for all mapped classes """
@@ -51,11 +74,8 @@ class MappedClassBase(object):
 
 
     def asDict(self):
-        """ Return row values as a dict """
-        d= dict()
-        for col in self.c.keys():
-            d[col] = getattr(self, col)
-        return d
+        """ Returns current object as a dict"""
+        return Proxy(self)
 
 
     def getMapper(self, name):
