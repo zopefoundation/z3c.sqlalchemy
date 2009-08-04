@@ -135,7 +135,7 @@ class ZopeWrapper(object):
     def _createEngine(self):
         self._engine = create_engine(self.dsn, **self.engine_options)
         self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
-                                            transactional=True,
+                                            autocommit=False,,
                                             twophase=self.twophase,
                                             autoflush=True, 
                                             extension=ZopeTransactionExtension(**self.extension_options),
