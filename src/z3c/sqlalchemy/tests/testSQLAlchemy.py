@@ -48,11 +48,9 @@ class WrapperTests(unittest.TestCase):
                       Column('user_id', Integer, primary_key=True),
                       Column('name', String(255)))
 
-        import pdb; pdb.set_trace() 
         metadata.create_all()
 
     def tearDown(self):
-        import pdb; pdb.set_trace() 
         self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
         wrapper = createSAWrapper(self.dsn)
         metadata = MetaData(bind=wrapper.engine)
@@ -176,7 +174,6 @@ class WrapperTests(unittest.TestCase):
         session.add(User(id=2, firstname='heino', lastname='n/a'))
 
         conn = self.db.connection
-        import pdb; pdb.set_trace() 
         cursor = conn.cursor()
         cursor.execute('select * from users')
         rows = cursor.fetchall()
