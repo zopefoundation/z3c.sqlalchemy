@@ -36,7 +36,7 @@ class WrapperTests(unittest.TestCase):
     def setUp(self):
 
         self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
-        wrapper = createSAWrapper(self.dsn)
+        self.db = wrapper = createSAWrapper(self.dsn)
         metadata = MetaData(bind=wrapper.engine)
 
         users = Table('users', metadata,
@@ -48,8 +48,15 @@ class WrapperTests(unittest.TestCase):
                       Column('user_id', Integer, primary_key=True),
                       Column('name', String(255)))
 
-        metadata.drop_all()
+        import pdb; pdb.set_trace() 
         metadata.create_all()
+
+    def tearDown(self):
+        import pdb; pdb.set_trace() 
+        self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
+        wrapper = createSAWrapper(self.dsn)
+        metadata = MetaData(bind=wrapper.engine)
+        metadata.drop_all()
 
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
@@ -72,7 +79,7 @@ class WrapperTests(unittest.TestCase):
         session.add(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
 
-        rows = session.query(User).order_by(User.c.id).all()
+        rows = session.query(User).order_by(User.id).all()
         self.assertEqual(len(rows), 2)
         row1 = rows[0]
         d = row1.asDict()
@@ -133,7 +140,7 @@ class WrapperTests(unittest.TestCase):
         wrapper2 = getSAWrapper('test.wrapper1')
         self.assertEqual(wrapper, wrapper2)
 
-    
+
     def testWrapperRegistrationFailing(self):
         wrapper = createSAWrapper(self.dsn)
         self.assertRaises(ValueError, getSAWrapper, 'test.wrapperNonExistant')
@@ -150,28 +157,6 @@ class WrapperTests(unittest.TestCase):
         wrapper2 = getSAWrapper('test.wrapper3')
         self.assertEqual(wrapper, wrapper2)
 
-        
-    def testXXMapperGetMapper(self):
-        def getModel(md):
-
-            model = Model()
-            model.add('users', table=sqlalchemy.Table('users', md, autoload=True), relations=('skills',))
-            model.add('skills', table=sqlalchemy.Table('skills', 
-                                                       md, 
-                                                       sqlalchemy.ForeignKeyConstraint(('user_id',), ('users.id',)),
-                                                       autoload=True, 
-                                                       ))
-            return model
-
-        db = createSAWrapper(self.dsn, model=getModel)
-        User = db.getMapper('users')
-        session = db.session
-        session.add(User(id=1,firstname='foo', lastname='bar'))
-        session.flush()
-        user = session.query(User).filter_by(firstname='foo')[0]
-        Skill = user.getMapper('skills')
-        user.skills.append(Skill(id=1, name='Zope'))
-        session.flush()
 
     def testCheckConnection(self):
         """ Check access to low-level connection """
@@ -184,15 +169,14 @@ class WrapperTests(unittest.TestCase):
 
     def testConnectionPlusSession(self):
         """ Check access to low-level connection """
-        db = createSAWrapper(self.dsn)
 
-        User = db.getMapper('users')
-        session = db.session
+        User = self.db.getMapper('users')
+        session = self.db.session
         session.add(User(id=1, firstname='udo', lastname='juergens'))
         session.add(User(id=2, firstname='heino', lastname='n/a'))
-        session.flush()
 
-        conn = db.connection               
+        conn = self.db.connection
+        import pdb; pdb.set_trace() 
         cursor = conn.cursor()
         cursor.execute('select * from users')
         rows = cursor.fetchall()
