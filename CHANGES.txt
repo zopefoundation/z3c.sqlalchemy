@@ -1,3 +1,9 @@
+1.4.0 (04.08.2009)
+------------------
+
+- removed compatibility code with older Zope versions
+- fixed import issue with modern zope.component versions
+
 1.3.9 (06.01.2009)
 ------------------
 

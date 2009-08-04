@@ -15,6 +15,7 @@ Tests, tests, tests.........
 
 import os
 import sqlalchemy
+import unittest
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -28,10 +29,9 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
 from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
-from Testing.ZopeTestCase import ZopeTestCase
 
 
-class WrapperTests(ZopeTestCase):
+class WrapperTests(unittest.TestCase):
 
     def setUp(self):
 
@@ -46,7 +46,6 @@ class WrapperTests(ZopeTestCase):
 
         skill = Table('skills', metadata,
                       Column('user_id', Integer, primary_key=True),
-                      Column('user_id', Integer),
                       Column('name', String(255)))
 
         metadata.drop_all()
@@ -69,8 +68,8 @@ class WrapperTests(ZopeTestCase):
         rows = session.query(User).all()
         self.assertEqual(len(rows), 0)
 
-        session.save(User(id=1, firstname='udo', lastname='juergens'))
-        session.save(User(id=2, firstname='heino', lastname='n/a'))
+        session.add(User(id=1, firstname='udo', lastname='juergens'))
+        session.add(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
 
         rows = session.query(User).order_by(User.c.id).all()
@@ -167,7 +166,7 @@ class WrapperTests(ZopeTestCase):
         db = createSAWrapper(self.dsn, model=getModel)
         User = db.getMapper('users')
         session = db.session
-        session.save(User(id=1,firstname='foo', lastname='bar'))
+        session.add(User(id=1,firstname='foo', lastname='bar'))
         session.flush()
         user = session.query(User).filter_by(firstname='foo')[0]
         Skill = user.getMapper('skills')
@@ -189,8 +188,8 @@ class WrapperTests(ZopeTestCase):
 
         User = db.getMapper('users')
         session = db.session
-        session.save(User(id=1, firstname='udo', lastname='juergens'))
-        session.save(User(id=2, firstname='heino', lastname='n/a'))
+        session.add(User(id=1, firstname='udo', lastname='juergens'))
+        session.add(User(id=2, firstname='heino', lastname='n/a'))
         session.flush()
 
         conn = db.connection               
@@ -215,8 +214,8 @@ class WrapperTests(ZopeTestCase):
 
         Base.metadata.create_all(db._engine)
 
-        session.save(Foo(id=1, name='Andreas Jung'))
-        session.save(Foo(id=2, name='Peter Becker'))
+        session.add(Foo(id=1, name='Andreas Jung'))
+        session.add(Foo(id=2, name='Peter Becker'))
         session.flush()
 
         rows = session.query(Foo).all()
@@ -243,8 +242,8 @@ class WrapperTests(ZopeTestCase):
         session = db.session
         Foo = db.getMapper('foo')
 
-        session.save(Foo(id=1, name='Andreas Jung'))
-        session.save(Foo(id=2, name='Peter Becker'))
+        session.add(Foo(id=1, name='Andreas Jung'))
+        session.add(Foo(id=2, name='Peter Becker'))
         session.flush()
 
         rows = session.query(Foo).all()

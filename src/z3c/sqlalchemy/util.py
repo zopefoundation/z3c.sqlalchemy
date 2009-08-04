@@ -15,7 +15,7 @@ Some helper methods
 from sqlalchemy.engine.url import make_url
 
 from zope.component import getUtilitiesFor, getUtility
-from zope.component.interfaces import IUtilityService, ComponentLookupError
+from zope.component.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper
@@ -94,25 +94,8 @@ def _registerSAWrapper(wrapper, name):
         (never call this method directly)
     """
 
-    try:
-        # Zope 2.9
-        from zope.component import provideUtility
-        provideUtility(wrapper, name=name)           
-    except ImportError:
-        # Zope 2.8
-        from zope.component import getService, getGlobalServices, getUtilitiesFor
-        from zope.component.utility import GlobalUtilityService
-        from zope.component.interfaces import IUtilityService
-        from zope.component.servicenames import Utilities
-        sm = getGlobalServices()
-        try:
-            utilityService = getService(Utilities)
-        except ComponentLookupError:
-            sm.defineService(Utilities, IUtilityService)
-            sm.provideService(Utilities, GlobalUtilityService())
-            utilityService = getService(Utilities)
-
-        utilityService.provideUtility(ISQLAlchemyWrapper, wrapper, name)
+    from zope.component import provideUtility
+    provideUtility(wrapper, name=name)           
 
 
 def getSAWrapper(name):        
