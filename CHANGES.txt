@@ -7,6 +7,12 @@
 1.3.11 (unreleased)
 -------------------
 
+- Don't create a new MetaData in LazyMapperCollection,
+  but use the one created in the wrapper.
+  In some cases, you could have some tables in the metadata created in the wrapper,
+  and some tables in the metadata created in the LazyMapperCollection,
+  which gave an error when trying to create relations.
+
 - When generating the mapper class, make sure table.name is a string.
   It can be unicode when use_unicode=1 with MySQL engine.
 
