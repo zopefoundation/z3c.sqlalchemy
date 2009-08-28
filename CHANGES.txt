@@ -4,6 +4,17 @@
 - removed compatibility code with older Zope versions
 - fixed import issue with modern zope.component versions
 
+1.3.11 (unreleased)
+-------------------
+
+- When generating the mapper class, make sure table.name is a string.
+  It can be unicode when use_unicode=1 with MySQL engine.
+
+1.3.10 (04.08.2009)
+-------------------
+
+ - removed SA deprecation warning
+
 1.3.9 (06.01.2009)
 ------------------
 

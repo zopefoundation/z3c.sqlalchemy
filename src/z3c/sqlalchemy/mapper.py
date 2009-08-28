@@ -112,7 +112,7 @@ class MapperFactory(object):
         """ 
 
         if cls is None:
-            newCls = new.classobj('_mapped_%s' % table.name, (MappedClassBase,), {})
+            newCls = new.classobj('_mapped_%s' % str(table.name), (MappedClassBase,), {})
         else:
             newCls = cls
 
