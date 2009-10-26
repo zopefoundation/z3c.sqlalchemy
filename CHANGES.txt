@@ -1,5 +1,7 @@
-1.3.11 (unreleased)
+1.3.11 (26.10.2009)
 -------------------
+
+- pinned zope.component==3.5.XXXX
 
 - Don't create a new MetaData in LazyMapperCollection,
   but use the one created in the wrapper.
