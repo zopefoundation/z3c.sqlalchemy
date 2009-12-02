@@ -15,7 +15,9 @@ Tests, tests, tests.........
 
 import os
 import sqlalchemy
+import sqlalchemy.orm
 import unittest
+import tempfile
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -35,7 +37,11 @@ class WrapperTests(unittest.TestCase):
 
     def setUp(self):
 
-        self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
+        self.dsn = os.environ.get('TEST_DSN')
+        self.tempfile = None
+        if not self.dsn:
+            self.tempfile = tempfile.mktemp()
+            self.dsn = 'sqlite:///%s' % self.tempfile
         self.db = wrapper = createSAWrapper(self.dsn)
         metadata = MetaData(bind=wrapper.engine)
 
@@ -51,10 +57,11 @@ class WrapperTests(unittest.TestCase):
         metadata.create_all()
 
     def tearDown(self):
-        self.dsn = os.environ.get('TEST_DSN', 'sqlite:///test')
-        wrapper = createSAWrapper(self.dsn)
-        metadata = MetaData(bind=wrapper.engine)
-        metadata.drop_all()
+        if self.tempfile:
+            os.remove(self.tempfile)
+        else:
+            metadata = MetaData(bind=self.db.engine)
+            metadata.drop_all()
 
     def testIFaceZopePostgres(self):
         verifyClass(ISQLAlchemyWrapper , ZopePostgresWrapper)
@@ -95,6 +102,16 @@ class WrapperTests(unittest.TestCase):
         db = createSAWrapper(self.dsn, model=M)
         User = db.getMapper('users')
         self.assertEqual(User, myUser)
+
+    def testCustomMapperRegister(self):
+        mytable = Table(
+            'mytable', self.db.metadata,
+            Column('id', Integer, primary_key=True),
+        )
+        class MyClass(object):
+            pass
+        mapper = sqlalchemy.orm.mapper(MyClass, mytable)
+        self.db.registerMapper(mapper, 'mymapper')
 
 
 #    def testCustomMapperClassWithWrongType(self):
@@ -172,6 +189,7 @@ class WrapperTests(unittest.TestCase):
         session = self.db.session
         session.add(User(id=1, firstname='udo', lastname='juergens'))
         session.add(User(id=2, firstname='heino', lastname='n/a'))
+        session.flush()
 
         conn = self.db.connection
         cursor = conn.cursor()

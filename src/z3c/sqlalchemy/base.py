@@ -114,7 +114,7 @@ class ZopeWrapper(object):
         #return session.connection().connection.connection
 
     def registerMapper(self, mapper, name):
-        self._mappers.registerMapper(mapper, name)
+        self._mappers._registerMapper(mapper, name)
 
     def getMapper(self, tablename, schema='public'):
         return self._mappers.getMapper(tablename, schema)

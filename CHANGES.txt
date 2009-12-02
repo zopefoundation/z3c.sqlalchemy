@@ -2,7 +2,10 @@
 ------------------
 
 - removed compatibility code with older Zope versions
+
 - fixed import issue with modern zope.component versions
+
+- fixed registering of custom mappers
 
 1.3.11 (unreleased)
 -------------------
