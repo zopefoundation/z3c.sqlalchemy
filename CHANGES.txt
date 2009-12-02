@@ -1,4 +1,4 @@
-1.4.0 (unreleased)
+1.4.0 (2009-12-02)
 ------------------
 
 - removed compatibility code with older Zope versions
