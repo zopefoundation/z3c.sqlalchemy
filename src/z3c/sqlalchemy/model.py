@@ -40,7 +40,7 @@ class Model(dict):
             self.add(**d)
 
 
-    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None, cascade=None):
+    def add(self, name, table=None, mapper_class=None, relations=None, autodetect_relations=False, table_name=None, cascade=None, table_args=(), table_kwargs={}):
         """ 'name'  -- name of table (no schema support so far!)
 
             'table' -- a sqlalchemy.Table instance (None, for autoloading)
@@ -73,8 +73,15 @@ class Model(dict):
                     raise TypeError('relations must be specified a sequence of strings')    
 
             for r in relations:
-                if not isinstance(r, str):
-                    raise TypeError('relations must be specified a sequence of strings')    
+                if not isinstance(r, (str, dict)):
+                    raise TypeError('relations must be specified a sequence of strings or dicts')    
+
+        if not isinstance(table_args, (tuple, list)):
+            raise TypeError('table_args must be specified as a sequence')    
+
+        if not isinstance(table_kwargs, (dict)):
+            raise TypeError('table_kwargs must be specified as a dictionary')    
+
 
         if relations is not None and autodetect_relations == True:
             raise ValueError("'relations' and 'autodetect_relations' can't be specified at the same time")
@@ -88,6 +95,8 @@ class Model(dict):
                       'autodetect_relations' : autodetect_relations,
                       'cascade' : cascade,
                       'table_name' : table_name,
+                      'table_args': table_args,
+                      'table_kwargs': table_kwargs
                      }
 
 

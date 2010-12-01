@@ -158,6 +158,8 @@ class LazyMapperCollection(dict):
             if table is None:
 
                 table_name = self._model.get(name, {}).get('table_name') or name
+                table_args = self._model.get(name, {}).get('table_args') or ()
+                table_kwargs = self._model.get(name, {}).get('table_kwargs') or {}
 
                 # check for 'schema.tablename'
                 if '.' in table_name:
@@ -168,7 +170,10 @@ class LazyMapperCollection(dict):
                 table = Table(tablename, 
                               self._metadata, 
                               schema=schema,
-                              autoload=True)
+                              autoload=True,
+                              *table_args,
+                              **table_kwargs
+                              )
 
             # check if the model contains an optional mapper class
             mapper_class = None
@@ -202,12 +207,25 @@ class LazyMapperCollection(dict):
             properties = {}
 
             # find all dependent tables (referencing the current table)
-            for table_refname in dependent_table_names:
+            for cfg in dependent_table_names:
+                relation_kwargs = dict()
+                if isinstance(cfg, basestring):
+                    cfg = dict(refname = cfg)
+                # referenced table
+                table_ref = cfg.get('table', cfg.get('refname'))
+                # reference name
+                table_refname = cfg.get('refname', cfg.get('table'))
+                
+                relation_kwargs['cascade']=self._model.get(name, {}).get('cascade')
+                if cfg.get('backref'):
+                    relation_kwargs['backref']=cfg.get('backref')
                 # create or get a mapper for the referencing table
-                table_ref_mapper = self.getMapper(table_refname)
+                table_ref_mapper = self.getMapper(table_ref)
 
                 # add the mapper as relation to the properties dict
-                properties[table_refname] = relation(table_ref_mapper, cascade=self._model.get(name, {}).get('cascade'))
+                properties[table_refname] = relation(table_ref_mapper, 
+                                                     **relation_kwargs
+                                                     )
 
             # create a mapper and cache it 
             if mapper_class and mapper_class.__dict__.has_key('c'):

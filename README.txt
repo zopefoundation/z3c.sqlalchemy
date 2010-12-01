@@ -60,7 +60,7 @@ or Zope 3 installation.
 Usage
 =====
 
-Basic usage: 
+Basic usage::
 
    from z3c.sqlalchemy import createSAWrapper
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')

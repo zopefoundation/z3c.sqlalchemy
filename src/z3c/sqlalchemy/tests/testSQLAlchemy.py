@@ -22,7 +22,7 @@ import tempfile
 from sqlalchemy import MetaData, Integer, String, Column, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relation
-from sqlalchemy.schema import ForeignKey
+from sqlalchemy.schema import ForeignKeyConstraint
 
 
 from zope.interface.verify import verifyClass
@@ -51,7 +51,8 @@ class WrapperTests(unittest.TestCase):
                       Column('lastname', String(255)))
 
         skill = Table('skills', metadata,
-                      Column('user_id', Integer, primary_key=True),
+                      Column('id', Integer, primary_key=True),
+                      Column('user_id', Integer),
                       Column('name', String(255)))
 
         metadata.create_all()
@@ -247,6 +248,61 @@ class WrapperTests(unittest.TestCase):
 
         rows = session.query(Foo).all()
         self.assertEqual(len(rows), 2)
+        
+    def testRelations(self):
+        M = Model()
+        M.add(name='users')
+        M.add(name='skills', relations=('users',),
+                             table_args=(ForeignKeyConstraint(['user_id'], ['users.id']),)
+                            )
+        db = createSAWrapper(self.dsn, model=M)
+        User = db.getMapper('users')
+        Skill = db.getMapper('skills')
+        session = db.session
+        # add data
+        session.add(User(id=1, firstname='udo', lastname='juergens'))
+        session.add(User(id=2, firstname='heino', lastname='n/a'))
+        session.add(Skill(id=1, user_id=1, name='Skill 1-1'))
+        session.add(Skill(id=2, user_id=1, name='Skill 1-2'))
+        session.flush()
+        # query
+        skills = session.query(Skill).all()
+        self.assertEqual(len(skills), 2) # two skills, both for same user
+        # checking "users" relation - "users" is related table name taken
+        # from model.add(relation='users') param.
+        self.assertEqual(skills[0].users.firstname, u'udo')
+        self.assertEqual(skills[1].users.firstname, u'udo')
+        
+    def testRelations_named(self):
+        M = Model()
+        M.add(name='users')
+        M.add(name='skills', relations=(dict(
+                                        table='users',
+                                        refname='user',
+                                        backref='skills'
+                                        ),),
+                             table_args=(ForeignKeyConstraint(['user_id'], ['users.id']),)
+                            )
+        db = createSAWrapper(self.dsn, model=M)
+        User = db.getMapper('users')
+        Skill = db.getMapper('skills')
+        session = db.session
+        # add data
+        session.add(User(id=1, firstname='udo', lastname='juergens'))
+        session.add(User(id=2, firstname='heino', lastname='n/a'))
+        session.add(Skill(id=1, user_id=1, name='Skill 1-1'))
+        session.add(Skill(id=2, user_id=1, name='Skill 1-2'))
+        session.flush()
+        # query
+        skill = session.query(Skill).filter(User.id==1).first()
+        # 'user' is relation name from model.add()
+        self.assertEqual(skill.user.firstname, u'udo')
+        # let's find user's skills
+        user = session.query(User).filter(User.id==1).first()
+        self.assertEqual(len(user.skills), 2)
+        self.assertEqual(user.skills[0].name, 'Skill 1-1')
+        self.assertEqual(user.skills[1].name, 'Skill 1-2')
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite
