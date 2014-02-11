@@ -23,6 +23,10 @@ from sqlalchemy import MetaData, Integer, String, Column, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relation
 from sqlalchemy.schema import ForeignKey
+try:
+    from sqlalchemy import exceptions
+except ImportError:
+    from sqlalchemy import exc as exceptions
 
 
 from zope.interface.verify import verifyClass
@@ -145,7 +149,7 @@ class WrapperTests(unittest.TestCase):
         db = createSAWrapper(self.dsn, model=M)
         try:
             foo = db.getMapper('non_existing_table')
-        except sqlalchemy.exceptions.NoSuchTableError:
+        except exceptions.NoSuchTableError:
             pass
 
 
