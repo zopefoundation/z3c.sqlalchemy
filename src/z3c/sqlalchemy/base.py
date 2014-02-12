@@ -17,7 +17,7 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.engine.url import make_url
-from sqlalchemy.orm import scoped_session, sessionmaker, relation
+from sqlalchemy.orm import scoped_session, sessionmaker
 from zope.sqlalchemy import ZopeTransactionExtension
 
 
@@ -26,7 +26,7 @@ class ZopeWrapper(object):
     implements(ISQLAlchemyWrapper)
 
     def __init__(self, dsn, model=None, transactional=True, twophase=False,
-                 engine_options={}, session_options={}, 
+                 engine_options={}, session_options={},
                  extension_options={}, **kw):
         """ 'dsn' - a RFC-1738-style connection string
 
@@ -38,10 +38,10 @@ class ZopeWrapper(object):
             'session_options' - optional keyword arguments passed to
             create_session() or sessionmaker()
 
-            'extension_options' - optional keyword argument passed to 
+            'extension_options' - optional keyword argument passed to
             ZopeTransactionExtension()
 
-            'transactional' - True|False, only used by SQLAlchemyDA, 
+            'transactional' - True|False, only used by SQLAlchemyDA,
                               *don't touch it*
         """
 
@@ -51,7 +51,7 @@ class ZopeWrapper(object):
         self.port = self.url.port
         self.username = self.url.username
         self.password = self.url.password
-        self.dbname = self.url.database 
+        self.dbname = self.url.database
         self.twophase = twophase
         self.drivername = self.url.drivername
         self.transactional = transactional
@@ -81,13 +81,12 @@ class ZopeWrapper(object):
                 self._model = model(self.metadata)
 
             else:
-                raise ValueError("The 'model' parameter passed to constructor must either be "\
-                                 "the name of a named utility implementing IModelProvider or "\
+                raise ValueError("The 'model' parameter passed to constructor must either be "
+                                 "the name of a named utility implementing IModelProvider or "
                                  "an instance of z3c.sqlalchemy.model.Model.")
 
             if not isinstance(self._model, Model):
                 raise TypeError('_model is not an instance of model.Model')
-
 
         # mappers must be initialized at last since we need to acces
         # the 'model' from within the constructor of LazyMapperCollection
@@ -134,10 +133,9 @@ class ZopeWrapper(object):
 
     def _createEngine(self):
         self._engine = create_engine(self.dsn, **self.engine_options)
-        self._sessionmaker = scoped_session(sessionmaker(bind=self._engine, 
+        self._sessionmaker = scoped_session(sessionmaker(bind=self._engine,
                                             autocommit=not self.transactional,
                                             twophase=self.twophase,
-                                            autoflush=True, 
+                                            autoflush=True,
                                             extension=ZopeTransactionExtension(**self.extension_options),
-                                            **self.session_options
-                                            ))
+                                            **self.session_options))
