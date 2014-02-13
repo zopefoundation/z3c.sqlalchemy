@@ -21,10 +21,7 @@ import tempfile
 
 from sqlalchemy import MetaData, Integer, String, Column, Table
 from sqlalchemy.ext.declarative import declarative_base
-try:
-    from sqlalchemy import exceptions
-except ImportError:
-    from sqlalchemy import exc as exceptions
+from sqlalchemy import exc
 
 
 from zope.interface.verify import verifyClass
@@ -142,7 +139,7 @@ class WrapperTests(unittest.TestCase):
         db = createSAWrapper(self.dsn, model=M)
         try:
             db.getMapper('non_existing_table')
-        except exceptions.NoSuchTableError:
+        except exc.NoSuchTableError:
             pass
 
     def testWrapperRegistration(self):
