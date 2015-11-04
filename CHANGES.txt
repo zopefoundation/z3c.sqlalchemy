@@ -1,7 +1,7 @@
 1.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Standardize namespace __init__
 
 
 1.4.0 (2009-12-02)
