@@ -15,7 +15,7 @@ CLASSIFIERS = [
     'License :: OSI Approved :: Zope Public License',
     'Operating System :: OS Independent',
     'Framework :: Zope2',
-    'Framework :: Zope3',
+    'Framework :: Zope :: 3',
     'Programming Language :: Python',
     'Topic :: Database :: Front-Ends',
     'Topic :: Software Development :: Libraries :: Python Modules',
