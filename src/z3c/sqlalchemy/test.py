@@ -1,6 +1,6 @@
 from sqlalchemy import *
 from z3c.sqlalchemy import createSQLAlchemyWrapper, Model
-from z3c.sqlalchemy.mapper import MappedClassBase 
+from z3c.sqlalchemy.mapper import MappedClassBase
 
 dsn = 'postgres://postgres:postgres@cmsdb/Toolbox2Test'
 
@@ -47,6 +47,4 @@ session = wrapper.session
 
 H = wrapper.getMapper('hierarchy')
 
-print H
 rows = session.query(H).select_by(H.c.id==8)
-print rows[0].children

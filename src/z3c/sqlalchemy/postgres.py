@@ -12,19 +12,18 @@ import threading
 
 import sqlalchemy
 
-from zope.interface import implements
+from zope.interface import implementer
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.base import ZopeWrapper
 
 
-_cache = threading.local() # module-level cache 
+_cache = threading.local() # module-level cache
 
 
+@implementer(ISQLAlchemyWrapper)
 class PostgresMixin(object):
     """ Mixin class for Postgres aspects """
-
-    implements(ISQLAlchemyWrapper)
 
     def findDependentTables(self, schema='public', ignoreErrors=False):
         """ Returns a mapping tablename -> [list of referencing table(names)].
@@ -33,23 +32,23 @@ class PostgresMixin(object):
         """
 
         if not hasattr(_cache, 'ref_mapping'):
-            
+
             d = {}
             db = self._engine
             rs = db.execute("select * from pg_tables where schemaname = '%s'" % schema)
 
-            for row in rs: 
+            for row in rs:
                 tablename = row.tablename
 
                 try:
                     table = sqlalchemy.Table(tablename, db, autoload=True)
                 except KeyError:
                     if ignoreErrors:
-                        print >>sys.stderr, 'Can\'t load table %s' % tablename
+                        print('Can\'t load table %s' % tablename, file=sys.stderr)
                         continue
-                    else: 
+                    else:
                         raise
-                    
+
                 for c in table.c:
                     fk = c.foreign_key
                     if fk is not None:

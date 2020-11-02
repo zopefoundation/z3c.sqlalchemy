@@ -7,8 +7,8 @@
 ##########################################################################
 
 
-from util import *
-from model import Model
+from .util import *
+from .model import Model
 
 try:
     from sqlalchemy.orm import sessionmaker
