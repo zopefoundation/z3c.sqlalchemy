@@ -1,3 +1,4 @@
+from __future__ import print_function
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
@@ -56,7 +57,7 @@ class PostgresMixin(object):
                         ref_by_table = fk.column.table
                         ref_by_table_name = ref_by_table.name
 
-                        if not d.has_key(ref_by_table_name):
+                        if not ref_by_table_name in d:
                             d[ref_by_table_name] = list()
 
                         if not tablename in d[ref_by_table_name]:

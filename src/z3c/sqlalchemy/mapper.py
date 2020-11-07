@@ -138,13 +138,13 @@ class LazyMapperCollection(dict):
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
-        if not self.has_key(name):
+        if name not in self:
 
             # no-cached data, let's lookup the table ourselfs
             table = None
 
             # check if the optional model provides a table definition
-            if self._model.has_key(name):
+            if name in self._model:
                 table = self._model[name].get('table')
 
                 # support for SA declarative layer
@@ -171,7 +171,7 @@ class LazyMapperCollection(dict):
 
             # check if the model contains an optional mapper class
             mapper_class = None
-            if self._model.has_key(name):
+            if name in self._model:
                 mapper_class = self._model[name].get('mapper_class')
 
 
@@ -180,7 +180,7 @@ class LazyMapperCollection(dict):
             # relationships to other tables
 
             dependent_table_names = []
-            if self._model.has_key(name):
+            if name in self._model:
 
                 if self._model[name].get('relations') != None:
                     dependent_table_names = self._model[name].get('relations', []) or []
@@ -209,7 +209,7 @@ class LazyMapperCollection(dict):
                 properties[table_refname] = relation(table_ref_mapper, cascade=self._model.get(name, {}).get('cascade'))
 
             # create a mapper and cache it
-            if mapper_class and mapper_class.__dict__.has_key('c'):
+            if mapper_class and 'c' in mapper_class.__dict__:
                 mapper = mapper_class
             else:
                 mapper =  self._mapper_factory(table,

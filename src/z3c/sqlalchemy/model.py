@@ -32,7 +32,7 @@ class Model(dict):
             represents a single table and its data (see add() method).
         """
 
-        super().__init__()
+        super(Model, self).__init__()
         self.names = []
 
         for d in args:

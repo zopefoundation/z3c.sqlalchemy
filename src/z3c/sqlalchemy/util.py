@@ -1,3 +1,4 @@
+from __future__ import print_function
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
