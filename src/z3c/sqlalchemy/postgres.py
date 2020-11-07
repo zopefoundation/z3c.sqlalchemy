@@ -15,8 +15,8 @@ import sqlalchemy
 
 from zope.interface import implementer
 
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
-from z3c.sqlalchemy.base import ZopeWrapper
+from .interfaces import ISQLAlchemyWrapper
+from .base import ZopeWrapper
 
 
 _cache = threading.local() # module-level cache

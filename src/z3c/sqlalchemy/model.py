@@ -14,8 +14,8 @@ Optional Model support
 import sqlalchemy
 from zope.interface import implementer
 
-from z3c.sqlalchemy.mapper import MappedClassBase
-from z3c.sqlalchemy.interfaces import IModel
+from .mapper import MappedClassBase
+from .interfaces import IModel
 
 __all__ = ('Model',)
 

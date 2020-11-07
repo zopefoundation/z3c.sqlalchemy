@@ -1,0 +1,5 @@
+graft src/z3c/sqlalchemy
+include *.txt
+include *.py
+
+global-exclude __pycache__ *.py[cod]

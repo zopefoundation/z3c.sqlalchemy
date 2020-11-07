@@ -1,6 +1,5 @@
 # Wire up travis
 language: python
-sudo: false
 
 matrix:
   include:
@@ -14,9 +13,9 @@ matrix:
       env: TOXENV=py38
 
 install:
-  - travis_retry pip install tox
+  - pip install tox
 
 script:
-  - travis_retry tox
+  - tox
 notifications:
     email: false
