@@ -18,7 +18,7 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
+from zope.sqlalchemy import register
 
 
 class ZopeWrapper(object):
@@ -137,5 +137,5 @@ class ZopeWrapper(object):
                                             autocommit=not self.transactional,
                                             twophase=self.twophase,
                                             autoflush=True,
-                                            extension=ZopeTransactionExtension(**self.extension_options),
                                             **self.session_options))
+        register(self._sessionmaker)
