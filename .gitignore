@@ -8,6 +8,3 @@ venv/
 bin/
 lib/
 lib64
-**/$*.py
-apiadmin.egg-info/
-.vscode/

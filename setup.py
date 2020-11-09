@@ -20,6 +20,11 @@ CLASSIFIERS = [
     'Programming Language :: Python',
     'Topic :: Database :: Front-Ends',
     'Topic :: Software Development :: Libraries :: Python Modules',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
 ]
 
 version = '1.4.1dev'
