@@ -9,7 +9,6 @@
 
 from setuptools import setup, find_packages
 
-
 CLASSIFIERS = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
@@ -47,7 +46,6 @@ setup(name='z3c.sqlalchemy',
       description='A SQLAlchemy wrapper for Zope 2 and Zope 3',
       long_description=long_description,
       packages=find_packages('src'),
-      package_data={"": ["*.txt",]},
       package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
@@ -60,11 +58,4 @@ setup(name='z3c.sqlalchemy',
                         'zope.testing',
                         'zope.schema',
                        ],
-      extras_require=dict(
-          test=[
-              'pysqlite',
-              'zope.testing',
-              'pytest'
-            ]
-    )
-)
+      extras_require=dict(test=['pysqlite', 'zope.testing']))
