@@ -19,7 +19,7 @@ from .interfaces import ISQLAlchemyWrapper
 from .base import ZopeWrapper
 
 
-_cache = threading.local() # module-level cache
+_cache = threading.local() # module-level cache 
 
 
 @implementer(ISQLAlchemyWrapper)
@@ -33,12 +33,12 @@ class PostgresMixin(object):
         """
 
         if not hasattr(_cache, 'ref_mapping'):
-
+            
             d = {}
             db = self._engine
             rs = db.execute("select * from pg_tables where schemaname = '%s'" % schema)
 
-            for row in rs:
+            for row in rs: 
                 tablename = row.tablename
 
                 try:
@@ -47,9 +47,9 @@ class PostgresMixin(object):
                     if ignoreErrors:
                         print('Can\'t load table %s' % tablename, file=sys.stderr)
                         continue
-                    else:
+                    else: 
                         raise
-
+                    
                 for c in table.c:
                     fk = c.foreign_key
                     if fk is not None:
@@ -57,10 +57,10 @@ class PostgresMixin(object):
                         ref_by_table = fk.column.table
                         ref_by_table_name = ref_by_table.name
 
-                        if not ref_by_table_name in d:
+                        if ref_by_table_name not in d:
                             d[ref_by_table_name] = list()
 
-                        if not tablename in d[ref_by_table_name]:
+                        if tablename not in d[ref_by_table_name]:
                             d[ref_by_table_name].append(tablename)
 
             _cache.ref_mapping = d
