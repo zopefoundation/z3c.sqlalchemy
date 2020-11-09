@@ -208,7 +208,7 @@ class LazyMapperCollection(dict):
                 # add the mapper as relation to the properties dict
                 properties[table_refname] = relation(table_ref_mapper, cascade=self._model.get(name, {}).get('cascade'))
 
-            # create a mapper and cache it
+            # create a mapper and cache it 
             if mapper_class and 'c' in mapper_class.__dict__:
                 mapper = mapper_class
             else:
@@ -223,7 +223,7 @@ class LazyMapperCollection(dict):
 
     def _registerMapper(self, mapper, name):
         """ register a mapper under a given name """
-
+    
         self._lock.acquire()
         self[name] = mapper
         self._lock.release()

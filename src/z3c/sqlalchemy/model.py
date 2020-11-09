@@ -8,7 +8,7 @@
 
 
 """
-Optional Model support
+Optional Model support 
 """
 
 import sqlalchemy
@@ -46,7 +46,7 @@ class Model(dict):
 
             'mapper_class' -- an optional class to be used as mapper class for 'table'
 
-            'relations' -- an optional list of table names referencing 'table'. This is used
+            'relations' -- an optional list of table names referencing 'table'. This is used 
             for auto-constructing the relation properties of the mapper class.
 
             'autodetect_relations' -- try to autodetect the relationships between tables
@@ -69,11 +69,11 @@ class Model(dict):
         if relations is not None:
 
             if not isinstance(relations, (tuple, list)):
-                    raise TypeError('relations must be specified a sequence of strings')
+                    raise TypeError('relations must be specified a sequence of strings')    
 
             for r in relations:
                 if not isinstance(r, str):
-                    raise TypeError('relations must be specified a sequence of strings')
+                    raise TypeError('relations must be specified a sequence of strings')    
 
         if relations is not None and autodetect_relations == True:
             raise ValueError("'relations' and 'autodetect_relations' can't be specified at the same time")
@@ -95,7 +95,7 @@ class Model(dict):
 
         for name in self.names:
             yield name, self[name]
-
+                       
 
 if __name__ == '__main__':
 
@@ -114,4 +114,4 @@ if __name__ == '__main__':
                                          ),
               },
              )
-
+    
