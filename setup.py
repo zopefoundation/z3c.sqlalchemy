@@ -58,4 +58,4 @@ setup(name='z3c.sqlalchemy',
                         'zope.testing',
                         'zope.schema',
                        ],
-      extras_require=dict(test=['pysqlite', 'zope.testing']))
+      extras_require=dict(test=['zope.testing']))
