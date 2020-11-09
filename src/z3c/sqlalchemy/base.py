@@ -18,6 +18,7 @@ from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session, sessionmaker
+from zope.sqlalchemy import register
 
 from six import string_types
 
@@ -137,3 +138,4 @@ class ZopeWrapper(object):
                                             twophase=self.twophase,
                                             autoflush=True,
                                             **self.session_options))
+        register(self._sessionmaker)

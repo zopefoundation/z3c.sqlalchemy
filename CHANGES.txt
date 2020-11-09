@@ -2,7 +2,7 @@
 ------------------
 
 - Standardize namespace __init__
-
+- Fix to work with zope.sqlalchemy 1.2
 
 1.4.0 (2009-12-02)
 ------------------
