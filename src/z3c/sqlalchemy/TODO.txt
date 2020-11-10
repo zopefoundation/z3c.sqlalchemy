@@ -1,7 +1,0 @@
-Goals for z3c.sqlalchemy V 1.2.0
-================================
-
-- provide a proper savepoint implementation 
-
-- consider reusing parts of z3c.zalchemy 
-

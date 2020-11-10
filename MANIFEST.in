@@ -1,5 +1,6 @@
-graft src/z3c/sqlalchemy
 include *.txt
 include *.py
+include buildout.cfg
+include tox.ini
 
-global-exclude __pycache__ *.py[cod]
+recursive-include src *.py
