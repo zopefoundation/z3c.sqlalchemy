@@ -8,7 +8,7 @@
 
 from zope.interface import implementer
 from zope.component import getUtility
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.model import Model
 from z3c.sqlalchemy.mapper import LazyMapperCollection

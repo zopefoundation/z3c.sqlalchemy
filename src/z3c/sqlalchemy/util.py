@@ -15,7 +15,7 @@ Some helper methods
 from sqlalchemy.engine.url import make_url
 
 from zope.component import getUtilitiesFor, getUtility
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper
