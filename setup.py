@@ -29,7 +29,7 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.9',
 ]
 
-version = '1.4.1.dev0'
+version = '1.5.0.dev0'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
