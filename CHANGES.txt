@@ -1,7 +1,10 @@
 1.4.1 (unreleased)
 ------------------
 
+- add support for Python 3.5-3.9
+
 - Standardize namespace __init__
+
 - Fix to work with zope.sqlalchemy 1.2
 
 1.4.0 (2009-12-02)
