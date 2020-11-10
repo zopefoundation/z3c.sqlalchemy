@@ -1,6 +1,7 @@
 **/__pycache__
 env/
 venv/
+.coverage
 .env
 .idea
 .installed.cfg
@@ -8,9 +9,11 @@ venv/
 .mypy_cache/
 .tox/
 bin/
+coverage.xml
 develop-eggs/
 lib/
 lib64
+parts/
 pyvenv.cfg
 *.egg-info
 *.profraw
