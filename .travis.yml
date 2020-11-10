@@ -1,10 +1,14 @@
+# Wire up travis
 language: python
 python:
-    - 2.7
+  - "2.7"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+  - "3.9"
 install:
-    - python bootstrap.py
-    - bin/buildout
+  - pip install tox-travis
 script:
-    - bin/test -v1
+  - tox
 notifications:
     email: false

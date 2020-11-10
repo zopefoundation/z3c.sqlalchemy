@@ -12,21 +12,20 @@ Optional Model support
 """
 
 import sqlalchemy
-from zope.interface import implements
+from zope.interface import implementer
 
-from mapper import MappedClassBase
-from interfaces import IModel
+from .mapper import MappedClassBase
+from .interfaces import IModel
 
 __all__ = ('Model',)
 
 
+@implementer(IModel)
 class Model(dict):
     """ The Model is an optional helper class that can be passed to the
         constructor of a SQLAlchemy wrapper in order to provide hints for the mapper
         generation.
-    """        
-
-    implements(IModel)
+    """
 
     def __init__(self, *args):
         """ The constructor can be called with a series of dict. Each dict

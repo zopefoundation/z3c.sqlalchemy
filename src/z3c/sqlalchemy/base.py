@@ -6,7 +6,7 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import getUtility
 from zope.component.interfaces import ComponentLookupError
 
@@ -20,10 +20,10 @@ from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session, sessionmaker
 from zope.sqlalchemy import register
 
+from six import string_types
 
+@implementer(ISQLAlchemyWrapper)
 class ZopeWrapper(object):
-
-    implements(ISQLAlchemyWrapper)
 
     def __init__(self, dsn, model=None, transactional=True, twophase=False,
                  engine_options={}, session_options={},
@@ -68,7 +68,7 @@ class ZopeWrapper(object):
             if isinstance(model, Model):
                 self._model = model
 
-            elif isinstance(model, basestring):
+            elif isinstance(model, string_types):
 
                 try:
                     util = getUtility(IModelProvider, model)

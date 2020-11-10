@@ -7,24 +7,24 @@
 ##########################################################################
 
 
+from __future__ import print_function
 import sys
 import threading
 
 import sqlalchemy
 
-from zope.interface import implements
+from zope.interface import implementer
 
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
-from z3c.sqlalchemy.base import ZopeWrapper
+from .interfaces import ISQLAlchemyWrapper
+from .base import ZopeWrapper
 
 
 _cache = threading.local() # module-level cache 
 
 
+@implementer(ISQLAlchemyWrapper)
 class PostgresMixin(object):
     """ Mixin class for Postgres aspects """
-
-    implements(ISQLAlchemyWrapper)
 
     def findDependentTables(self, schema='public', ignoreErrors=False):
         """ Returns a mapping tablename -> [list of referencing table(names)].
@@ -45,7 +45,7 @@ class PostgresMixin(object):
                     table = sqlalchemy.Table(tablename, db, autoload=True)
                 except KeyError:
                     if ignoreErrors:
-                        print >>sys.stderr, 'Can\'t load table %s' % tablename
+                        print('Can\'t load table %s' % tablename, file=sys.stderr)
                         continue
                     else: 
                         raise
@@ -57,10 +57,10 @@ class PostgresMixin(object):
                         ref_by_table = fk.column.table
                         ref_by_table_name = ref_by_table.name
 
-                        if not d.has_key(ref_by_table_name):
+                        if ref_by_table_name not in d:
                             d[ref_by_table_name] = list()
 
-                        if not tablename in d[ref_by_table_name]:
+                        if tablename not in d[ref_by_table_name]:
                             d[ref_by_table_name].append(tablename)
 
             _cache.ref_mapping = d

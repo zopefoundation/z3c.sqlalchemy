@@ -81,7 +81,7 @@ createSQLAlchemyWrapper = createSAWrapper
 def registerSAWrapper(wrapper, name):
     """ deferred registration of the wrapper as named utility """
 
-    if not registeredWrappers.has_key(name):
+    if name not in registeredWrappers:
         registeredWrappers[name] = wrapper
     else:
         raise ValueError("SAWrapper '%s' already registered.\n"
@@ -102,7 +102,7 @@ def _registerSAWrapper(wrapper, name):
 def getSAWrapper(name):
     """ return a SQLAlchemyWrapper instance by name """
 
-    if not registeredWrappers.has_key(name):
+    if name not in registeredWrappers:
         raise ValueError('No registered SQLAlchemyWrapper with name %s found' % name)
 
     # Perform a late and lazy registration of the wrapper as
@@ -142,4 +142,4 @@ def allSAWrapperNames():
 
 
 if __name__ == '__main__':
-    print createSAWrapper('postgres://test:test@db.example.com/TestDB')
+    print(createSAWrapper('postgres://test:test@db.example.com/TestDB'))
