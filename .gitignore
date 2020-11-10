@@ -3,8 +3,16 @@ env/
 venv/
 .env
 .idea
+.installed.cfg
 .pytest_cache/
 .mypy_cache/
+.tox/
 bin/
+develop-eggs/
 lib/
 lib64
+pyvenv.cfg
+*.egg-info
+*.profraw
+*.py?
+*.swp
