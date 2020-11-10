@@ -14,8 +14,10 @@ CLASSIFIERS = [
     'Intended Audience :: Developers',
     'License :: OSI Approved :: Zope Public License',
     'Operating System :: OS Independent',
-    'Framework :: Zope2',
+    'Framework :: Zope',
     'Framework :: Zope :: 3',
+    'Framework :: Zope :: 4',
+    'Framework :: Zope :: 5',
     'Programming Language :: Python',
     'Topic :: Database :: Front-Ends',
     'Topic :: Software Development :: Libraries :: Python Modules',
@@ -27,7 +29,7 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.9',
 ]
 
-version = '1.4.1dev'
+version = '1.4.1.dev0'
 
 desc = open('README.txt').read().strip()
 changes = open('CHANGES.txt').read().strip()
@@ -37,11 +39,17 @@ long_description = desc + '\n\nChanges\n=======\n\n'  + changes
 
 setup(name='z3c.sqlalchemy',
       version=version,
-      license='ZPL (see LICENSE.txt)',
+      url='https://github.com/zopefoundation/z3c.sqlalchemy',
+      project_urls={
+          'Issue Tracker': ('https://github.com/zopefoundation/'
+                            'z3c.sqlalchemy/issues'),
+          'Sources': 'https://github.com/zopefoundation/z3c.sqlalchemy',
+      },
+      license='ZPL 2.1',
       author='Andreas Jung',
       author_email='info@zopyx.com',
-      maintainer='Andreas Jung',
-      maintainer_email='info@zopyx.com',
+      maintainer='Zope Foundation and Contributors',
+      maintainer_email='zope-dev@zope.org',
       classifiers=CLASSIFIERS,
       url='http://svn.zope.org/z3c.sqlalchemy/tags/%s' % version,
       description='A SQLAlchemy wrapper for Zope 2 and Zope 3',
