@@ -1,5 +1,3 @@
-# -*- coding: iso-8859-15 -*-
-
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
