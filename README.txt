@@ -7,7 +7,7 @@ What is z3c.sqlalchemy?
 =======================
 
 z3c.sqlalchemy is yet another wrapper around SQLAlchemy. The functionality of
-the wrapper is basically focused on easy integration with Zope 2 and Zope 3.
+the wrapper is basically focused on easy integration with Zope.
 The wrapper cares about connection handling, optional transaction integration
 with Zope 2/3 and wrapper management (caching, introspection). z3c.sqlalchemy
 gives you flexible control over the mapper creation. Mapper classes can be
@@ -23,7 +23,7 @@ What z3c.sqlalchemy does not do and won't do:
 - no support for Archetypes schemas
 
 z3c.sqlachemy just tries to provide you with the basic functionalities you need
-to write SQLAlchemy-based applications with Zope 2/3. Higher-level
+to write SQLAlchemy-based applications with Zope. Higher-level
 functionalities like integration with Archetypes/Zope 3 schemas are subject to
 higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
 
@@ -31,10 +31,10 @@ higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
 Requirements:
 =============
 
-- Zope 2.8+, Zope 3.X
-- SQLAlchemy 0.4.6 or higher  (no support for SQLAlchemy 0.3) 
-- zope.sqlalchemy 0.1.0 or higher
-- Python 2.4+
+- Zope 4+
+- SQLAlchemy 0.5.5 or higher
+- zope.sqlalchemy 1.2.0 or higher
+- Python 2.7 or 3.5-3.9
 
 
 Installation:
@@ -46,15 +46,14 @@ Either using easy_install::
 
 or using Python directly::
 
-  python2.4 setup.py install
+  python2.7 setup.py install
 
 Note:
 -----
 z3c.sqlalchemy depends on the modules **zope.component**, **zope.schema**
 and **zope.interface**. If you are using z3c.sqlalchemy in a Python-only
 environment, ensure the these components have to be installed either
-as eggs or by setting the PYTHONPATH to a corresponding Zope 2 
-or Zope 3 installation.
+as eggs or by setting the PYTHONPATH to a corresponding Zope installation.
 
 
 Usage
@@ -132,7 +131,7 @@ the model using the 'mapper_class' parameter::
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
    AMapper= wrapper.getMapper('A')  # AMapper will be an instance of MyAMapper
 
-When you are working with wrapper in a Zope 2/3 environment you are usually
+When you are working with wrapper in a Zope environment you are usually
 interested to to register a wrapper instance as named utility implementing
 ISQLAlchemyWrapper. You can can perform the registration lazily by passing the
 name utility as 'name' parameter to the createSAWrapper(...,
@@ -149,7 +148,7 @@ through getSAWrapper::
 Supported systems
 =================
 
-z3c.sqlalchemy was developed with Zope 2.8/Zope 3.0 and basically tested against
+z3c.sqlalchemy was developed with Zope and basically tested against
 Postgres 7.4.X and 8.X and SQLite 3.3.
 
 
