@@ -11,6 +11,7 @@ venv/
 bin/
 coverage.xml
 develop-eggs/
+dist/
 lib/
 lib64
 parts/
