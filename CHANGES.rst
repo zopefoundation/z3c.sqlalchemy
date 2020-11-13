@@ -1,7 +1,7 @@
 Change log
 ==========
 
-1.5.1 (unreleased)
+1.5.1 (2020-11-13)
 ------------------
 
 - add linting to ``tox`` configuration and apply linting fixes
