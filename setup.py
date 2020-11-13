@@ -22,7 +22,7 @@ def _read_file(filename):
 
 README = _read_file('README.rst')
 CHANGES = _read_file('CHANGES.rst')
-version = '1.5.1'
+version = '1.5.2'
 
 
 setup(name='z3c.sqlalchemy',
