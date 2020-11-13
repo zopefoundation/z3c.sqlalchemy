@@ -7,34 +7,21 @@
 ##########################################################################
 
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
-CLASSIFIERS = [
-    'Development Status :: 5 - Production/Stable',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: Zope Public License',
-    'Operating System :: OS Independent',
-    'Framework :: Zope',
-    'Framework :: Zope :: 3',
-    'Framework :: Zope :: 4',
-    'Framework :: Zope :: 5',
-    'Programming Language :: Python',
-    'Topic :: Database :: Front-Ends',
-    'Topic :: Software Development :: Libraries :: Python Modules',
-    'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-]
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+def _read_file(filename):
+    with open(os.path.join(HERE, filename)) as f:
+        return f.read()
+
+
+README = _read_file('README.rst')
+CHANGES = _read_file('CHANGES.rst')
 version = '1.5.0.dev0'
-
-desc = open('README.txt').read().strip()
-changes = open('CHANGES.txt').read().strip()
-
-long_description = desc + '\n\nChanges\n=======\n\n'  + changes
 
 
 setup(name='z3c.sqlalchemy',
@@ -50,9 +37,27 @@ setup(name='z3c.sqlalchemy',
       author_email='info@zopyx.com',
       maintainer='Zope Foundation and Contributors',
       maintainer_email='zope-dev@zope.org',
-      classifiers=CLASSIFIERS,
       description='A SQLAlchemy wrapper for Zope',
-      long_description=long_description,
+      long_description='\n\n'.join([README, CHANGES]),
+      classifiers=[
+          'Development Status :: 5 - Production/Stable',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: Zope Public License',
+          'Operating System :: OS Independent',
+          'Framework :: Zope',
+          'Framework :: Zope :: 3',
+          'Framework :: Zope :: 4',
+          'Framework :: Zope :: 5',
+          'Programming Language :: Python',
+          'Topic :: Database :: Front-Ends',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
+          'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
+      ],
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
