@@ -9,7 +9,7 @@ What is z3c.sqlalchemy?
 z3c.sqlalchemy is yet another wrapper around SQLAlchemy. The functionality of
 the wrapper is basically focused on easy integration with Zope.
 The wrapper cares about connection handling, optional transaction integration
-with Zope 2/3 and wrapper management (caching, introspection). z3c.sqlalchemy
+with Zope and wrapper management (caching, introspection). z3c.sqlalchemy
 gives you flexible control over the mapper creation. Mapper classes can be
 
 - auto-generated (with or without autodetection of table relationships)
