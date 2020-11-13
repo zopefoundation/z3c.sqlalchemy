@@ -1,7 +1,7 @@
 Change log
 ==========
 
-1.5.0 (unreleased)
+1.5.0 (2020-11-13)
 ------------------
 
 - add support for Python 3.5-3.9
