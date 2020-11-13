@@ -4,6 +4,7 @@ Change log
 1.5.1 (unreleased)
 ------------------
 
+- fixed installation error in setup.py (release 1.5.0 is broken)
 
 1.5.0 (2020-11-13)
 ------------------

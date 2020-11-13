@@ -6,6 +6,7 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
+import os
 
 from setuptools import find_packages
 from setuptools import setup
