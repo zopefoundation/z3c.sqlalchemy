@@ -8,6 +8,7 @@
 
 
 from __future__ import print_function
+
 import sys
 import threading
 
@@ -15,11 +16,11 @@ import sqlalchemy
 
 from zope.interface import implementer
 
-from .interfaces import ISQLAlchemyWrapper
 from .base import ZopeWrapper
+from .interfaces import ISQLAlchemyWrapper
 
 
-_cache = threading.local() # module-level cache 
+_cache = threading.local()  # module-level cache
 
 
 @implementer(ISQLAlchemyWrapper)
@@ -33,23 +34,25 @@ class PostgresMixin(object):
         """
 
         if not hasattr(_cache, 'ref_mapping'):
-            
+
             d = {}
             db = self._engine
-            rs = db.execute("select * from pg_tables where schemaname = '%s'" % schema)
+            sql = "select * from pg_tables where schemaname = '%s'"
+            rs = db.execute(sql % schema)
 
-            for row in rs: 
+            for row in rs:
                 tablename = row.tablename
 
                 try:
                     table = sqlalchemy.Table(tablename, db, autoload=True)
                 except KeyError:
                     if ignoreErrors:
-                        print('Can\'t load table %s' % tablename, file=sys.stderr)
+                        print('Can\'t load table %s' % tablename,
+                              file=sys.stderr)
                         continue
-                    else: 
+                    else:
                         raise
-                    
+
                 for c in table.c:
                     fk = c.foreign_key
                     if fk is not None:
@@ -72,4 +75,3 @@ class ZopePostgresWrapper(ZopeWrapper, PostgresMixin):
     """ A wrapper to be used from within Zope. It connects
         the session with the transaction management of Zope.
     """
-

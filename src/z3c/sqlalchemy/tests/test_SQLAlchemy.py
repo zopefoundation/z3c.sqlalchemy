@@ -14,22 +14,29 @@ Tests, tests, tests.........
 """
 
 import os
+import tempfile
+import unittest
+
 import sqlalchemy
 import sqlalchemy.orm
-import unittest
-import tempfile
-
-from sqlalchemy import MetaData, Integer, String, Column, Table
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column
+from sqlalchemy import Integer
+from sqlalchemy import MetaData
+from sqlalchemy import String
+from sqlalchemy import Table
 from sqlalchemy import exc
-
+from sqlalchemy.ext.declarative import declarative_base
 
 from zope.interface.verify import verifyClass
 
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModel
-from z3c.sqlalchemy.postgres import ZopePostgresWrapper
+from z3c.sqlalchemy import Model
+from z3c.sqlalchemy import createSAWrapper
+from z3c.sqlalchemy import getSAWrapper
+from z3c.sqlalchemy import registerSAWrapper
+from z3c.sqlalchemy.interfaces import IModel
+from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.mapper import MappedClassBase
-from z3c.sqlalchemy import createSAWrapper, Model, registerSAWrapper, getSAWrapper
+from z3c.sqlalchemy.postgres import ZopePostgresWrapper
 
 
 class WrapperTests(unittest.TestCase):
@@ -86,7 +93,9 @@ class WrapperTests(unittest.TestCase):
         self.assertEqual(len(rows), 2)
         row1 = rows[0]
         d = row1.asDict()
-        self.assertEqual(d, {'firstname': 'udo', 'lastname': 'juergens', 'id': 1})
+        self.assertEqual(d, {'firstname': 'udo',
+                             'lastname': 'juergens',
+                             'id': 1})
 
     def testMapperWithCustomModel(self):
 
@@ -127,7 +136,11 @@ class WrapperTests(unittest.TestCase):
 
     def testModelWeirdParameters(self):
         M = Model()
-        self.assertRaises(ValueError, M.add, 'users', relations=('foo', 'bar'), autodetect_relations=True)
+        self.assertRaises(ValueError,
+                          M.add,
+                          'users',
+                          relations=('foo', 'bar'),
+                          autodetect_relations=True)
 
     def testModelWeirdRelationsParameters(self):
         M = Model()
@@ -155,7 +168,10 @@ class WrapperTests(unittest.TestCase):
     def testWrapperDoubleRegistrationFailing(self):
         wrapper = createSAWrapper(self.dsn)
         registerSAWrapper(wrapper, 'test.wrapper2')
-        self.assertRaises(ValueError, registerSAWrapper, wrapper, 'test.wrapper2')
+        self.assertRaises(ValueError,
+                          registerSAWrapper,
+                          wrapper,
+                          'test.wrapper2')
 
     def testWrapperDirectRegistration(self):
         wrapper = createSAWrapper(self.dsn, name='test.wrapper3')
@@ -237,7 +253,8 @@ class WrapperTests(unittest.TestCase):
 
 
 def test_suite():
-    from unittest import TestSuite, makeSuite
+    from unittest import TestSuite
+    from unittest import makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(WrapperTests))
     return suite

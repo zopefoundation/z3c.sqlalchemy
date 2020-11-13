@@ -4,7 +4,10 @@ Change log
 1.5.1 (unreleased)
 ------------------
 
+- add linting to ``tox`` configuration and apply linting fixes
+
 - fixed installation error in setup.py (release 1.5.0 is broken)
+
 
 1.5.0 (2020-11-13)
 ------------------

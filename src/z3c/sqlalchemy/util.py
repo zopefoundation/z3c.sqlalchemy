@@ -14,15 +14,19 @@ Some helper methods
 
 from sqlalchemy.engine.url import make_url
 
-from zope.component import getUtilitiesFor, getUtility
+from zope.component import getUtilitiesFor
+from zope.component import getUtility
 from zope.interface.interfaces import ComponentLookupError
 
+from z3c.sqlalchemy.base import ZopeWrapper
 from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
 from z3c.sqlalchemy.postgres import ZopePostgresWrapper
-from z3c.sqlalchemy.base import ZopeWrapper
 
-__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper', 'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper',
-           'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers', 'getSAWrapper', 'allSAWrapperNames')
+
+__all__ = ('createSQLAlchemyWrapper', 'registerSQLAlchemyWrapper',
+           'allRegisteredSQLAlchemyWrappers', 'getSQLAlchemyWrapper',
+           'createSAWrapper', 'registerSAWrapper', 'allRegisteredSAWrappers',
+           'getSAWrapper', 'allSAWrapperNames')
 
 registeredWrappers = {}
 
@@ -38,10 +42,11 @@ def createSAWrapper(dsn, model=None, name=None, transactional=True,
         'dsn' - something like 'postgres://user:password@host/dbname'
 
         'model' - None or  an instance of model.Model or a string representing
-        a named utility implementing IModelProvider or a method/callable returning an
-        instance of model.Model.
+        a named utility implementing IModelProvider or a method/callable
+        returning an instance of model.Model.
 
-        'transactional' - True|False, only used for SQLAlchemyDA *don't change it*
+        'transactional' - True|False, only used for SQLAlchemyDA *don't
+        change it*
 
         'name' can be set to register the wrapper automatically  in order
         to avoid a dedicated registerSAWrapper() call.
@@ -75,6 +80,7 @@ def createSAWrapper(dsn, model=None, name=None, transactional=True,
 
     return wrapper
 
+
 createSQLAlchemyWrapper = createSAWrapper
 
 
@@ -85,7 +91,9 @@ def registerSAWrapper(wrapper, name):
         registeredWrappers[name] = wrapper
     else:
         raise ValueError("SAWrapper '%s' already registered.\n"
-                         "You can not register a wrapper twice under the same name." % name)
+                         "You can not register a wrapper twice under the "
+                         "same name." % name)
+
 
 registerSQLAlchemyWrapper = registerSAWrapper
 
@@ -103,7 +111,8 @@ def getSAWrapper(name):
     """ return a SQLAlchemyWrapper instance by name """
 
     if name not in registeredWrappers:
-        raise ValueError('No registered SQLAlchemyWrapper with name %s found' % name)
+        raise ValueError('No registered SQLAlchemyWrapper with '
+                         'name %s found' % name)
 
     # Perform a late and lazy registration of the wrapper as
     # named utility. Late initialization is necessary for Zope 2
@@ -118,6 +127,7 @@ def getSAWrapper(name):
         _registerSAWrapper(wrapper, name)
         return wrapper
 
+
 getSQLAlchemyWrapper = getSAWrapper
 
 
@@ -131,6 +141,7 @@ def allRegisteredSAWrappers():
                'dsn': wrapper.dsn,
                'kw': wrapper.kw,
                }
+
 
 allRegisteredSQLAlchemyWrappers = allRegisteredSAWrappers
 

@@ -7,10 +7,11 @@
 ##########################################################################
 
 
-from .util import *
-from .model import Model
+from .model import Model  # NOQA: F401
+from .util import *  # NOQA: F401,F403
+
 
 try:
-    from sqlalchemy.orm import sessionmaker
+    from sqlalchemy.orm import sessionmaker  # NOQA: F401
 except ImportError:
     raise ImportError('z3c.sqlalchemy requires SQLAlchemy 0.4 or higher')

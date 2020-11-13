@@ -5,4 +5,3 @@
 # Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
-

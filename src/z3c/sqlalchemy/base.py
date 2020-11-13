@@ -6,21 +6,23 @@
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
 
-from zope.interface import implementer
-from zope.component import getUtility
-from zope.interface.interfaces import ComponentLookupError
-
-from z3c.sqlalchemy.model import Model
-from z3c.sqlalchemy.mapper import LazyMapperCollection
-from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper, IModelProvider
-
-
-from sqlalchemy import create_engine, MetaData
+from six import string_types
+from sqlalchemy import MetaData
+from sqlalchemy import create_engine
 from sqlalchemy.engine.url import make_url
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
+
+from zope.component import getUtility
+from zope.interface import implementer
+from zope.interface.interfaces import ComponentLookupError
 from zope.sqlalchemy import register
 
-from six import string_types
+from z3c.sqlalchemy.interfaces import IModelProvider
+from z3c.sqlalchemy.interfaces import ISQLAlchemyWrapper
+from z3c.sqlalchemy.mapper import LazyMapperCollection
+from z3c.sqlalchemy.model import Model
+
 
 @implementer(ISQLAlchemyWrapper)
 class ZopeWrapper(object):
@@ -73,7 +75,8 @@ class ZopeWrapper(object):
                 try:
                     util = getUtility(IModelProvider, model)
                 except ComponentLookupError:
-                    raise ComponentLookupError("No named utility '%s' providing IModelProvider found" % model)
+                    msg = "No named utility '%s' providing IModelProvider"
+                    raise ComponentLookupError(msg % model)
 
                 self._model = util.getModel(self.metadata)
 
@@ -81,9 +84,10 @@ class ZopeWrapper(object):
                 self._model = model(self.metadata)
 
             else:
-                raise ValueError("The 'model' parameter passed to constructor must either be "
-                                 "the name of a named utility implementing IModelProvider or "
-                                 "an instance of z3c.sqlalchemy.model.Model.")
+                raise ValueError("The 'model' parameter passed to constructor "
+                                 "must either be the name of a named utility "
+                                 "implementing IModelProvider or an instance "
+                                 "of z3c.sqlalchemy.model.Model.")
 
             if not isinstance(self._model, Model):
                 raise TypeError('_model is not an instance of model.Model')
@@ -110,7 +114,7 @@ class ZopeWrapper(object):
         # Return the ConnectionFairy
         return session.connection().connection
         # instead of the raw connection
-        #return session.connection().connection.connection
+        # return session.connection().connection.connection
 
     def registerMapper(self, mapper, name):
         self._mappers._registerMapper(mapper, name)
