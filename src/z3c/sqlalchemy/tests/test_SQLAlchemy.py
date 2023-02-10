@@ -112,7 +112,7 @@ class WrapperTests(unittest.TestCase):
             Column('id', Integer, primary_key=True),
         )
 
-        class MyClass(object):
+        class MyClass:
             pass
         mapper = sqlalchemy.orm.mapper(MyClass, mytable)
         self.db.registerMapper(mapper, 'mymapper')

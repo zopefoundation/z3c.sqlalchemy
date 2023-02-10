@@ -45,7 +45,7 @@ class Proxy(dict):
         return super(dict, self).__getattr__(name, default)
 
 
-class MappedClassBase(object):
+class MappedClassBase:
     """ base class for all mapped classes """
 
     # Zope 2 security magic.......buuuuuuuhhhhhh
@@ -91,7 +91,7 @@ class MappedClassBase(object):
             return class_mapper(self.__class__).props[name].mapper.class_
 
 
-class MapperFactory(object):
+class MapperFactory:
     """ a factory for table and mapper objects """
 
     def __init__(self, metadata):
@@ -121,7 +121,7 @@ class LazyMapperCollection(dict):
     """ Implements a cache for table mappers """
 
     def __init__(self, wrapper):
-        super(LazyMapperCollection, self).__init__()
+        super().__init__()
         self._wrapper = wrapper
         self._engine = wrapper.engine
         self._model = wrapper.model or {}
