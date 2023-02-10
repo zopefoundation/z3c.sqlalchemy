@@ -10,7 +10,6 @@ Optional Model support
 """
 
 import sqlalchemy
-
 from zope.interface import implementer
 
 from .interfaces import IModel

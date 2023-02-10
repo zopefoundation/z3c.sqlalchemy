@@ -13,7 +13,6 @@ import sys
 import threading
 
 import sqlalchemy
-
 from zope.interface import implementer
 
 from .base import ZopeWrapper

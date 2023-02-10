@@ -24,7 +24,6 @@ from sqlalchemy import String
 from sqlalchemy import Table
 from sqlalchemy import exc
 from sqlalchemy.ext.declarative import declarative_base
-
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy import Model

@@ -7,12 +7,12 @@
 ##########################################################################
 
 from six import string_types
+
 from sqlalchemy import MetaData
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
-
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
