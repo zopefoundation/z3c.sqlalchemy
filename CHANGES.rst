@@ -5,6 +5,8 @@ Change log
 ----------------
 
 
+  - Add support for Python 3.10, 3.11.
+
   - Drop support for Python 2.7, 3.5, 3.6.
 
 1.5.2 (2020-11-13)
