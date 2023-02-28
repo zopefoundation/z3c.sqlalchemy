@@ -24,7 +24,6 @@ from sqlalchemy import String
 from sqlalchemy import Table
 from sqlalchemy import exc
 from sqlalchemy.ext.declarative import declarative_base
-
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy import Model
@@ -113,7 +112,7 @@ class WrapperTests(unittest.TestCase):
             Column('id', Integer, primary_key=True),
         )
 
-        class MyClass(object):
+        class MyClass:
             pass
         mapper = sqlalchemy.orm.mapper(MyClass, mytable)
         self.db.registerMapper(mapper, 'mymapper')

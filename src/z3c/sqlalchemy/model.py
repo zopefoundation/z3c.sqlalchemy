@@ -10,7 +10,6 @@ Optional Model support
 """
 
 import sqlalchemy
-
 from zope.interface import implementer
 
 from .interfaces import IModel
@@ -31,7 +30,7 @@ class Model(dict):
             represents a single table and its data (see add() method).
         """
 
-        super(Model, self).__init__()
+        super().__init__()
         self.names = []
 
         for d in args:

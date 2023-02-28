@@ -18,25 +18,25 @@ class ISQLAlchemyWrapper(Interface):
         connection and transaction handling.
     """
 
-    dsn = TextLine(title=u'A RFC-1738 style connection string',
+    dsn = TextLine(title='A RFC-1738 style connection string',
                    required=True)
 
-    dbname = TextLine(title=u'Database name',
+    dbname = TextLine(title='Database name',
                       required=True)
 
-    host = TextLine(title=u'Hostname of database',
+    host = TextLine(title='Hostname of database',
                     required=True)
 
-    port = Int(title=u'Port of database',
+    port = Int(title='Port of database',
                required=True)
 
-    username = TextLine(title=u'Database user',
+    username = TextLine(title='Database user',
                         required=True)
 
-    password = TextLine(title=u'Password of database user',
+    password = TextLine(title='Password of database user',
                         required=True)
 
-    echo = Bool(title=u'Echo all SQL statements to the console',
+    echo = Bool(title='Echo all SQL statements to the console',
                 required=True)
 
     def registerMapper(mapper, name):

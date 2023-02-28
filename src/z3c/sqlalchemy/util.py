@@ -13,7 +13,6 @@ Some helper methods
 
 
 from sqlalchemy.engine.url import make_url
-
 from zope.component import getUtilitiesFor
 from zope.component import getUtility
 from zope.interface.interfaces import ComponentLookupError

@@ -5,14 +5,11 @@
 # Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
-
-from six import string_types
 from sqlalchemy import MetaData
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
-
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface.interfaces import ComponentLookupError
@@ -25,7 +22,7 @@ from z3c.sqlalchemy.model import Model
 
 
 @implementer(ISQLAlchemyWrapper)
-class ZopeWrapper(object):
+class ZopeWrapper:
 
     def __init__(self, dsn, model=None, transactional=True, twophase=False,
                  engine_options={}, session_options={},
@@ -70,7 +67,7 @@ class ZopeWrapper(object):
             if isinstance(model, Model):
                 self._model = model
 
-            elif isinstance(model, string_types):
+            elif isinstance(model, str):
 
                 try:
                     util = getUtility(IModelProvider, model)

@@ -22,7 +22,7 @@ def _read_file(filename):
 
 README = _read_file('README.rst')
 CHANGES = _read_file('CHANGES.rst')
-version = '1.5.3.dev0'
+version = '2.0.dev0'
 
 
 setup(name='z3c.sqlalchemy',
@@ -37,7 +37,7 @@ setup(name='z3c.sqlalchemy',
       author='Andreas Jung',
       author_email='info@zopyx.com',
       maintainer='Zope Foundation and Contributors',
-      maintainer_email='zope-dev@zope.org',
+      maintainer_email='zope-dev@zope.dev',
       description='A SQLAlchemy wrapper for Zope',
       long_description='\n\n'.join([README, CHANGES]),
       classifiers=[
@@ -52,19 +52,18 @@ setup(name='z3c.sqlalchemy',
           'Programming Language :: Python',
           'Topic :: Database :: Front-Ends',
           'Topic :: Software Development :: Libraries :: Python Modules',
-          'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3.5',
-          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
           'Programming Language :: Python :: 3.9',
+          'Programming Language :: Python :: 3.10',
+          'Programming Language :: Python :: 3.11',
       ],
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
       namespace_packages=['z3c'],
-      python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
+      python_requires='>=3.7',
       install_requires=[
           'setuptools',
           'SQLAlchemy>=0.5.5',

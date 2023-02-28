@@ -5,15 +5,10 @@
 # Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
-
-
-from __future__ import print_function
-
 import sys
 import threading
 
 import sqlalchemy
-
 from zope.interface import implementer
 
 from .base import ZopeWrapper
@@ -24,7 +19,7 @@ _cache = threading.local()  # module-level cache
 
 
 @implementer(ISQLAlchemyWrapper)
-class PostgresMixin(object):
+class PostgresMixin:
     """ Mixin class for Postgres aspects """
 
     def findDependentTables(self, schema='public', ignoreErrors=False):
