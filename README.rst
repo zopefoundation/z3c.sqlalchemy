@@ -175,17 +175,6 @@ z3c.sqlalchemy is licensed under the Zope Public License 2.1.
 See LICENSE.txt.
 
 
-Contact
-=======
-
-| ZOPYX Ltd. & Co. KG
-| Andreas Jung
-| Charlottenstr. 37/1
-| D-72070 Tuebingen, Germany 
-| E-mail: info at zopyx dot com
-| Web: http://www.zopyx.com
-
-
 Credits
 =======
 
