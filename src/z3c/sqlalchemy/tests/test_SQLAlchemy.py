@@ -46,7 +46,7 @@ class WrapperTests(unittest.TestCase):
             self.tempfile = tempfile.mktemp()
             self.dsn = 'sqlite:///%s' % self.tempfile
         self.db = wrapper = createSAWrapper(self.dsn)
-        metadata = MetaData(bind=wrapper.engine)
+        metadata = MetaData(self.dsn)
 
         Table('users', metadata,
               Column('id', Integer, primary_key=True),
@@ -57,7 +57,7 @@ class WrapperTests(unittest.TestCase):
               Column('user_id', Integer, primary_key=True),
               Column('name', String(255)))
 
-        metadata.create_all()
+        metadata.create_all(bind=wrapper.engine)
 
     def tearDown(self):
         if self.tempfile:

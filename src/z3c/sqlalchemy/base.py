@@ -96,7 +96,7 @@ class ZopeWrapper:
     @property
     def metadata(self):
         if not hasattr(self, '_v_metadata'):
-            self._v_metadata = MetaData(self._engine)
+            self._v_metadata = MetaData(self.dsn)
         return self._v_metadata
 
     @property
