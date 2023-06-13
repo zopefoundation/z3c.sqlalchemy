@@ -66,7 +66,7 @@ setup(name='z3c.sqlalchemy',
       python_requires='>=3.7',
       install_requires=[
           'setuptools',
-          'SQLAlchemy>=0.5.5',
+          'SQLAlchemy>=0.5.5, < 2',
           'zope.sqlalchemy>=1.2.0',
           'zope.component',
           'zope.interface',

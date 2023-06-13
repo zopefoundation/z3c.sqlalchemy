@@ -4,7 +4,7 @@ Change log
 2.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Declare in ``setup.py`` that ``SQLAlchemy 2.0`` is not supported, yet.
 
 
 2.0 (2023-03-01)
