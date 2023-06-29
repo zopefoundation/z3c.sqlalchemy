@@ -4,7 +4,8 @@ Change log
 2.1 (unreleased)
 ----------------
 
-- Declare in ``setup.py`` that ``SQLAlchemy 2.0`` is not supported, yet.
+- Support ``SQLAlchemy 2.0``.
+  Fixes `https://github.com/zopefoundation/z3c.sqlalchemy/issues/15`_.
 
 
 2.0 (2023-03-01)
