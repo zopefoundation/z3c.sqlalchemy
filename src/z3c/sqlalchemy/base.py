@@ -96,13 +96,13 @@ class ZopeWrapper:
     @property
     def metadata(self):
         if not hasattr(self, '_v_metadata'):
-            self._v_metadata = MetaData(self._engine)
+            self._v_metadata = MetaData()
         return self._v_metadata
 
     @property
     def session(self):
         """ Return thread-local session """
-        return self._sessionmaker()
+        return self._session
 
     @property
     def connection(self):
@@ -140,3 +140,4 @@ class ZopeWrapper:
                                             autoflush=True,
                                             **self.session_options))
         register(self._sessionmaker)
+        self._session = self._sessionmaker()

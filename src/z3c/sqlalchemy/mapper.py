@@ -14,8 +14,8 @@ import threading
 from sqlalchemy import Table
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import class_mapper
-from sqlalchemy.orm import mapper
-from sqlalchemy.orm import relation
+from sqlalchemy.orm import registry
+from sqlalchemy.orm import relationship
 
 
 marker = object
@@ -112,8 +112,7 @@ class MapperFactory:
                           (MappedClassBase,), {})
         else:
             newCls = cls
-
-        mapper(newCls, table, properties=properties)
+        registry().map_imperatively(newCls, table, properties=properties)
         return newCls
 
 
@@ -163,7 +162,7 @@ class LazyMapperCollection(dict):
                 table = Table(tablename,
                               self._metadata,
                               schema=schema,
-                              autoload=True)
+                              autoload_with=self._engine)
 
             # check if the model contains an optional mapper class
             mapper_class = None
@@ -209,8 +208,11 @@ class LazyMapperCollection(dict):
 
                 # add the mapper as relation to the properties dict
                 properties[table_refname] = (
-                    relation(table_ref_mapper,
-                             cascade=self._model.get(name, {}).get('cascade')))
+                    relationship(
+                        table_ref_mapper,
+                        cascade=self._model.get(name, {}).get('cascade'),
+                    )
+                )
 
             # create a mapper and cache it
             if mapper_class and 'c' in mapper_class.__dict__:

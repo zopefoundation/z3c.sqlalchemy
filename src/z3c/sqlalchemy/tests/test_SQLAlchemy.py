@@ -23,7 +23,7 @@ from sqlalchemy import MetaData
 from sqlalchemy import String
 from sqlalchemy import Table
 from sqlalchemy import exc
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from zope.interface.verify import verifyClass
 
 from z3c.sqlalchemy import Model
@@ -46,7 +46,7 @@ class WrapperTests(unittest.TestCase):
             self.tempfile = tempfile.mktemp()
             self.dsn = 'sqlite:///%s' % self.tempfile
         self.db = wrapper = createSAWrapper(self.dsn)
-        metadata = MetaData(bind=wrapper.engine)
+        metadata = MetaData()
 
         Table('users', metadata,
               Column('id', Integer, primary_key=True),
@@ -57,7 +57,7 @@ class WrapperTests(unittest.TestCase):
               Column('user_id', Integer, primary_key=True),
               Column('name', String(255)))
 
-        metadata.create_all()
+        metadata.create_all(bind=wrapper.engine)
 
     def tearDown(self):
         if self.tempfile:
@@ -114,7 +114,8 @@ class WrapperTests(unittest.TestCase):
 
         class MyClass:
             pass
-        mapper = sqlalchemy.orm.mapper(MyClass, mytable)
+        registry = sqlalchemy.orm.registry()
+        mapper = registry.map_imperatively(MyClass, mytable)
         self.db.registerMapper(mapper, 'mymapper')
 
 #    def testCustomMapperClassWithWrongType(self):
@@ -234,7 +235,7 @@ class WrapperTests(unittest.TestCase):
                 name = Column('name', String(50))
 
             model.add('foo', mapper_class=Foo)
-            Base.metadata.create_all()
+            Base.metadata.create_all(self.db._engine)
             return model
 
         db = createSAWrapper(self.dsn, model=getModel)
