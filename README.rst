@@ -13,13 +13,13 @@ with Zope and wrapper management (caching, introspection). z3c.sqlalchemy
 gives you flexible control over the mapper creation. Mapper classes can be
 
 - auto-generated (with or without autodetection of table relationships)
-- configured by the developer 
+- configured by the developer
 
 
 What z3c.sqlalchemy does not do and won't do:
 =============================================
 
-- no support for Zope 3 schemas 
+- no support for Zope 3 schemas
 - no support for Archetypes schemas
 
 z3c.sqlachemy just tries to provide you with the basic functionalities you need
@@ -31,22 +31,19 @@ higher-level frameworks.  z3c.sqlalchemy does not address these frameworks.
 Requirements:
 =============
 
-- Zope 4+
-- SQLAlchemy 0.5.5 or higher
+- Zope 5 or higher
+- SQLAlchemy 1.4 or higher
 - zope.sqlalchemy 1.2.0 or higher
-- Python 2.7 or 3.5-3.9
+- Python 3.7 or higher
 
 
 Installation:
 =============
 
-Either using easy_install::
+Using pip::
 
-  easy_install z3c.sqlalchemy
+  pip install z3c.sqlalchemy
 
-or using Python directly::
-
-  python2.7 setup.py install
 
 Note:
 -----
@@ -59,7 +56,7 @@ as eggs or by setting the PYTHONPATH to a corresponding Zope installation.
 Usage
 =====
 
-Basic usage:: 
+Basic usage::
 
    from z3c.sqlalchemy import createSAWrapper
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB')
@@ -78,7 +75,7 @@ new request.  Instead you want to register a wrapper instance as named utility
 (ISQLAlchemyWrapper) and lookup up the wrapper (the utility!) by name from
 within your application. This approach is very similiar to looking up an
 databases adapter or a ZSQL method through acquisition.
-   
+
 By default "wrapper.getMapper(name)" will always auto-generate a new mapper
 class by using SQLAlchemy auto-load feature. The drawback of this approach is
 that the mapper class does not know about relationships to other tables. Assume
@@ -94,7 +91,7 @@ Example::
    model = Model()
    model.add(name='A', relations=('B',))
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
-   AMapper= wrapper.getMapper('A') 
+   AMapper= wrapper.getMapper('A')
 
 This will generate a mapper AMapper where all instances of AMapper have a
 property 'B' that relates to all corresponding rows in B (see the SQLAlchemy
@@ -111,7 +108,7 @@ only available for Postgres (tested with Postgres 8.X).::
    model = Model()
    model.add(name='A', autodetect_relations=True)
    wrapper = createSAWrapper('postgres://postgres:postgres@host/someDB', model=model)
-   AMapper= wrapper.getMapper('A') 
+   AMapper= wrapper.getMapper('A')
 
 In this case z3c.sqlalchemy will scan all tables in order to detect
 relationships automatically and build the mapper class and its properties
@@ -170,7 +167,7 @@ and ZOPYX Ltd. & Co. KG, Tuebingen, Germany.
 License
 =======
 
-z3c.sqlalchemy is licensed under the Zope Public License 2.1. 
+z3c.sqlalchemy is licensed under the Zope Public License 2.1.
 
 See LICENSE.txt.
 
