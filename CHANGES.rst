@@ -1,7 +1,7 @@
 Change log
 ==========
 
-2.1 (unreleased)
+2.1 (2023-07-05)
 ----------------
 
 - Support ``SQLAlchemy >= 2.0``.
