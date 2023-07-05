@@ -4,49 +4,50 @@ Change log
 2.1 (unreleased)
 ----------------
 
-- Support ``SQLAlchemy 2.0``.
-  Fixes `https://github.com/zopefoundation/z3c.sqlalchemy/issues/15`_.
+- Support ``SQLAlchemy >= 2.0``.
+  (`#15 <https://github.com/zopefoundation/z3c.sqlalchemy/issues/15>`_)
 
 
 2.0 (2023-03-01)
 ----------------
 
-  - Add support for Python 3.10, 3.11.
+- Add support for Python 3.10, 3.11.
 
-  - Drop support for Python 2.7, 3.5, 3.6.
+- Drop support for Python 2.7, 3.5, 3.6.
 
 
 1.5.2 (2020-11-13)
 ------------------
 
-- fix ``MANIFEST`` to include the change log
+- Fix ``MANIFEST`` to include the change log.
 
 
 1.5.1 (2020-11-13)
 ------------------
 
-- add linting to ``tox`` configuration and apply linting fixes
+- Add linting to ``tox`` configuration and apply linting fixes.
 
-- fixed installation error in setup.py (release 1.5.0 is broken)
+- Fix installation error in setup.py (release 1.5.0 is broken).
 
 
 1.5.0 (2020-11-13)
 ------------------
 
-- add support for Python 3.5-3.9
+- Add support for Python 3.5-3.9.
 
-- Standardize namespace __init__
+- Standardize namespace __init__.
 
-- Fix to work with zope.sqlalchemy 1.2
+- Fix to work with zope.sqlalchemy 1.2.
+
 
 1.4.0 (2009-12-02)
 ------------------
 
-- removed compatibility code with older Zope versions
+- Remove compatibility code with older Zope versions.
 
-- fixed import issue with modern zope.component versions
+- Fix import issue with modern zope.component versions.
 
-- fixed registering of custom mappers
+- Fix registering of custom mappers.
 
 1.3.11 (26.10.2009)
 -------------------
@@ -159,7 +160,7 @@ Change log
 1.1.0 (17.01.2008)
 -------------------
 
-  - WARNING: this version requires SA 0.4.X and higher 
+  - WARNING: this version requires SA 0.4.X and higher
 
   - fixed import issues with the upcoming SA 0.4.X series
 
@@ -167,9 +168,9 @@ Change log
 
   - the unittests support an optional $TEST_DSN environment in order
     to run the test against an existing database (other than SQLite)
-               
+
   - major overhoul of the Zope transaction integration: now using
-    one DataManager for the session object and the connection. The 
+    one DataManager for the session object and the connection. The
     connection as returned through the 'connection' property is also
     used for creating a new 'session'. Older z3c.sqlalchemy version
     used separate connections. This allows applications to use both
@@ -178,15 +179,15 @@ Change log
     session related modifications should happen within the same
     transaction.
 
-  - Wrapper constructor now accepts two new optional dicts 
-    'engine_options' and 'session_options' that will be passed down 
-    to the engine and the sessionmaker.  Patch provided by 
+  - Wrapper constructor now accepts two new optional dicts
+    'engine_options' and 'session_options' that will be passed down
+    to the engine and the sessionmaker.  Patch provided by
     Klaus Barthelmann.
 
-  - mapped objects now provide a method asDict() to return the values 
+  - mapped objects now provide a method asDict() to return the values
     of an objects as dict.
 
- 
+
 1.0.11 (30.07.2007)
 -------------------
 
@@ -199,8 +200,8 @@ Change log
 1.0.10 (16.07.2007)
 -------------------
 
-  - using Zope 3.3.X as a fixed depenceny 
- 
+  - using Zope 3.3.X as a fixed depenceny
+
 
 1.0.9 (08.07.2007)
 ------------------
@@ -272,7 +273,7 @@ Change log
 ------------------
 
    - source code polishing
-   
+
    - documentation update
 
 
@@ -300,7 +301,7 @@ Change log
      on must be a subclass of MapperClassBase)
 
    - a Zope-aware SAWrapper now has a 'connection' property that can
-     be used to execute SQL statements directly. 'connection' is an 
+     be used to execute SQL statements directly. 'connection' is an
      instance of sqlalchemy.Connection and directly tied to the current
      Zope transaction.
 
@@ -331,7 +332,7 @@ Change log
      returning an instance of model.Model
 
    - base.py: calling a model provider or a method providing a
-     model with a BoundMetaData instance in order to allow 
+     model with a BoundMetaData instance in order to allow
      table auto-loading
 
    - Model.add() got a new parameter 'primary_key' in order to specify a
@@ -343,7 +344,7 @@ Change log
 0.1.8 (23.04.2007)
 ------------------
 
-   - added shorter method names as aliases 
+   - added shorter method names as aliases
 
    - don't generate a new mapper class if a custom mapper
      class is defined within the model
@@ -362,7 +363,7 @@ Change log
    - added registerMapper() to BaseWrapper class
 
    - registerSQLAlchemyWrapper() now defers the registration until
-     the Wrapper is used first when calling getSQLAlchemyWrapper() 
+     the Wrapper is used first when calling getSQLAlchemyWrapper()
 
    - the 'name' parameter of Model.add() now supports schemas (if
      available). E.g. when using Postgres you can reference as
@@ -373,7 +374,7 @@ Change log
      information) when you want to use the 'name' parameter as
      an alias for the related table/mapper.
 
- 
+
 0.1.6 (28.03.2007)
 ------------------
 
@@ -381,11 +382,11 @@ Change log
 
 0.1.5 (28.03.2007)
 ------------------
-  
+
    - registerSQLAlchemyWrapper() should now work with Zope 2.8-2.10
 
    - abort() was defined twice inside the DataManager class
- 
+
 0.1.4 (21.03.2007)
 ------------------
 
