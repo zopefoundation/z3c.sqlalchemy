@@ -139,5 +139,5 @@ class ZopeWrapper:
                                             twophase=self.twophase,
                                             autoflush=True,
                                             **self.session_options))
-        register(self._sessionmaker)
+        register(self._sessionmaker, **self.extension_options)
         self._session = self._sessionmaker()
