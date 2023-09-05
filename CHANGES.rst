@@ -4,7 +4,8 @@ Change log
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix transaction rollback with DBAPI cursor.execute.
+  (`#17 <https://github.com/zopefoundation/z3c.sqlalchemy/issues/17>`_)
 
 
 2.1 (2023-07-05)

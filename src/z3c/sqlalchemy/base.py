@@ -38,7 +38,7 @@ class ZopeWrapper:
             create_session() or sessionmaker()
 
             'extension_options' - optional keyword argument passed to
-            ZopeTransactionExtension()
+            register() of zope.sqlalchemy
 
             'transactional' - True|False, only used by SQLAlchemyDA,
                               *don't touch it*
