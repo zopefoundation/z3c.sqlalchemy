@@ -41,7 +41,7 @@ class ZopeWrapper(object):
             create_session() or sessionmaker()
 
             'extension_options' - optional keyword argument passed to
-            ZopeTransactionExtension()
+            register() of zope.sqlalchemy
 
             'transactional' - True|False, only used by SQLAlchemyDA,
                               *don't touch it*
@@ -142,4 +142,4 @@ class ZopeWrapper(object):
                                             twophase=self.twophase,
                                             autoflush=True,
                                             **self.session_options))
-        register(self._sessionmaker)
+        register(self._sessionmaker, **self.extension_options)
