@@ -1,7 +1,7 @@
 Change log
 ==========
 
-1.5.3 (unreleased)
+1.5.3 (2023-09-08)
 ------------------
 
 - Fix transaction rollback with DBAPI cursor.execute.
