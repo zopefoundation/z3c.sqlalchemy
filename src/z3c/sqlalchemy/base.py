@@ -102,7 +102,7 @@ class ZopeWrapper:
     @property
     def session(self):
         """ Return thread-local session """
-        return self._session
+        return self._sessionmaker()
 
     @property
     def connection(self):
@@ -140,4 +140,3 @@ class ZopeWrapper:
                                             autoflush=True,
                                             **self.session_options))
         register(self._sessionmaker, **self.extension_options)
-        self._session = self._sessionmaker()

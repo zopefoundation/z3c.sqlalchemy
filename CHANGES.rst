@@ -4,7 +4,9 @@ Change log
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Partially revert commit fb7d533aae819dc7e1aef8322c2f2d60a9a1b5d0
+  which caused the sqlalchemy session instance to be persisted as an instance attribute.
+  (`#21 <https://github.com/zopefoundation/z3c.sqlalchemy/issues/21>`_)
 
 
 2.1.1 (2023-09-06)
