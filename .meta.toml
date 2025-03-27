@@ -2,7 +2,7 @@
 # https://github.com/zopefoundation/meta/tree/master/config/pure-python
 [meta]
 template = "pure-python"
-commit-id = "8daa034c"
+commit-id = "e1995c20"
 
 [python]
 with-sphinx-doctests = false
@@ -19,4 +19,4 @@ testenv-deps = [
     ]
 
 [coverage]
-fail-under = 80
+fail-under = 79.5

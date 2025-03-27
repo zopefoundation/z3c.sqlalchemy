@@ -13,5 +13,6 @@ from .util import *  # NOQA: F401,F403
 
 try:
     from sqlalchemy.orm import sessionmaker  # NOQA: F401
-except ImportError:
-    raise ImportError('z3c.sqlalchemy requires SQLAlchemy 0.4 or higher')
+except ModuleNotFoundError:
+    raise ModuleNotFoundError(
+        'z3c.sqlalchemy requires SQLAlchemy 0.4 or higher')

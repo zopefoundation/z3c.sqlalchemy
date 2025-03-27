@@ -1,7 +1,7 @@
 ##########################################################################
 # z3c.sqlalchemy - A SQLAlchemy wrapper for Python/Zope
 #
-# (C) Zope Corporation and Contributor
+# (C) Zope Foundation and Contributor
 # Written by Andreas Jung for Haufe Mediengruppe, Freiburg, Germany
 # and ZOPYX Ltd. & Co. KG, Tuebingen, Germany
 ##########################################################################
@@ -33,7 +33,7 @@ setup(name='z3c.sqlalchemy',
                             'z3c.sqlalchemy/issues'),
           'Sources': 'https://github.com/zopefoundation/z3c.sqlalchemy',
       },
-      license='ZPL 2.1',
+      license='ZPL-2.1',
       author='Andreas Jung',
       author_email='info@zopyx.com',
       maintainer='Zope Foundation and Contributors',
@@ -52,19 +52,18 @@ setup(name='z3c.sqlalchemy',
           'Programming Language :: Python',
           'Topic :: Database :: Front-Ends',
           'Topic :: Software Development :: Libraries :: Python Modules',
-          'Programming Language :: Python :: 3.7',
-          'Programming Language :: Python :: 3.8',
           'Programming Language :: Python :: 3.9',
           'Programming Language :: Python :: 3.10',
           'Programming Language :: Python :: 3.11',
           'Programming Language :: Python :: 3.12',
+          'Programming Language :: Python :: 3.13',
       ],
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
       namespace_packages=['z3c'],
-      python_requires='>=3.7',
+      python_requires='>=3.9',
       install_requires=[
           'setuptools',
           'SQLAlchemy>=1.4',
