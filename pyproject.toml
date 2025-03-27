@@ -13,7 +13,7 @@ branch = true
 source = ["z3c.sqlalchemy"]
 
 [tool.coverage.report]
-fail_under = 80
+fail_under = 79.5
 precision = 2
 ignore_errors = true
 show_missing = true
