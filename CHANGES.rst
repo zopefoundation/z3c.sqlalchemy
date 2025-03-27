@@ -4,7 +4,7 @@ Change log
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+  - Drop support for Python 3.7, 3.8.
 
 
 2.2 (2024-04-09)
