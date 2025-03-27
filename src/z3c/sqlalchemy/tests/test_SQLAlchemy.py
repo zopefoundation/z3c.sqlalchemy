@@ -248,11 +248,3 @@ class WrapperTests(unittest.TestCase):
 
         rows = session.query(Foo).all()
         self.assertEqual(len(rows), 2)
-
-
-def test_suite():
-    from unittest import TestSuite
-    from unittest import makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(WrapperTests))
-    return suite
