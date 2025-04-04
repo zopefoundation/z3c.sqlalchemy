@@ -4,9 +4,9 @@ Change log
 2.3 (unreleased)
 ----------------
 
-  - Add support for Python 3.13.
+- Add support for Python 3.13.
 
-  - Drop support for Python 3.7, 3.8.
+- Drop support for Python 3.7, 3.8.
 
 
 2.2 (2024-04-09)
