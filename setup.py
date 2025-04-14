@@ -8,7 +8,6 @@
 
 import os
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -22,7 +21,7 @@ def _read_file(filename):
 
 README = _read_file('README.rst')
 CHANGES = _read_file('CHANGES.rst')
-version = '2.4.dev0'
+version = '3.0.dev0'
 
 
 setup(name='z3c.sqlalchemy',
@@ -58,11 +57,8 @@ setup(name='z3c.sqlalchemy',
           'Programming Language :: Python :: 3.12',
           'Programming Language :: Python :: 3.13',
       ],
-      packages=find_packages('src'),
-      package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
-      namespace_packages=['z3c'],
       python_requires='>=3.9',
       install_requires=[
           'setuptools',
