@@ -178,4 +178,3 @@ Credits
 Parts of the code are influenced by z3c.zalchemy (Juergen Kartnaller, Michael
 Bernstein & others) and Alchemist/ore.alchemist (Kapil Thangavelu). Thanks to
 Martin Aspeli for giving valuable feedback.
-
